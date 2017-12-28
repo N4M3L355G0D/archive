@@ -91,8 +91,6 @@ if ( strlen($search_value) < 2 ) {
 		echo "</div>";
 	}
 	echo "</div>";
-	$offset=$offset+250;
-	#echo "<div><a href='search.php?search=".$search_value."&submit=Search&page=".$offset."'>Next - ".$search_value."</a></div>";
 	echo "<div id='DIV'>";
         $mem=memory_get_usage();
         echo '<p id="DISC"> A product of Wisdom Technical Solutions, NoGuiLinux, (804) 845-4057, k.j.hirner.wisdom@gmail.com (client_browser: '.$browser['browser'].', mem_used:'.$mem.')</p>';
