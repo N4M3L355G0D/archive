@@ -1,0 +1,21 @@
+CPU Tool is a utility which can be used to control the CPU utilization of
+almost any process. It can take control of processes which are already
+running and can also start a process on startup. It can limit CPU usage 
+depending on both current system load and CPU utilization.
+
+
+Its extremely easy to use:
+
+1. Limit rsync to only use 50% CPU
+cputool -c 50 -- rsync -a /home/ /mnt/backup/home
+
+2. Limit rsync to only use 50% CPU and only run when load is below 3.0
+cputool -c 50 -l 3.0 -- rsync -a /home/ /mnt/backup/home
+
+3. Rsync is already running with PID 4324 and we want to limit it to 50% CPU
+cputool -p 4324 -c 50
+
+
+Maybe your machine has multiple processors? easy, express the CPU utilization
+in terms of % of all CPU's combined. So 100% utilization across 4 CPU's would
+be 400. This is useful when you have a process which spawns children.

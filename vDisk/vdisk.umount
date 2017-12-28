@@ -1,0 +1,10 @@
+#! /bin/bash
+
+select=`zenity --file-selection --filename=$HOME --file-filter='*.img'`
+checkMount=`mount | grep -w $select.d | cut -f2 -d'/' | head -n 1 `
+if [ -z $checkMount ] ; then
+	zenity --warning --text='This disk is not mounted. There is nothing to do. Good Bye!'
+	exit
+else
+	sudo -S umount $select.d < /opt/vdisk/.password
+fi

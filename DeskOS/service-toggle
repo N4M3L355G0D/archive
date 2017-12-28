@@ -1,0 +1,65 @@
+#! /bin/bash
+
+PASS_CONFIG="/etc/.toggle-pass"
+VERSION="0.1"
+
+
+if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
+ echo "$0 [-t || -c] <SERVICE> [--arg-pass || --config-pass || <PASSWORD> ] <--arg-pass PASS>
+ -t	toggle service ON||OFF
+ -c	check service"
+ exit
+fi
+
+if [ "$3" == "--config-pass" ] ; then
+ if [ -e "$PASS_CONFIG" ] ; then
+  PASS="cat $PASS_CONFIG | head -n 1"
+ else
+  echo "$PASS_CONFIG does not exist!"
+  read -rp "Do you have sudo permissions? : " PERM
+  if [ "$PERM" != "yes" ] || [ "$PERM" != "y" ] || [ "$PERM" != "Y" ] ; then
+   echo "Then you may not create the password for this unit. GoodBye!"
+   exit
+  else
+   read "Password : " pass
+   sudo touch "$PASS_CONFIG"
+   sudo echo "$pass" > "$PASS_CONFIG"
+  fi
+ fi
+elif [ "$3" == "--arg-pass" ] ; then
+ if [ ! -z "$4" ] ; then
+  PASS="$4"
+ else
+  echo "Password is blank. Exiting!"
+  exit
+ fi
+else
+ if [ ! -z "$3" ] ; then
+  PASS="$3"
+ else
+  echo "Password is blank. Exiting!"
+  exit
+ fi
+fi
+
+
+SERVICE="$2"
+
+if [ $SERVICE == "--arg-pass" ] || [ $SERVICE == "--config-pass" ] ; then
+ echo "That is not a service!"
+ exit
+fi
+
+STATUS=`sudo -S systemctl status $SERVICE <<< $PASS | grep -w "Active:" | cut -f2 -d":" | cut -f1 -d"(" | sed s/" "//g`
+
+if [ "$1" == "-t" ] ; then
+ if [ $STATUS == "inactive" ] ; then
+  sudo -S systemctl start $SERVICE <<< "$PASS"
+  echo "[Running]"
+ elif [ $STATUS == "active" ] ; then
+  sudo -S systemctl stop $SERVICE <<< "$PASS"
+  echo "[!Running]"
+ fi
+elif [ "$1" == "-c" ] ; then
+ sudo -S systemctl status $SERVICE <<< "$PASS"
+fi

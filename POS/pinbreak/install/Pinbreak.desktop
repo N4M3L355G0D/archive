@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=PinBreak POS
+comment=Cellular Pin Sales Tracking
+Exec=/usr/local/bin/pinbreak.sh
+Terminal=False
+Type=Application
+Icon=/opt/pinbreak/install/pinbreak-icon-final.png
+Categories=Office

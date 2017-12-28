@@ -1,0 +1,5 @@
+address=127.0.0.1
+user=test
+database=wordlist
+password=avalon
+alternative_address=127.0.0.1

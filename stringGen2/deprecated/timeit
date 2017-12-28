@@ -1,0 +1,31 @@
+## proof start where left off at
+#
+#time python loop.py &
+#sleep 5s
+#killall -9 python
+
+## notes
+#run loop.py to get number of chars per sec average
+#start crunch where left off at
+
+
+letter_len(){
+ 
+python3 << EOF
+a="$1"
+print(len(a))
+EOF
+ 
+}
+
+x=1 
+letter="b} hq"
+#letter=$(echo `cat "lock-end" | sed s/"|:|"/"#"/g | cut -f3 -d"#" | sed s\|" "\|""\|g | sed s\|^\"\|""\|g` | sed s\|\"$\|""\|g)
+while (( $x == 1 )) ; do
+ crunch `letter_len "$letter"` 63 -f crunch-3.6/charset.lst mixalpha-numeric-all-space -s "$letter" -o START &
+ sleep 20s
+ killall -2 crunch
+ letter=` tail -n 1 START`
+# crunch `letter_len "$letter` 63 -f crunch-3.6/charset.lst mixalpha-numeric-all-space -s $letter > wordlist.txt &
+ sleep 20s
+done

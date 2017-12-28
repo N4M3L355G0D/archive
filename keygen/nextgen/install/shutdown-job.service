@@ -1,0 +1,12 @@
+[Unit]
+Description=clear histories at shutdown
+After=netwrok.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/true
+ExecStop=/usr/bin/bash /lib/systemd/system-shutdown/clearHistories.shutdown
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

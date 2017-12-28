@@ -1,0 +1,7 @@
+#! /bin/bash
+
+a='Server = https:||||repo.archassault.org||archassault||$repo||os||$arch'
+b='#Server = https:||||repo.archassault.org||archassault||$repo||os||$arch'
+
+cat /etc/pacman.conf | sed s/"\/"/"||"/g | sed s/"$a"/"$b"/g | sed s/"||"/"\/"/g > pacman.conf
+cp pacman.conf /etc/pacman.conf

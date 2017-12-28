@@ -1,0 +1,5 @@
+# separate list.2 into two lists, removed.list, and remainder.list
+sift(){
+ grep "#" list.2 | sed s\|"^#"\|""\|g > removed.list
+ grep -v "#" list.2 > remainder.list
+}

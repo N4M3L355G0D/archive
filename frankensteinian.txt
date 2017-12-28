@@ -1,0 +1,47 @@
+#! /bin/bash
+
+echo -e "Hello I am Buzzkill, the IT G?Y, you believe to be as to the likeness of Gandalf.\n well now lets kill some brain dead brain cells, and hopefully create some smart ones. 'course natural selection could care o' y'al' 'fore the n'ght's up. But we don't want that now do we?????\n\n\n"
+sleep 1s
+
+IT=("echo" " look up the definition of it and use the context of this phrase to get the meaning")
+e=("echo" "|| <= (-le) -> chroot && ! -> a 404.")
+i() { 
+ echo $(whoami)@$(hostname)
+}
+
+hope(){
+ echo " hope "
+}
+
+make() {
+echo "/usr/bin/make"
+
+}
+
+home() {
+
+echo -e "home is lo(127.0.0.1), \$HOME, \~, or to be more concise,\n$HOME, ~, or the loopback interface at 127.0.0.1"
+}
+
+buzzkill(){
+ echo "============================================================="
+ echo -e "|| refers to the OR operator"
+ echo "<= is less than or equal to, but for semantics, -le, for bash"
+ echo "-> refers to a c pointers, meaning to."
+ echo "chroot is lockdown location, or some place safe"
+ echo "&& is the AND operator"
+ echo "! means Not"
+ echo "404 is a page not found error, or unknown place."
+}
+explo() {
+echo -e "----\`i\`------------------";i;echo -e "----\`hope\`----------";hope;echo -e "----\`i\`------------------";i;echo -e "----\`make\`------------------";make;echo -e "----\$IT----------";${IT[0]} ${IT[1]};echo -e "----\`home\`------------------";home;echo "-----------------------";${e[0]} ${e[1]}
+}
+main() {
+echo -e "i;hope;i;make;\${IT[0]} \${IT[1]};home;${e[1]}\n\n"
+
+## lets kill the joke
+explo
+buzzkill
+
+}
+main

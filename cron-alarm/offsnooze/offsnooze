@@ -1,0 +1,67 @@
+#! /usr/bin/python3
+
+import gi
+gi.require_version('Gtk','3.0')
+from gi.repository import Gtk
+
+
+class MyWindow(Gtk.Window):
+ def __init__(self):
+  Gtk.Window.__init__(self,title="Hello World")
+
+  self.set_border_width(10)
+
+
+  headerbar=Gtk.HeaderBar()
+  headerbar.set_show_close_button(True)
+  headerbar.props.title="Cron Alarm Wake-Up Call"
+  self.set_titlebar(headerbar)
+  
+  grid=Gtk.Grid()
+  self.add(grid)
+
+  label2_text="The Spin Button\nsets the number of Min.\nfor each snooze session\n."
+  label2=Gtk.Label(label2_text)
+  box=Gtk.Box()
+  box.add(label2)
+  box.set_border_width(10)
+  grid.attach(box,0,0,1,4)
+
+  label_text="What do you want to do?"
+  label=Gtk.Label(label_text)
+  box2=Gtk.Box()
+  box2.add(label)
+  box2.set_border_width(10)
+  grid.attach(box2,1,0,2,1)
+
+  adjustment=Gtk.Adjustment(0,0,100,1,10,0)
+  spinbutton=Gtk.SpinButton()
+  spinbutton.set_value(15)
+  spinbutton.set_numeric(True)
+  spinbutton.set_adjustment(adjustment)
+  grid.attach(spinbutton,1,1,2,1)
+
+  button1=Gtk.Button(label="Snooze (min)")
+  button1.connect("clicked",self.on_button1_clicked,spinbutton)
+  grid.attach(button1,1,2,2,1)
+
+  button2=Gtk.Button(label="Alarm Off")
+  button2.connect("clicked",self.on_button2_clicked,button2)
+  grid.attach(button2,1,3,2,1)
+
+
+ def on_button1_clicked(self,widget,spinbutton):
+  print("SNOOZE",str(spinbutton.get_value_as_int())+"m")
+  Gtk.main_quit()
+
+
+ def on_button2_clicked(self,widget,button):
+  print("OFF")
+  Gtk.main_quit()
+  
+  
+
+win=MyWindow()
+win.connect("delete-event", Gtk.main_quit)
+win.show_all()
+Gtk.main()

@@ -1,0 +1,47 @@
+#! /bin/bash
+
+config="./wireless-tools.cfg"
+number="$1"
+prefix=`cat $config | grep -w prefix | cut -f2 -d=`
+
+
+if [ -z "$1" ] ; then
+ read -rp "$prefix <3-DIGIT NUMBER> : " number
+ ESSID="$prefix $number"
+elif [ "$1" == "--alt-prefix" ] ; then
+ if [ -z "$2" ] ; then
+  read -rp "What ESSID? " prefix
+ else
+  prefix="$2"
+ fi
+ ESSID="$prefix"
+fi
+wifi=`nmcli dev wifi connect "$ESSID" |& grep "No network"`
+if [ ! -z "$wifi" ] ; then
+ echo "$wifi"
+ exit
+fi
+echo "$wifi"
+
+internet() {
+ADDR=8.8.8.8
+nic_num=`iw dev | grep "Interface" | sed s\|"Interface "\|"@"\|g | cut -f2 -d@ | wc -l`
+if (( $nic_num > 1 )) ; then
+ read -rp "You have more than one Wireless NIC's! Which of the following do you wish to use?
+`iw dev | grep "Interface" | sed s\|"Interface "\|"@"\|g | cut -f2 -d@`
+" nic
+else
+ nic=`iw dev | grep "Interface" | sed s\|"Interface "\|"@"\|g | cut -f2 -d@`
+fi
+
+
+ipaddr=`ip addr | grep $nic | grep -v inet6 | grep inet | sed s\|"    "\|"#"\|g | cut -f2 -d" "`
+
+
+if [ ! -z "$ipaddr" ] ; then
+ ping -c 3 "$ADDR"
+fi
+
+}
+
+internet

@@ -1,0 +1,43 @@
+
+userEnum(){
+ls /home
+echo root
+}
+enumerate all users on system
+ determine path to .bash_history for each user
+ get .bash_history size for each user
+  total the size of bash history files for all users
+ #skip
+  create a disc image 15% bigger than history files total size
+  use 'cryptsetup open --type plain $img $bashEBack'
+  use 'mkfs.ext4 /dev/mapper/$bashEBack'
+  mount /dev/mapper/$bashEback /mount
+ #start
+  cp all user bash history files to /srv/bash/tmp
+  tarball contents of /srv/bash/tmp
+  if ccrypt not installed:
+   if user has sudo:
+    install ccrypt
+   else:
+    fail with error message
+  use ccencrypt tarball -k /srv/bash/keys/tarball.keyfile-generated-by-keygen-cli.py
+  mv tarball.cpt to /srv/bash/backup
+  
+  if successfull,
+   rm srv/bash/tmp/*
+
+  echo '' > all user bash history files
+  umount /mount
+  mv $img $img.`date +%D%H%M%S | sed s\|"\/"\|"_"\|g`
+
+run at startup as a service
+
+date versioning line:
+
+date +"%D%H%M%S" | sed s\|"\/"\|""\|g
+
+run as stop job
+
+	cd /opt/keygen/nextgen
+	python userEnum.py
+

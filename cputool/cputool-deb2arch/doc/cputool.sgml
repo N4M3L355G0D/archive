@@ -1,0 +1,215 @@
+<!doctype refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
+
+<!-- Process this file with docbook-to-man to generate an nroff manual
+     page: `docbook-to-man manpage.sgml > manpage.1'.  You may view
+     the manual page with: `docbook-to-man manpage.sgml | nroff -man |
+     less'.  A typical entry in a Makefile or Makefile.am is:
+
+manpage.1: manpage.sgml
+	docbook-to-man $< > $@
+
+
+	The docbook-to-man binary is found in the docbook-to-man package.
+	Please remember that if you create the nroff version in one of the
+	debian/rules file targets (such as build), you will need to include
+	docbook-to-man in your Build-Depends control field.
+
+  -->
+
+  <!-- Fill in your name for FIRSTNAME and SURNAME. -->
+  <!ENTITY dhfirstname "<firstname>Nigel</firstname>">
+  <!ENTITY dhsurname   "<surname>Kukard</surname>">
+  <!-- Please adjust the date whenever revising the manpage. -->
+  <!ENTITY dhdate      "<date>2014-09-09 18:15</date>">
+  <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
+       allowed: see man(7), man(1). -->
+  <!ENTITY dhsection   "<manvolnum>8</manvolnum>">
+  <!ENTITY dhemail     "<email>nkukard@lbsd.net</email>">
+  <!ENTITY dhusername  "nkukard">
+  <!ENTITY dhucpackage "<refentrytitle>CPUTOOL</refentrytitle>">
+  <!ENTITY dhpackage   "cputool">
+
+  <!ENTITY author      "Nigel Kukard">
+
+  <!ENTITY debian      "<productname>Debian</productname>">
+  <!ENTITY gnu         "<acronym>GNU</acronym>">
+  <!ENTITY gpl         "&gnu; <acronym>GPL</acronym>">
+]>
+
+<refentry>
+  <refentryinfo>
+    <address>
+      &dhemail;
+    </address>
+    <author>
+      &dhfirstname;
+      &dhsurname;
+    </author>
+    <copyright>
+      <year>2012</year>
+      <holder>&dhusername;</holder>
+    </copyright>
+    &dhdate;
+  </refentryinfo>
+  <refmeta>
+    &dhucpackage;
+
+    &dhsection;
+  </refmeta>
+  <refnamediv>
+    <refname>&dhpackage;</refname>
+
+    <refpurpose>CPUTool is a utility which manages CPU usage and system load</refpurpose>
+  </refnamediv>
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>&dhpackage;</command>
+      <arg>--cpu-limit <replaceable>PCNT</replaceable></arg>
+      <arg>--load-limit <replaceable>LOAD</replaceable></arg>
+      <group>
+        <group>
+          <arg>--pid <replaceable>PID</replaceable></arg>
+          <arg>--pid-pgrp <replaceable>PID</replaceable></arg>
+        </group>
+        <arg><arg>--</arg> <arg rep=repeat choice=plain><replaceable>COMMAND</replaceable></arg></arg>
+      </group>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+  <refsect1>
+    <title>DESCRIPTION</title>
+    <para>
+      Limit the CPU usage of a process or a process group to a given limit and/or suspend processes if the system load exceeds a
+      threshold. CPUTool works by sending SIGSTOP and SIGCONT signals to processes depending on the system load.
+    </para>
+  </refsect1>
+  <refsect1>
+    <title>OPTIONS</title>
+    <para>
+      These programs follow the usual &gnu; command line syntax, with long options starting with two dashes (`-').  A summary of
+      options is included below.
+    </para>
+    <variablelist>
+      <varlistentry>
+        <term><option>-c</option>, <option>--cpu-limit <replaceable>PCNT</replaceable></option></term>
+        <listitem>
+          <para>
+            Specify the maxium CPU the process / process group can use. Expressed as percentage of total CPU. Eg. 200 is two full
+            CPUs in a multi processor system. Specify an integer value.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><option>-l</option>, <option>--load-limit <replaceable>LOAD</replaceable></option></term>
+        <listitem>
+          <para>
+            Specify the maxium load the system may experience for the process process group to continue running. Specifyng a
+            fractional value is possible (e.g. 3.5).
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><option>-p</option>, <option>--pid <replaceable>PID</replaceable></option></term>
+        <listitem>
+          <para>
+            Manage the CPU usage of a specific PID. This is the most efficient use of CPUTool as it does not have to walk the
+            process tree to look for forks of children.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><option>-P</option>, <option>--pid-pgrp <replaceable>PID</replaceable></option></term>
+        <listitem>
+          <para>
+            Manage the CPU usage of a specific PID's entire process group. The same can be achieved by specifying a
+            <replaceable>COMMAND</replaceable> which CPUTool will then execute and manage the process group created by that
+            command.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><option>-v</option>, <option>--verbose</option></term>
+        <listitem>
+          <para>Increase the amount of messages printed to stderr.</para>
+          <para>-vv will additionally show statistical information.</para>
+          <para>-vvv will addditionally show signals being sent to processes.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><option>-V</option>, <option>--version</option></term>
+        <listitem>
+          <para>Output version information and exit.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><option>-h</option>, <option>--help</option></term>
+        <listitem>
+          <para>Display a help page and exit.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+  <refsect1>
+    <title>NOTES</title>
+    <para>
+      CPUTool will run on 32-bit and 64-bit Linux systems. It depends on the /proc pseudo-filesystem to detect PIDs and their
+      resource usage.
+    </para>
+    <para>
+      TCP network connections could time out if a process is suspended for extended periods of time (while the load is too high).
+      Not all programs handle this case well.
+    </para>
+  </refsect1>
+  <refsect1>
+    <title>EXAMPLES</title>
+    <variablelist>
+      <varlistentry>
+        <term>cputool -p 4711 -c 75</term>
+        <listitem>
+          <para>Limit the PID 4711 to 75% use of one CPU core.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>cputool -l 7.5 -- rsync -av /home /backup/`date +%Y-%m-%d`/</term>
+        <listitem>
+          <para>
+            Run rsync for a local backup only when the system load does not exceed 7.5. See the note for -l when using program that
+            relies on TCP network connections.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+  <refsect1>
+    <title>SEE ALSO</title>
+    <para>signals (7), kill(1), uptime(1).</para>
+  </refsect1>
+  <refsect1>
+    <title>AUTHOR</title>
+    <para>
+      This manual page was written by Daniel Lange and converted to SGML by &author; &lt;&dhemail;&gt;. Permission is granted to
+      copy, distribute and/or modify this document under the terms of the &gnu; General Public License, Version 3 any later
+      version published by the Free Software Foundation.
+    </para>
+    <para>
+      On Debian systems, the complete text of the GNU General Public License can be found in /usr/share/common-licenses/GPL-3.
+    </para>
+
+  </refsect1>
+</refentry>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-default-dtd-file:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

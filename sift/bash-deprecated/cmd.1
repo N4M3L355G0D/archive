@@ -1,0 +1,4 @@
+#generate a list file
+listGen() {
+ echo {1..10} | sed s\|' '\|"\n"\|g > list.1
+}

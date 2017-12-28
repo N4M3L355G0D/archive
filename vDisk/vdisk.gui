@@ -1,0 +1,12 @@
+#! /bin/bash
+
+gui=`zenity --list --height=250 --width=300 --radiolist --column="select" --column="mode" delete "Delete" make "Make" mount "Mount" umount "Umount"`
+if [ $gui == "Delete" ] ; then
+	/opt/vdisk/vdisk.delete
+elif [ $gui == "Make" ] ; then
+	/opt/vdisk/vdisk.make
+elif [ $gui == "Mount" ] ; then
+	/opt/vdisk/vdisk.mount
+elif [ $gui == "Umount" ] ; then
+	/opt/vdisk/vdisk.umount
+fi

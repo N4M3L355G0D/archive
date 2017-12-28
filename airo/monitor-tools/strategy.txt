@@ -1,0 +1,9 @@
+determine macs of connected clients
+
+run aireplay-ng in deauthentication mode to kick clients off
+
+run airodump-ng to capture packets
+
+run aireplay-ng targeting desired macs
+-----
+could try repeated deauth attacks to get the ivs needed

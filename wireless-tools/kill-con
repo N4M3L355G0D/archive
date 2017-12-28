@@ -1,0 +1,7 @@
+#! /bin/bash
+
+## kill current network Connection in nmcli
+
+nic=` iw dev | grep Interface | head -n 1 | cut -f2 -d" "`
+nmcli con down "$(nmcli con show --active | grep "$nic" | sed s\|"  "\|"#"\|g | cut -f1 -d"#")"
+#nmcli con show --active | grep wlo1 | sed s\|"  "\|"#"\|g | cut -f1 -d"#"

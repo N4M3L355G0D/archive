@@ -1,0 +1,32 @@
+#! /bin/bash
+
+
+prefix=`cat ./wireless-tools.cfg | grep prefix | cut -f2 -d=`
+number="$1"
+
+
+search() {
+ESSID="$1"
+nmcli dev wifi | grep "$ESSID"
+}
+
+default() {
+ read -rp "$prefix <$prefix 3-DIGIT NUMBER>" number
+ echo "$number"
+}
+
+alternate_pre() {
+ read -rp "What Prefix do you wish to use? " prefix
+ echo "$prefix"
+}
+
+main() {
+if [ -z "$1" ] ; then
+ search "$prefix `default`"
+elif [ "$1" == "--alt-prefix" ] ; then
+ search `alternate_pre` `default`
+fi
+
+}
+
+main "$1"

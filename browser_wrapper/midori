@@ -1,0 +1,36 @@
+#! /bin/bash
+
+browser="$0"
+google="https://www.google.com/search?q="
+
+inc() {
+
+count=`echo $1 + 1 | bc`
+echo "$count"
+}
+
+cmd_check() {
+
+browser=`echo "$browser"`
+ ## check to see if cmd is installed
+if [ -e "/usr/bin/$(basename $browser)" ] ; then
+  browser="/usr/bin/$(basename $browser)"
+else
+  browser="echo FAIL:/usr/bin/$(basename $browser):NOT_INSTALLED"
+fi
+echo $browser
+
+}
+
+
+if [ -z "$1" ] ; then
+ $(cmd_check)
+elif [ "$1" == "-sg" ] || [ "$1" == "--search-google" ] ; then
+ $(cmd_check) "$google""$2"
+elif [ "$1" == "-ws" ] || [ "$1" == "--website" ] ; then
+ $(cmd_check) "$2"
+else 
+ $(cmd_check) "$@"
+fi
+
+

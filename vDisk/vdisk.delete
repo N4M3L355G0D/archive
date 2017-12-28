@@ -1,0 +1,8 @@
+#! /bin/bash
+
+select=`zenity --file-selection --filename=$HOME --file-filter='*.img'`
+checkMount=`mount | grep -w $select.d | cut -f2 -d'/' | head -n 1 `
+if [ ! -z $checkMount ] ; then
+	sudo -S umount $select.d < /opt/vdisk/.password
+fi
+sudo -S rm -rf $select.d $select < /opt/vdisk/.password

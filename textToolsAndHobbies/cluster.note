@@ -1,0 +1,1 @@
+who ever reaches the end of his segment, will check the master completed segment list and select his segment according to the order of hosts having completed their segments, mark his completed segment as done, announce that he is starting a new segment, mark selected segment as taken, mark master completed segment list as running segment, begin segment

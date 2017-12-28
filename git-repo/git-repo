@@ -1,0 +1,74 @@
+#! /bin/bash
+
+get_cred() {
+config=/etc/git-repo.cfg
+if [ ! -e "$config" ] ; then
+ echo "$config" does not exist!
+ exit
+else
+ cat $config
+fi
+}
+
+make_repo() {
+
+repo="$1"
+credentials=$(get_cred)
+if [ -z "$credentials" ] ; then
+ read -rp "Username: " uname
+ read -rp "Auth. Token: " token
+ credentials=("$uname","$token")
+fi
+curl -u "$(echo $credentials | sed s/','/':'/g)" https://api.github.com/user/repos -d '{"name":"'$repo'"}'
+
+}
+
+set_local_repo_new() {
+
+name="$1"
+url="$2/$name"
+
+git init
+git add .
+git commit .
+git remote add origin "$url"
+git push -u origin master
+
+}
+
+new_commit() {
+
+git add .
+git commit .
+git push
+
+}
+
+pull() {
+
+git pull
+
+}
+
+new() {
+make_repo "$1"
+set_local_repo_new "$1" "$2"
+}
+
+clone() {
+git clone "$1"
+}
+
+if [ -z "$1" ] ;  then
+ echo "$0 [-old||-new <repo name>||-pull]"
+elif [ "$1" == "-old" ] ; then
+ new_commit
+elif [ "$1" == "-new" ] ; then
+ new "$2" "$3"
+elif [ "$1" == "-pull" ] ; then
+ pull
+elif [ "$1" == "-clone" ] ; then
+ clone "$2"
+else
+ echo "$0 [-old||-new <repo name>||-pull]"
+fi

@@ -1,0 +1,8 @@
+VG=new
+LV=new
+DISKPATH_TOP=mount
+DISKSIZE=1073741824
+LVSIZE=3221225472
+fname=disk
+top_num=1
+bot_num=4

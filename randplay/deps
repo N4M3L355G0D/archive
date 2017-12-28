@@ -1,0 +1,8 @@
+arch linux:
+ yaourt -S python-pydub
+
+basicall you will need pydub,os,random,argparse
+
+ffmpeg, bash
+
+python -m pip install pydub

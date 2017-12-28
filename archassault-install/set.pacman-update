@@ -1,0 +1,4 @@
+#! /bin/bash
+
+sudo pacman-key -r CC1D2606 && sudo pacman-key --lsign-key CC1D2606
+sudo pacman -Syyu archassault-keyring archassault-mirrorlist

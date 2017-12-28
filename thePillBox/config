@@ -1,0 +1,16 @@
+#configuration file for pillbox.py
+#pills is the identifier for what pills are to be taken as a total. on the right of the '=' is a comma delimited list of the conglomerate, where the '#' at the right of the pill name followed by a number is the pill identifier
+# in the day section
+# the day is followed by a list of the identifiers created in pills, with the '#' to the right followed by the number indicates the quantity to be taken on that day.
+
+pills=Acetominophen#1,Naproxen Sodium#2,Creatine#3,Vitamin B12#4,One Daily Men's Health#5,Testerone Booster#6
+
+#day section
+
+sun=4#1,5#1
+mon=1#1,2#1,3#6,4#1,5#1,6#2
+tue=1#1,2#1,3#6,4#1,5#1,6#2
+wed=1#1,2#1,3#6,4#1,5#1,6#2
+thu=1#1,2#1,3#6,4#1,5#1,6#2
+fri=4#1,5#1
+sat=4#1,5#1

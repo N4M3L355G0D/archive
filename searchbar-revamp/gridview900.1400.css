@@ -1,0 +1,11 @@
+.gridview { 
+ display: grid;
+ grid-template-columns: 33% 33% 33%;
+ grid-gap: 10px;
+}
+#tile {
+border: solid black 1px;
+}
+#results {
+height: 36%;
+}

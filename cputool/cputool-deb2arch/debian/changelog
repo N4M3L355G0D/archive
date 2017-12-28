@@ -1,0 +1,18 @@
+cputool (0.0.8-2) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Nigel Kukard <nkukard@lbsd.net>  Mon, 15 Jun 2015 13:25:34 +0000
+
+cputool (0.0.8-1) experimental; urgency=medium
+
+  * Fixed segfault when using long option arguments.
+  * Cleaned up manpage.
+
+ -- Nigel Kukard <nkukard@lbsd.net>  Mon, 05 Jan 2015 15:04:44 +0000
+
+cputool (0.0.7-1) unstable; urgency=low
+
+  * Initial release. (Closes: #761065)
+
+ -- Nigel Kukard <nkukard@lbsd.net>  Wed, 10 Sep 2014 12:31:56 +0000

@@ -1,0 +1,15 @@
+ensure you have a properly running lamp server installed
+
+ensure you have a database named clips
+
+set browsecap in php.ini, browscap.ini is in docs
+
+run the script tree.py using `python3 tree.py` to build database or run the loca.sql prog to rebuild from backup
+
+copy the contents of this directory to desired root directory
+
+edit loca.conf for approppriate root directory
+
+symlink (ln -s) loca.conf to /etc/httpd/conf/extra/loca.conf
+append to /etc/httpd/conf/httpd.conf the following lines:
+	include conf/extra/loca.conf

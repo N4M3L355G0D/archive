@@ -1,0 +1,25 @@
+<html>
+ <head>
+
+  <title>A Photo Gallery</title>
+
+  <body>
+   <div class="gallery" align="center">
+    <h3>Simple Photo Gallery with Javascript</h3>
+
+    <div class="thumbnails">
+     <img onmouseover="preview.src=img1.src" name="img1" src="pictures/manjaro.jpg" alt="" />
+     <img onmouseover="preview.src=img2.src" name="img2" src="pictures/1030161215~2.jpg" alt="" />
+    </div>
+
+   <div class="preview" align="center">
+    <img name="preview" src="pictures/manjaro.jpg" alt="" />
+   </div>
+  </div>
+
+  </body>
+
+
+
+ </head>
+</html>

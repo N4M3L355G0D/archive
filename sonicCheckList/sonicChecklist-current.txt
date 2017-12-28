@@ -1,0 +1,78 @@
+==============================
+H22M30S13mm12dd23yy2017 - carl
+==============================
+     1	  -------------------------------------------------------------
+     2	  Kitchen Checklist 
+     3	  -------------------------------------------------------------
+     4	  
+     5	  clean prep. table
+     6	  restock prep. table:
+     7	  	notes:
+     8	  		cover all containers and ingredients in table
+     9	  
+    10	  restock swamp fridge/freezer
+    11	  wash dishes
+    12	  	notes:
+    13	  		includes fryer baskets
+    14	  		large red trays go on rolling tray cart
+    15	  		rinse out sink and counters
+    16	  		hot water in sinks at all times
+    17	  
+    18	  wipe down all surfaces
+    19	  
+    20	  clean bacon tray and heater drawer:
+    21	  	notes:
+    22	  		take remaining bacon and put into family
+    23	  		box and put under heat lamp
+    24	  		clean bacon drawer and its components
+    25	  		clean inside bacon drawer
+    26	  
+    27	  skim fryer vats
+    28	  wipe fryer vats front
+    29	  
+    30	  cover open bread
+    31	  restock bread: 
+    32	  	classic
+    33	  	ultimate
+    34	  	croissant
+    35	  	toaster:
+    36	  		notes:
+    37	  			oldest bread to the left
+    38	  			newest bread to the right
+    39	  	junior
+    40	  	regular:
+    41	  		notes:
+    42	  			newest bread on top
+    43	  			oldest bread on bottom
+    44	  restock sauces
+    45	  empty the hotdog/chili broiler
+    46	  
+    47	  clean the hotdog/chili broiler
+    48	  clean sauce/hot dog prep. area
+    49	  
+    50	  restock containers:
+    51	  	window bags:
+    52	  		7"
+    53	  		13"
+    54	  	fryer cartons:
+    55	  		small
+    56	  		medium
+    57	  		large
+    58	  		family
+    59	  	onion ring bags:
+    60	  		large
+    61	  		medium
+    62	  	kids bag
+    63	  	corndog bags
+    64	  
+    65	  empty grease traps
+    66	  clean grill:
+    67	  	notes:
+    68	  		right half of grill:
+    69	  			clean at 11:30 pm
+    70	  		left half of grill:
+    71	  			clean at 11.50 pm
+    72	  		only use oil and grill brick
+    73	  
+    74	  empty kitchen trash
+    75	  clean floors

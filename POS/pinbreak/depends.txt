@@ -1,0 +1,6 @@
+gobject
+python-pymysql
+awk
+bash
+mysql
+

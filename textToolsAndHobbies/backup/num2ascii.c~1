@@ -1,0 +1,180 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define upper 126
+#define lo 32
+/* this program will be designated for the upper end of the 97 character character space */
+int main(){
+int hkill=15;
+int prime[97]={0,};
+
+/* start at the space char for all,
+or if specific string initialize start from right to left with 
+ascii int value, array must be same length as hkill value*/
+/*
+ "     %\=]" is equivalent to the start code below
+ 32 32 32 32 32 37 92 61 93 
+*/
+int start[97]={32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32};
+
+for ( int a=start[0] ; a <= upper ; a++ ){ //97,1
+ if (!( a < upper ) && (prime[0] == 0)){
+  prime[0]=1;
+  a=lo;
+ }
+ if ( hkill == 1 ) {
+  printf("%c\n",a); 
+ }
+ else {
+ for ( int b=start[1] ; b <= upper ; b++ ){ //96,2
+  if (!( b < upper ) && (prime[1] == 0)){
+   prime[1]=1;
+   b=lo;
+  }
+  if ( hkill == 2 ) {
+   printf("%c%c\n",a,b);
+  }
+  else {
+  for ( int c=start[2] ; c <= upper ; c++ ){ //95,3
+   if (!( c < upper ) && ( prime[2] == 0 )){
+    prime[2]=1;
+    c=lo;
+   }
+   if ( hkill == 3 ) {
+    printf("%c%c%c\n",a,b,c);
+   }
+   else {
+   for ( int d=start[3] ; d <= upper ; d++ ){ //94,4 
+    if (!( d < upper ) && ( prime[3] == 0 )){
+     prime[3]=1;
+     d=lo;
+    }
+    if ( hkill == 4 ) {
+     printf("%c%c%c%c\n",a,b,c,d);
+    }
+    else {
+    for ( int e=start[4] ; e <= upper ; e++ ){ //93,5
+     if (!( e < upper ) && ( prime[4] == 0 )){
+      prime[4]=1;
+      e=lo;
+     }
+     if ( hkill == 5 ) {
+      printf("%c%c%c%c%c\n",a,b,c,d,e);
+     }
+     else {
+     for ( int f=start[5] ; f <= upper ; f++ ){ //92,6
+      if (!( f < upper ) && ( prime[5] == 0 )){
+       prime[5]=1;
+       f=lo;
+      }
+      if ( hkill == 6 ) {
+        printf("%c%c%c%c%c%c\n",a,b,c,d,e,f);
+      } 
+      else {
+      for ( int g=start[6] ; g <= upper ; g++ ){ //91,7
+       if (!( g < upper ) && ( prime[6] == 0)){
+        prime[6]=1;
+        g=lo;
+       }
+       if ( hkill == 7 ) { /**/
+        printf("%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g);
+       }
+       else { /**/
+        for ( int h=start[7] ; h <= upper ; h++ ){ //90,8
+         if (!( h < upper ) && (prime[7] == 0)){
+          prime[7]=1;
+          h=lo;
+         }
+         if ( hkill == 8 ) {
+          printf("%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h);
+         }
+         else {
+          for ( int i=start[8]; i <= upper ; i++ ){ //90,9
+           if (!( i < upper) && (prime[8] == 0)) {
+            prime[8]=1;
+            i=lo;
+           }
+           if ( hkill == 9 ) {
+           printf("%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i);
+           }
+           else {
+            for ( int j=start[9] ; j <= upper ; j++ ){
+             if (!( j < upper) && (prime[9] == 0)) {
+              prime[9]=1;
+              j=lo;
+             }
+             if ( hkill == 10 ) {
+              printf("%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j);
+             }
+             else {
+              for ( int k=start[10] ; k <= upper ; k++ ){
+               if (!( k < upper ) && (prime[10] == 0)){
+                prime[10]=1;
+                k=lo;
+               }
+               if ( hkill == 11 ) {
+                printf("%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k);
+               }
+               else {
+                for ( int l=start[11] ; l <= upper ; l++ ){
+                 if (!( l < upper ) && (prime[11] == 0 )){
+                  prime[11]=1;
+                  l=lo;
+                 }
+                 if ( hkill == 12 ) {
+                  printf("%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l);
+                 }
+                 else {
+                  for ( int m=start[12] ; m <= upper ; m++ ){
+                   if (!( m < upper ) && (prime[12] == 0 )){
+                    prime[12]=1;
+                    m=lo;
+                   }
+                   if ( hkill == 13 ) {
+                    printf("%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m);
+                   }
+                   else {
+                    for ( int n=start[13] ; n <= upper ; n++ ){
+                     if (!( n < upper ) && ( prime[13] == 0 )){
+                      prime[13]=1;
+                      n=lo;
+                     }
+                     if ( hkill == 14 ) {
+                      printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n);
+                     }
+                     else {
+                      for ( int o=start[14] ; o <= upper ; o++ ){
+                       if (!( o < upper ) && (prime[14] == 0 )){
+                        prime[14]=1;
+                        o=lo;
+                       }
+                       if ( hkill == 15 ) {
+			printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o);
+                       }
+                       //here
+                      }
+                     }
+                    }
+                   }
+                  }
+	         }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        } /**/ } /**/ } /**/ } /**/ } /**/ } /**/ }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
+
+
+}

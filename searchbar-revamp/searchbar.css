@@ -1,0 +1,10 @@
+#searchbar {
+ position: fixed;
+ background: black;
+ width: 100%;
+ z-index: 999;
+ opacity: 100%;
+}
+#searchbarSub {
+ position: float;
+}

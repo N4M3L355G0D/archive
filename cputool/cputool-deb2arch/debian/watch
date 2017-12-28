@@ -1,0 +1,5 @@
+version=3
+opts=pgpsigurlmangle=s/$/.asc/,\
+downloadurlmangle=s/\/v?(\d+\.\d+\.\d+.*)$/\/v$1\/cputool-$1.tar.gz/,\
+filenamemangle=s/v?(\d+\.\d+\.\d+.*)$/cputool-$1.tar.gz/ \
+http://download.allworldit.org/cputool/v?(\d+\.\d+\.\d+.*)

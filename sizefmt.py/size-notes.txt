@@ -1,0 +1,23 @@
+1k = 1024 bytes
+
+to get sizes into linux readable do the following:
+
+
+8 kb:
+	8*(1024 bytes)
+
+	or
+
+	8*(1024 bytes ^ 1 position )
+8 mb:
+	8*(1024 bytes * 1024 bytes)
+
+	or
+
+	8*(1024 bytes ^ 2 position )
+8 gb:
+	8*(1024 bytes * 1024 bytes * 1024 bytes)
+
+	or
+
+	8*(1024 bytes ^ 3 position)

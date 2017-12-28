@@ -1,0 +1,862 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <argp.h>
+#include <string.h>
+
+#define CMAX "61"
+#define upper 126
+#define lo 32
+
+/* this program will be designated for the upper end of the 97 character character space */
+int main1(int hkill){
+//int hkill=52;
+int prime[97]={0,};
+
+/* start at the space char for all,
+or if specific string initialize start from right to left with 
+ascii int value, array must be same length as hkill value*/
+/*
+ "     %\=]" is equivalent to the start code below
+ 32 32 32 32 32 37 92 61 93 
+
+an ascii string to char array converter will be added later once the 97 char character space has been reached
+*/
+
+//int start[97]={32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32};
+// initialize start to 32
+
+//comment [ start ] if and uncomment above int start[97] for manual loop start
+int start[97]={32,};
+for ( int i=0 ; i < 97 ; i++ ){
+ start[i]=32;
+}
+//comment [ end ]
+
+
+for ( int a=start[0] ; a < upper ; a++ ){ //97,1
+ if (!( a < upper ) && (prime[0] == 0)){
+  prime[0]=1;
+  a=lo;
+ }
+ if ( hkill == 1 ) {
+  printf("%c\n",a); 
+ }
+ else {
+ for ( int b=start[1] ; b < upper ; b++ ){ //96,2
+  if (!( b < upper ) && (prime[1] == 0)){
+   prime[1]=1;
+   b=lo;
+  }
+  if ( hkill == 2 ) {
+   printf("%c%c\n",a,b);
+  }
+  else {
+  for ( int c=start[2] ; c < upper ; c++ ){ //95,3
+   if (!( c < upper ) && ( prime[2] == 0 )){
+    prime[2]=1;
+    c=lo;
+   }
+   if ( hkill == 3 ) {
+    printf("%c%c%c\n",a,b,c);
+   }
+   else {
+   for ( int d=start[3] ; d < upper ; d++ ){ //94,4 
+    if (!( d < upper ) && ( prime[3] == 0 )){
+     prime[3]=1;
+     d=lo;
+    }
+    if ( hkill == 4 ) {
+     printf("%c%c%c%c\n",a,b,c,d);
+    }
+    else {
+    for ( int e=start[4] ; e < upper ; e++ ){ //93,5
+     if (!( e < upper ) && ( prime[4] == 0 )){
+      prime[4]=1;
+      e=lo;
+     }
+     if ( hkill == 5 ) {
+      printf("%c%c%c%c%c\n",a,b,c,d,e);
+     }
+     else {
+     for ( int f=start[5] ; f < upper ; f++ ){ //92,6
+      if (!( f < upper ) && ( prime[5] == 0 )){
+       prime[5]=1;
+       f=lo;
+      }
+      if ( hkill == 6 ) {
+        printf("%c%c%c%c%c%c\n",a,b,c,d,e,f);
+      } 
+      else {
+      for ( int g=start[6] ; g < upper ; g++ ){ //91,7
+       if (!( g < upper ) && ( prime[6] == 0)){
+        prime[6]=1;
+        g=lo;
+       }
+       if ( hkill == 7 ) { /**/
+        printf("%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g);
+       }
+       else { /**/
+        for ( int h=start[7] ; h < upper ; h++ ){ //90,8
+         if (!( h < upper ) && (prime[7] == 0)){
+          prime[7]=1;
+          h=lo;
+         }
+         if ( hkill == 8 ) {
+          printf("%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h);
+         }
+         else {
+          for ( int i=start[8]; i < upper ; i++ ){ //90,9
+           if (!( i < upper) && (prime[8] == 0)) {
+            prime[8]=1;
+            i=lo;
+           }
+           if ( hkill == 9 ) {
+           printf("%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i);
+           }
+           else {
+            for ( int j=start[9] ; j < upper ; j++ ){ // 89,10
+             if (!( j < upper) && (prime[9] == 0)) {
+              prime[9]=1;
+              j=lo;
+             }
+             if ( hkill == 10 ) {
+              printf("%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j);
+             }
+             else {
+              for ( int k=start[10] ; k < upper ; k++ ){ // 88,11
+               if (!( k < upper ) && (prime[10] == 0)){
+                prime[10]=1;
+                k=lo;
+               }
+               if ( hkill == 11 ) {
+                printf("%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k);
+               }
+               else {
+                for ( int l=start[11] ; l < upper ; l++ ){ //87,12
+                 if (!( l < upper ) && (prime[11] == 0 )){
+                  prime[11]=1;
+                  l=lo;
+                 }
+                 if ( hkill == 12 ) {
+                  printf("%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l);
+                 }
+                 else {
+                  for ( int m=start[12] ; m < upper ; m++ ){ //86,13
+                   if (!( m < upper ) && (prime[12] == 0 )){
+                    prime[12]=1;
+                    m=lo;
+                   }
+                   if ( hkill == 13 ) {
+                    printf("%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m);
+                   }
+                   else {
+                    for ( int n=start[13] ; n < upper ; n++ ){ //85,13
+                     if (!( n < upper ) && ( prime[13] == 0 )){
+                      prime[13]=1;
+                      n=lo;
+                     }
+                     if ( hkill == 14 ) {
+                      printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n);
+                     }
+                     else {
+                      for ( int o=start[14] ; o < upper ; o++ ){ //84,14
+                       if (!( o < upper ) && (prime[14] == 0 )){
+                        prime[14]=1;
+                        o=lo;
+                       }
+                       if ( hkill == 15 ) {
+			printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o);
+                       }
+                       else {
+                        for (int p=start[15] ; p < upper ; p++) { //83,15
+      			 if (!( o < upper ) && (prime[15] == 0 )) {
+                          prime[15]=1;
+                          p=lo;
+                         }
+			 if (hkill == 16) {
+                          printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p);
+                         }
+			 else {
+			  for (int q=start[16] ; q < upper ; q++) {
+			   if (!( q < upper ) && (prime[16] == 0 )){
+			    prime[16]=1;
+			    q=lo;
+			   }
+			   if ( hkill == 17){
+			    printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q);
+			   }
+                           else {
+			    for ( int r=start[17] ; r < upper ; r++) {
+			     if (!( r < upper ) && (prime[17] == 0 )) {
+                              prime[17]=1;
+   			      r=lo;
+	                     }
+  			     if ( hkill == 18) {
+                              printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r);
+			     }
+   		             else {
+			      for ( int s=start[18] ; s < upper ; s++) {
+                               if (!( s < upper ) && (prime[18] == 0 )) {
+                                prime[18]=1;
+                                s=lo;
+			       }
+			       if ( hkill == 19 ) {
+				printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s);
+			       }
+			       else {
+			        for ( int t=start[19] ; t < upper ; t++) {
+			         if (!( t < upper ) && ( prime[19] == 0)) {
+			 	  prime[19]=1;
+			 	  t=lo;
+				 }
+				 if ( hkill == 20) {
+				  printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t);
+				 }
+                                 else {
+                                  for ( int u=start[20] ; u < upper ; u++ ) {
+                                   if (!( u < upper ) && ( prime[20] == 0 )) { 
+                                    prime[20]=1;
+                                    u=lo;
+                                   }
+                                   if (hkill == 21){
+                                     printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u);
+                                   }
+				   else {
+				    for ( int v=start[21] ; v < upper ; v++){
+                                      if (!( v < upper ) && (prime[21] == 0 )) {
+				       prime[21]=1;
+				       v=lo;
+				      }
+				      if ( hkill == 22) {
+				       printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v);
+				      }
+				      else {
+				       for (int w=start[22] ; w < upper ; w++) {
+					if (!( w < upper ) && (prime[22] == 0)){
+					 prime[22]=1;
+					 w=lo;
+					}
+					if (hkill == 23) {
+					 printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w);
+					}
+					else {
+					 for (int x=start[23] ; x < upper ; x++ ){
+					  if (!( x < upper ) && ( prime[23] == 0 )){
+					   prime[23]=1;
+					   x=lo;
+                                          }
+					  if (hkill == 24){
+					   printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x);
+					  }
+                                          else {
+                                           for ( int y=start[24] ; y < upper ; y++ ){
+                                            if (!( y < upper ) && (prime[24] == 0)) {
+                                             prime[24]=1;
+                                             y=lo;
+                                            }
+                                            if ( hkill == 25 ) {
+					     printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y);
+					    }
+                                            else {
+                                             for ( int z=start[25] ; z < upper ; z++ ){
+                                              if (!(z < upper ) && (prime[25] == 0)){
+					       prime[25]=1;
+                                               z=lo;
+                                              }
+                                              if (hkill == 26){
+                                               printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z);
+					      }
+					      else {
+					       for ( int aA=start[26] ; aA < upper ; aA++){      
+					        if (!( aA < upper ) && ( prime[26] == 0 )){
+						 prime[26]=1;
+						 aA=lo;
+					        }
+					        if (hkill == 27){
+						 printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA);
+					        }
+						else {
+						for ( int aB=start[27] ; aB < upper ; aB++ ){
+						 if (!( aB < upper ) && ( prime[27] == 0)){
+						   prime[27]=1;
+						   aB=lo;
+						  }
+						 if (hkill == 28) {
+					          printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB);
+						  }
+						 else {
+						  for ( int aC=start[28] ; aC < upper ; aC++ ){
+						   if (!( aC < upper ) && ( prime[28] == 0)){
+						    prime[28]=1;
+						    aC=lo;
+						   }
+						   if ( hkill == 29 ) {
+						    printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC);
+						   }
+						   else {
+						    for ( int aD=start[29] ; aD < upper ; aD++ ){
+						     if (!( aD < upper ) && ( prime[29] == 0 )) {
+						      prime[29]=1;
+						      aD=lo;
+						     }
+						     if ( hkill == 30 ) {
+						      printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD);
+						     }
+						     else {
+						      for ( int aE=start[30] ; aE < upper ; aE++ ){
+						       if (!( aE < upper ) && ( prime[30] == 0 )) {
+							prime[30]=1;
+							aE=lo;
+						       }
+						       if ( hkill == 31 ) {
+							printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE);
+						       }
+						       else {
+							for ( int aF=start[31] ; aF < upper ; aF++){
+							 if (!( aF < upper ) && ( prime[31] == 0 )){
+							  prime[31]=1;
+							  aF=lo;
+							 }
+							 if ( hkill == 32 ) {
+							  printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF);
+							 }
+							 else {
+							  for ( int aG=start[32] ; aG < upper ; aG++ ) {
+							   if (!( aG < upper ) && (prime[32] == 0 )){
+							    prime[32]=1;
+							    aG=lo;
+							   }
+							   if ( hkill == 33 ) {
+							    printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG);
+							   }
+							   else {
+							    for ( int aH=start[33]; aH < upper ; aH++ ) {
+							     if (!(aH < upper ) && (prime[33] == 0 )){
+							      prime[33]=1;
+							      aH=lo;
+							     }
+							     if ( hkill == 34 ){
+							      printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH);
+							     }
+							     else {
+							      for ( int aI=start[34] ; aI < upper ; aI++){
+							       if (!( aI < upper ) && ( prime[34] == 0 )){
+								prime[34]=1;
+								aI=lo;
+							       }
+							       if (hkill == 35){
+							        printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI);
+							       }
+							       else {
+								for ( int aJ=start[35] ; aJ < upper ; aJ++){
+								 if (!( aJ < upper ) && ( prime[35] == 0 )){
+								  prime[35]=1;
+								  aJ=lo;
+								 }
+								 if ( hkill == 36 ) {
+								  printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ);
+								 }
+								 else {
+								  for ( int aK=start[36] ; aK < upper ; aK++){
+								   if (!( aK < upper ) && ( prime[36] == 0 )){
+								    prime[36]=1;
+								    aK=lo;
+								   }
+								   if (hkill == 37) {
+								    printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK);
+								   }
+								   else {
+								    for ( int aL=start[37] ; aL < upper ; aL++){
+								     if (!( aL < upper ) && ( prime[37] == 0 )) {
+								      prime[37]=1;
+								      aL=lo;
+								     }
+								     if (hkill == 38){
+								      printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL);
+								     }
+								     else {
+								      for ( int aM=start[38] ; aM < upper ; aM++ ){
+								       if (!( aM < upper ) && ( prime[38] == 0 )){
+									prime[38]=1;
+									aM=lo;
+								       }
+								       if (hkill == 39 ) {
+									printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM);
+								       }
+								       else {
+									for ( int aN=start[39] ; aN < upper ; aN++ ){
+								         if (!( aN < upper ) && ( prime[39] == 0 )){
+									  prime[39]=1;
+									  aN=lo;
+									 }
+									 if ( hkill == 40 ) {
+									  printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN);
+									 }
+									 else {
+									  for ( int aO=start[40] ; aO < upper ; aO++ ){
+									   if (!( aO < upper ) && ( prime[40] == 0 )) {
+									    prime[40]=1;
+									    aO=lo;
+									   }
+									   if ( hkill == 41 ) {
+									    printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO);
+									   }
+									   else {
+									    for ( int aP=start[41] ; aP < upper ; aP++ ){
+									     if (!( aP < upper ) && (prime[41] == 0 )) {
+									      prime[41]=1;
+									      aP=lo;		
+									     }
+									     if ( hkill == 42 ) {
+									      printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP);
+									     }
+									     else {
+									      for ( int aQ=start[42] ; aQ < upper ; aQ++)
+									      {
+									       if (!( aQ < upper ) && ( prime[42] == 0 )){
+										prime[42]=1;
+										aQ=lo;
+									       }
+									       if ( hkill == 43 ) {
+										printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ);	
+									       }
+									       else {
+									        for ( int aR=start[43] ; aR < upper ; aR++ )
+										{
+										 if (!( aR < upper ) && ( prime[43] == 0 )) 
+										 {
+										  prime[43]=1;
+										  aR=lo;
+										 }
+										 if ( hkill == 44 ) {
+										  printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR);
+										 }
+										 else {
+										  for ( int aS=start[44] ; aS < upper ; aS++ )
+										  {
+										   if (!( aS < upper ) && ( prime[44] == 0 ))
+										   {
+										    prime[44]=1;
+										    aS=lo;
+										   }
+										   if ( hkill == 45 )
+										   {
+										    printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS);
+										   }
+										   else {
+										    for ( int aT=start[45] ; aT < upper ; aT++ )
+										    {
+										     if (!( aT < upper ) && ( prime[45] == 0 ))
+										     {
+										      prime[45]=1;
+										      aT=lo;
+										     }
+										     if ( hkill == 46 ){
+										      printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT); 
+										     }
+										     else {
+										      for ( int aU=start[46] ; aU < upper ; aU++)
+										      {
+										       if (!( aU < upper ) && (prime[46] == 0 ))
+										       {
+										        prime[46]=1;
+										        aU=lo;
+										       }
+										       if ( hkill == 47 ) {
+										        printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU);
+										       }
+										       else {
+											for ( int aV=start[47] ; aV < upper ; aV++ )
+											{
+											 if (!( aV < upper ) && ( prime[47] == 0 ))
+											 {
+											  prime[47]=1;
+											  aV=lo;
+											 }
+											 if ( hkill == 48 )
+											 {
+											  printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV);
+											 }
+											 else {
+											  for ( int aW=start[48] ; aW < upper ; aW++ )
+											  {
+											   if (!( aW < upper ) && ( prime[48] == 0 ))
+											   {
+											    prime[48]=1;
+											    aW=lo;
+											   }
+											   if (hkill == 49)
+											   {
+											    printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV,aW);
+											   }
+											   else {
+											    for ( int aX=start[49] ; aX < upper ; aX++)
+											    {
+											     if (!( aX < upper ) && ( prime[49] == 0 ))
+											     {
+											      prime[49]=1;
+											      aX=lo;
+											     }
+											     if ( hkill == 50 )
+											     {
+											      printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV,aW,aX);
+											     }
+											     else 
+											     {
+											      for ( int aY=start[50] ; aY < upper ; aY++ )
+											      {
+											       if (!( aY < upper ) && ( prime[50] == 0))
+											       {
+												prime[50]=1;
+												aY=lo;
+											       }
+											       if ( hkill == 51 ) 
+											       {
+											        printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV,aW,aX,aY);
+											       }
+											       else
+											       {
+											        for ( int aZ=start[51] ; aZ < upper ; aZ++ )
+												{
+												 if (!( aZ < upper ) && ( prime[51] == 0))
+												 {
+											          prime[51]=1;
+												  aZ=lo;
+												 }
+												 if ( hkill == 52 )
+												 {
+												  printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV,aW,aX,aY,aZ);
+												 }
+												 else {
+												  for ( int a_S126=start[52] ; a_S126 < upper ; a_S126++ )
+												  {
+												   if (!( a_S126 < upper ) && ( prime[52] == 0 )) {
+												    prime[52]=1;
+												    a_S126=lo;
+												   }
+												   if ( hkill == 53 ) {
+												    printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV,aW,aX,aY,aZ,a_S126);
+												   }
+												   else {
+												    for ( int a_S33=start[53] ; a_S33 < upper ; a_S33++ )
+												    {
+												     if (!( a_S33 < upper ) && ( prime[53] == 0 ))
+												     {
+												      prime[53]=1;
+												      a_S33=lo;
+												     }
+												     if ( hkill == 54 )
+												     {
+												      printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV,aW,aX,aY,aZ,a_S126,a_S33);
+												     }
+												     else {
+												      for ( int a_S64=start[54] ; a_S64 < upper ; a_S64++ )
+												      {
+												       if (!( a_S64 < upper ) && ( prime[54] == 0 ))
+												       {
+													prime[54]=1;
+													a_S64=lo;
+												       }
+												       if ( hkill == 55 )
+												       {
+												        printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV,aW,aX,aY,aZ,a_S126,a_S33,a_S64);
+												       }
+												       else {
+													for ( int a_S35=start[55] ; a_S35 < upper ; a_S35++ )
+													{
+													 if (!( a_S35 < upper ) && ( prime[55] == 0 ))
+													 {
+													  prime[55]=1;
+													  a_S35=lo;
+													 }
+													 if ( hkill == 56 )
+													 {
+													  printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV,aW,aX,aY,aZ,a_S126,a_S33,a_S64,a_S35);
+													 }
+													 else {
+													  for ( int a_S36=start[56] ; a_S36 < upper ; a_S36++ )
+													  {
+													   if (!( a_S36 < upper ) && ( prime[56] == 0 ))
+													   {
+													    prime[56]=1;
+													    a_S36=lo;
+													   }
+													   if ( hkill == 57 ) 
+													   {
+													    printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV,aW,aX,aY,aZ,a_S126,a_S33,a_S64,a_S35,a_S36);
+													   }
+													   else {
+													    for ( int a_S37=start[57] ; a_S37 < upper ; a_S37++)
+													    {
+													     if (!( a_S37 < upper ) && ( prime[57] == 0 ))
+													     {
+													      prime[57]=1;
+													      a_S37=lo;
+													     }
+													     if ( hkill == 58 )
+													     {
+													      printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV,aW,aX,aY,aZ,a_S126,a_S33,a_S64,a_S35,a_S36,a_S37);
+													     }
+													     else {
+													      for ( int a_S94=start[58] ; a_S94 < upper ; a_S94++ )
+													      {
+													       if (!( a_S94 < upper ) && ( prime[58] == 0 ))
+													       {
+														prime[58]=1;
+														a_S94=lo;
+													       }
+													       if ( hkill == 59 )
+													       {
+														printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV,aW,aX,aY,aZ,a_S126,a_S33,a_S64,a_S35,a_S36,a_S37,a_S94);
+													       }
+													       else {
+													        for ( int a_S38=start[59] ; a_S38 < upper ; a_S38++ )
+														{
+														 if (!( a_S38 < upper ) && ( prime[59] == 0 ))
+														 {
+														  prime[59]=1;
+														  a_S38=lo;
+														 }
+														 if ( hkill == 60 )
+														 {
+														  printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV,aW,aX,aY,aZ,a_S126,a_S33,a_S64,a_S35,a_S36,a_S37,a_S94,a_S38);
+														 }
+														 else {
+														  for ( int a_S42=start[60] ; a_S42 < upper ; a_S42++ )
+														  {
+														   if (!( a_S42 < upper ) && ( prime[60] == 0 ))
+														   {
+														    prime[60]=1;
+														    a_S42=lo;
+														   }
+														   if ( hkill == 61 )
+														   {
+														    printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV,aW,aX,aY,aZ,a_S126,a_S33,a_S64,a_S35,a_S36,a_S37,a_S94,a_S38,a_S42);
+														   }
+														   else {
+														    for ( int a_S40=start[61] ; a_S40 < upper ; a_S40++ )
+														    {
+														     if (!( a_S40 < upper ) && ( prime[61] == 0 ))
+														     {
+														      prime[61]=1;
+														      a_S40=lo;
+														     }
+														     if ( hkill == 62 )
+														     {
+														      printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aA,aB,aC,aD,aE,aF,aG,aH,aI,aJ,aK,aL,aM,aN,aO,aP,aQ,aR,aS,aT,aU,aV,aW,aX,aY,aZ,a_S126,a_S33,a_S64,a_S35,a_S36,a_S37,a_S94,a_S38,a_S42,a_S40);
+														     }
+														     //here
+														    }
+														   }
+														   /*ignore 3-24-2017 @ 10:33 am*///here
+														  }
+														 }
+														/*ignore 3-21-2017 @ 5:31 am*///here
+														}
+													       }
+													       /*3-19-2017 @ 4:35 am*///here
+													      }
+													     }
+													    /*3-19-2017 @ 4:30 am*///here
+													    }
+													   }
+													   /*3-19-2017 @ 4:21am*///here
+													  }
+													 }
+													/*3-19-2017 @ 4:11 am*///here
+													}
+												       }
+													/*3-19-2017 @ 4:03 pm*///here
+												      }
+												     }
+												     /*ignore 3-19-2017 @ 3:58 am*///here
+												    }
+												   }
+												   /*ignore 3-19-2017 @ 12:11 am*///here
+												  }
+												 }
+												 /*ignore 3-18-2017 @ 11:07pm *///here
+												}
+											       }
+											       /*ignore 3-18-2017 @ 5:34 pm*///here
+											      }
+											     }
+											    /* ignore 3-18-2017 @5:19 pm*///here
+											    }
+											   }
+											  }
+											 }
+											}
+										       }
+										      /*ignore 3-18-2017 @ 3:07am *///here
+										      }
+										     }
+										    /*ignore 3-18-2017 @ 2:59am*///here
+										    }
+										   }
+										  /*3-18-2017 @2:41pm*///here
+										  }
+										 }
+										/*ignore 3-18-2017 @ 1:59am*/// here
+										}
+									       }
+										/*ignore 3-18-2017 @ 1:52 am*///here
+									      }
+									     }
+									    /*ignore 3-18-2017 @ 1:41 am *///here
+									    }
+									   }
+									  }
+									 }
+									 /*ignore 3-18-2017 @ 1:04am*///here
+									}
+								       }
+								       /*3-5-2017 @ 10:55 am*///here
+								      }
+								     }
+								     /*ignore 3-5-2017 @ 10:48 am*///here
+								    }
+								   }
+								   /*ignore 3-5-2017 @ 10:40 am*///here
+								  }
+								 }
+								 /*ignore 3-5-2017 @ 10:24 am*///here
+								}
+							       }
+							       /*ignore 3-5-2017 @ 10:33 am*///here
+							      }
+							     }
+							     /*ignore 3-5-2017 @ 10:03 am*///here
+							    }
+							   }
+							   /*ignore 3-5-2017 @ 9:57 am*///here
+							  }
+							 }
+							 /*ignore 3-5-2017 @ 9:49 am*///here
+							}
+						       }
+						       /*3-4-2017 @ 2:12 pm*///here
+						      }
+						     }
+						     /*ignore 3-4-2017 @ 1:20 pm*///here
+						    }
+						   }
+						   /*ignore 3-4-2017 @ 12:46 pm*///here
+						  }
+						 }
+						/*ignore 3-4-2017 @ 12:20 pm*/ //here
+						 }
+						}
+					       /*ignore 3-4-2017 @ 3:18 am*///here
+					       }
+					      }
+                                              /*ignore 3-4-2017 @ 2:39 am*///here
+                                             }
+                                            }
+                                            /*ignore 2-27-2017 @ 12:10am*///here
+                                           } 
+                                          }
+					/*ignore 2-27-2017 @ 12:00 am*/ //here
+					 }
+					}
+					/*ignore 2-26-2017 @ 8:00 am*///here
+				       }
+				      }
+				      /*ignore 2-26-2017 @ 5:27 am*///here
+				    }
+			           }
+				   /* ignore 2-26-2017 @ 5:17 am*///here
+                                  }
+                                 }
+                                 /*ignore 2-23-2017 @ *///here
+                                }
+                               }
+			      }
+			      /*ignore 2-23-2017 @ 9:50 pm*///here
+			     }
+			     /*ignore 2-23-2017 @ 9:32 pm*///here
+			    }
+			   }
+                           /* ignore 2-23-2017 @ 9:18 pm*///here
+			  }
+			 }
+                         /*ignore 2-23-2017 @ 9:01 pm*/ //here
+                        }
+		       }
+                       /* ignore 2-23-2017 @ 8:50 pm*/ //here
+                      }
+                     }
+                    }
+                   }
+                  }
+	         }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        } /**/ } /**/ } /**/ } /**/ } /**/ } /**/ }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
+
+
+}
+
+static int parse_opt(int key, char *arg, struct argp_state *state){
+	switch(key){
+		case 'k':
+			if ( atoi(arg) > atoi(CMAX) ){
+				printf("Error: kill character space is greater than %d\n",atoi(CMAX));
+				return 1;
+			}
+			else{
+				main1(atoi(arg));
+			}
+			break;
+		case 'i':
+			for ( int i=1; i <= atoi(CMAX) ; i++ ){
+				main1(i);
+			}
+	}
+	return 0;
+}
+
+int main( int argc, char **argv){
+	int count=0;
+	char *msg="kill character space target: CHAR. Space Max ";
+        char *msgEnd=" Characters";
+        for ( int i=0 ; msg[i] != NULL ; i++ ){
+		count++;
+	}
+        int count1=0;
+        for ( int i=0 ; CMAX[i] != NULL ; i++ ){
+		count1++;
+        }
+	int count2=0;
+        for ( int i=0 ; msgEnd[i] != NULL ; i++ ){
+         count2++;
+	}
+	char killspace_msg[count+count1+count2];
+        strcpy(killspace_msg,msg);
+	strcat(killspace_msg,CMAX);
+        strcat(killspace_msg,msgEnd);
+	struct argp_option options[]={
+		{"killspace",'k',"INT",0,killspace_msg},
+		{"auto-increment-space",'i',0,0,"automatically increment character space"},
+		{0}
+	};
+	struct argp argp = {options,parse_opt};
+	argp_parse(&argp,argc,argv,0,0,0);
+	return 0;
+}
+
+int main1(int hkill);

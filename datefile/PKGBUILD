@@ -1,0 +1,15 @@
+# Maintainer: Carl J Hirner <k.j.hirner.wisdom@gmail.com>
+pkgname=datefile
+pkgver=0.2
+pkgrel=1
+pkgdesc="A file editor wrapper that embeds the date in the name of the file"
+arch=('any')
+provides=('datefile')
+depends=('vim' 'python3')
+install=$pkgname.install
+
+package() {
+   install -Dm644 datefile.sh -t "$pkgdir/usr/bin/"
+   install -Dm644 datefile.cfg -t "$pkgdir/etc/"
+}
+

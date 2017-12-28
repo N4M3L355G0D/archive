@@ -1,0 +1,2 @@
+49 00 * * * /bin/bash $HOME/.local/bin/timer.sh
+49 00 * * * export DISPLAY=:0.0 ; /usr/bin/xterm -e /bin/bash $HOME/.local/bin/stop.sh

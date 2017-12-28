@@ -1,0 +1,33 @@
+<S========================================S>
+testwordlist.txt <+> Wed Aug 23 20:45:46 2017[START]
+testwordlist.txt <+> Wed Aug 23 20:48:08 2017[END]
+<E========================================E>
+<S========================================S>
+testwordlist.txt <+> Wed Aug 23 20:48:24 2017[START]
+<S========================================S>
+testwordlist.txt <+> Wed Aug 23 20:56:40 2017[START]
+testwordlist.txt <+> Wed Aug 23 20:56:41 2017[END]
+Ctrl-C was issued: table creation most likely incomplete
+<E========================================E>
+<S========================================S>
+testwordlist.txt <+> Wed Aug 23 21:00:15 2017[START]
+testwordlist.txt <+> Wed Aug 23 21:01:45 2017[END]
+<E========================================E>
+<S========================================S>
+testwordlist.txt <+> Wed Aug 23 21:01:50 2017[START]
+<S========================================S>
+testwordlist.txt <+> Wed Aug 23 21:02:02 2017[START]
+testwordlist.txt <+> Wed Aug 23 21:02:05 2017[END]
+<E========================================E>
+<S========================================S>
+testwordlist.txt <+> Wed Aug 23 21:03:57 2017[START]
+testwordlist.txt <+> Wed Aug 23 21:03:59 2017[END]
+<E========================================E>
+<S========================================S>
+testwordlist.txt <+> Wed Aug 23 21:04:41 2017[START]
+<S========================================S>
+testwordlist.txt <+> Wed Aug 23 21:04:55 2017[START]
+<S========================================S>
+testwordlist.txt <+> Wed Aug 23 21:06:01 2017[START]
+testwordlist.txt <+> Wed Aug 23 21:06:03 2017[END]
+<E========================================E>

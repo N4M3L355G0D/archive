@@ -1,0 +1,3 @@
+WORKING_DIR="$HOME/password-date"
+cd "$WORKING_DIR" 
+bash alluser-change.sh

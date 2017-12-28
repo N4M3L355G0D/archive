@@ -1,0 +1,11 @@
+This is just base 26 representations of integers. So to find the 200-th element, which is at position 199 counting from 0, write it in base 26 as 199=(0×(26^3))+(0×(26^2))+(7×(26^1))+(17×(26^0)), and from the coefficients (0,0,7,17) deduce the letters (a,a,h,r). The 200th word on your list is "aahr".
+
+calculate backwards:
+ if 200-1 < 26^3 :
+   char3 = 0
+  if 200-1 < 26^2:
+   char2 = 0
+  if 200-1 < 26 ^ 1:
+   char1 = 0
+  else if
+   200-1 > 26^1:

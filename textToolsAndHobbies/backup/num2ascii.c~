@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define upper 126
+#define lo 32
+/* this program will be designated for the upper end of the 97 character character space */
+int main(){
+
+for ( int a=lo ; a <= upper ; a++ ){ //97,1
+ for ( int b=lo ; b <= upper ; b++ ){ //96,2
+  for ( int c=lo ; c <= upper ; c++ ){ //95,3
+   for ( int d=lo ; d <= upper ; d++ ){ //94,4 
+    for ( int e=lo ; e <= upper ; e++ ){ //93,5
+     for ( int f=lo ; f <= upper ; f++ ){ //92,6
+      for ( int g=lo ; g <= upper ; g++ ){ //91,7
+       for ( int h=lo ; h <= upper ; h++ ){ //90,8
+        printf("%c%c%c%c%c%c%c%c\n",a,b,c,d,e,f,g,h);
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
+
+
+}

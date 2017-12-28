@@ -1,0 +1,2 @@
+0.0.2
+	added /opt/bin existance detection to installer/installer/installer.sh

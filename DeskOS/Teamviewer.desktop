@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Teamviewer
+Comment=For remote repairs only
+Exec=/opt/bin/lUtils/service-toggle -t teamviewerd lobby
+Icon=teamviewer
+Path=
+Terminal=true
+StartupNotify=false

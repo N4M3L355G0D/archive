@@ -1,0 +1,10 @@
+#! /bin/bash
+
+select=`zenity --file-selection --file-filter='*.img' --filename=$HOME`
+checkMount=`mount | grep -w $select.d | cut -f2 -d'/' | head -n 1 `
+if [ ! -z $checkMount ] ; then
+	zenity --warning --text='This disk is already mounted. There is nothing to do. Good Bye!'
+	exit
+else
+	sudo -S mount $select $select.d < /opt/vdisk/.password
+fi

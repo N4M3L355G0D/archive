@@ -1,0 +1,12 @@
+client script sends his uname/mac address/ip address data to server
+
+add command socket to rotate log files after each connection [done]
+
+get lscpu data [done]
+get user data
+get group data
+
+
+server stores uname data in mariadb database
+
+

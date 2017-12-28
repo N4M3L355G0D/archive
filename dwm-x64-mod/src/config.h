@@ -1,0 +1,1 @@
+/home/carl/archive/dwm-x64-mod/config.h

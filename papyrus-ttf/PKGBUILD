@@ -1,0 +1,24 @@
+pkgname=papyrus-ttf
+pkgdir=.
+pkgver=1.0
+pkgrel=1
+pkgdesc="Some description"
+arch=(any)
+depends=(fontconfig xorg-font-utils)
+source=("http://psdbundle.com/wp-content/uploads/Papyrus-Font.zip")
+md5sums=('3572549b3fe31a9d2e0f4b7e6b6495bb')
+noextract=('Papyrus-Font.zip')
+install=$pkgname.install
+prepare() {
+ wget -c $source
+ unzip Papyrus-Font.zip
+
+}
+
+package() {
+  install -Dm644 Papyrus.TTF -t "$pkgdir"/usr/share/fonts/papyrus-ttf
+  install -Dm644 readme.txt -t "$pkgdir"/usr/share/licenses/"$pkgname"
+}
+
+prepare
+package

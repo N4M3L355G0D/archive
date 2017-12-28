@@ -1,0 +1,5 @@
+One Two:Three:4 Five
+#COLON
+One:Two:Three:4:Five
+#SEMICOLON
+One;Two;Three;4;Five

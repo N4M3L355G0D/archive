@@ -1,0 +1,5 @@
+## add a marker to list.2 from the list.1 of items removed
+listStrip() {
+ stripString="$1"
+ sed s\|"$stripString"\|'#&'\|g list.1 > list.2
+}

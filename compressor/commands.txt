@@ -1,0 +1,18 @@
+# dash/hyphen (-) means standard input, like from a pipe
+
+# list contents of default.tar.gz
+	zcat default.tar.gz | tar --list -f -
+
+# extract member from default.tar.gz
+	zcat default.tar.gz | tar --extract -f - keygen/divisble.py
+
+# extract entire contents of default.tar.gz to filesystem
+	tar -xvf default.tar.gz
+	tar --extract -f default.tar.gz
+
+# extract members from compressed archive to stdout
+	tar --extract -f defaults.tar //compressor/commands.txt --to-stdout
+	zcat defaults.tar.gz | tar --extract -f - //compressor/commands.txt --to-stdout
+
+# extract *.tar.gz from pipe
+	zcat testing.tar.gz | tar --extract -f -

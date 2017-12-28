@@ -1,0 +1,12 @@
+
+post_install() {
+  chmod +x /usr/bin/datefile.sh
+}
+
+post_upgrade() {
+  post_install
+}
+
+post_remove() {
+  echo "datefile has been removed"
+}

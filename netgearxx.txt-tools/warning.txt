@@ -1,0 +1,7 @@
+requires:
+	python3
+	bash
+	at least 3 TB for storage:
+		1 TB for initial wordlist (~638 GB ,628 GB) [ netgearxx.txt ]
+		1 TB for netgearxx.txt.part_{1..50} stage
+		1 TB for netgearxx-permutate.sh

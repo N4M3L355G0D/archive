@@ -1,0 +1,21 @@
+Julius Internal Conditions AI
+
+primary objective
+ -detect internal conditions of Linux OS
+  -if conditions are bad
+   -report to internal logs
+   -perform automatic repairs
+    -if repairs are successful
+     -delete logged events
+    -if repairs are not successful
+     -perform secondary diagnostics 
+     -reattempt repairs
+     -if unsuccessful again
+      -mark logged events with unsuccessful repair attempts
+      -contact administrator 
+      -place system into manual mode
+  -if conditions are good
+   -wait for period X of time
+   -loop to start of function
+
+Secondary objectives 
