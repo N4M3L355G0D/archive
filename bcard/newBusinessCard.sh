@@ -6,7 +6,7 @@
 DB="bcard.db"
 #check for required dependencies
 function depCheck(){
-	cmds=("sqlite3")
+	cmds=("sqlite3" "base64")
 	notInstalled=()
 	counter=0
 	for cmd in ${cmds[@]} ; do
