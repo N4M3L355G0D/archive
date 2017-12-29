@@ -4,6 +4,35 @@
 
 #need this global so other functions can see this
 DB="bcard.db"
+#check for required dependencies
+function depCheck(){
+	cmds=("sqlite3")
+	notInstalled=()
+	counter=0
+	for cmd in ${cmds[@]} ; do
+
+		depInstalled="no"
+		export IFS=":"
+		for pth in $PATH ; do 
+			exist="`ls "$pth/$cmd" |& grep -v "ls: cannot access"`"
+			if test "$exist" != "" ; then
+				depInstalled="yes"
+			fi			
+		done
+		if test "$depInstalled" == "no" ; then
+			notInstalled[$counter]=$cmd
+		fi
+		counter=`expr $counter + 1`
+		export IFS=" "
+	done
+	if test "${#notInstalled[@]}" -gt 0 ; then
+		echo -e "There seems to be some missing dependencies\n(they might just not be in your \$PATH):"
+		for dep in ${notInstalled[@]} ; do
+			echo -e "\t$dep"
+		done
+		exit 1
+	fi
+}
 
 function dbGen(){
 	data="U1FMaXRlIGZvcm1hdCAzABAAAQEAQCAgAAAAAgAAAAMAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAAAA
@@ -237,14 +266,14 @@ function checkForFile(){
 }
 
 function noguilinux(){
-#bcard fields are as follows
-#name,email,phone,version
-#create table if not exists bcard(name text,email text,phone text,version INTEGER PRIMARY KEY AUTOINCREMENT)
-table="bcard"
-version="1"
-
-checkForFile "$DB"
-
+	#bcard fields are as follows
+	#name,email,phone,version
+	#create table if not exists bcard(name text,email text,phone text,version INTEGER PRIMARY KEY AUTOINCREMENT)
+	table="bcard"
+	version="1"
+	
+	checkForFile "$DB"
+#due to the EOF works, it is best to keep  this set of commands aligned in the manner as below	
 cat << EOF
 name: `sqlite3 "$DB" "select name from $table where version=$version;"`
 email: `sqlite3 "$DB" "select email from $table where version=$version;"`
@@ -261,6 +290,7 @@ function needLinuxAdmin(){
 }
 
 function main(){
+	depCheck
 	if test "`needLinuxAdmin`" == "yes" ; then
 		noguilinux
 	fi
