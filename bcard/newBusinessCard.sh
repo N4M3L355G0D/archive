@@ -5,6 +5,7 @@
 
 #need this global so other functions can see this
 DB="bcard.db"
+parse="parser.py"
 #check for required dependencies
 function depCheck(){
 	cmds=("sqlite3" "base64" "python3" "gunzip")
@@ -242,22 +243,49 @@ EOF
 }
 
 function parser(){
-	parse="parser.py"
-	parserCode > "$parse"
 	python3 "$parse" "$@"
-	rm "$parse"
+}
+
+function checkForFile(){
+	EXISTS_MSG=": file/directory exists -- quitting to prevent damage!"
+	if test ! -e "$1" ; then
+		if test "$1" == "$DB" ; then
+			dbGen
+		elif test "$1" == "$parse" ; then
+			parserCode > "$parse"
+		else
+			echo "no such file or directory: $1"
+			exit 1
+		fi
+	else
+		echo "$1" "$EXISTS_MSG"
+		exit 1
+	fi
+}
+
+function cleanup(){
+	if test -e "$DB" ; then
+		rm "$DB"
+	fi
+
+	if test -e "$parse" ; then
+		rm "$parse"
+	fi
+	exit 1
 }
 
 function main(){
 	MESSAGE_COMMON="please look at --help/-h"
 	depCheck
+	#check to make sure required filenames do not already exist, if they already do, fail in attempt to prevent damage to existing work
 	checkForFile "$DB"
+	checkForFile "$parse"
 	#sometimes test is not good enough; using a builtin
 	if test "`needLinuxAdmin`" == "yes" ; then
-		if [ ! -z "$@" ] ; then
+		if [ ! -z "$1" ] ; then
 			options="`parser "$@"`"
 			if test "$options" == "err" ; then
-				exit 1
+				cleanup
 			elif test "$options" != "$MESSAGE_COMMON" ; then
 				export IFS="#"
 				run=0
@@ -297,19 +325,19 @@ function main(){
 				export IFS=" "	
 				if test "$run" == "0" ; then
 					parser -h | sed s\|"err"\|""\|
-					exit 1
+					cleanup
 				fi
 	
 			else
 				echo "$MESSAGE_COMMON"
-				exit 1
+				cleanup
 			fi
 		else
-			echo "$MESSAGE_COMMON"
-			exit 1
+			echo "$MESSAGE_COMMON"	
+			cleanup
 		fi
 	fi	
-	rm "$DB"
+	cleanup
 }
 
 main "$@"
