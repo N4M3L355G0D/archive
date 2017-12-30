@@ -249,6 +249,7 @@ function parser(){
 }
 
 function main(){
+	MESSAGE_COMMON="please look at --help/-h"
 	depCheck
 	checkForFile "$DB"
 	#sometimes test is not good enough; using a builtin
@@ -257,7 +258,7 @@ function main(){
 			options="`parser "$@"`"
 			if test "$options" == "err" ; then
 				exit 1
-			elif test "$options" != "please look at --help/-h" ; then
+			elif test "$options" != "$MESSAGE_COMMON" ; then
 				export IFS="#"
 				run=0
 				for i in $options ; do
@@ -300,11 +301,11 @@ function main(){
 				fi
 	
 			else
-				echo "please look at --help/-h"
+				echo "$MESSAGE_COMMON"
 				exit 1
 			fi
 		else
-			echo "please look at --help/-h"
+			echo "$MESSAGE_COMMON"
 			exit 1
 		fi
 	fi	
