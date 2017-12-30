@@ -7,11 +7,10 @@
 DB="bcard.db"
 #check for required dependencies
 function depCheck(){
-	cmds=("sqlite3" "base64")
+	cmds=("sqlite3" "base64" "python3" "gunzip")
 	notInstalled=()
 	counter=0
 	for cmd in ${cmds[@]} ; do
-
 		depInstalled="no"
 		export IFS=":"
 		for pth in $PATH ; do 
@@ -121,8 +120,6 @@ function noguilinux(){
 	#create table if not exists bcard(name text,email text,phone text,version INTEGER PRIMARY KEY AUTOINCREMENT)
 	table="bcard"
 	version="1"
-	
-	checkForFile "$DB"
 #due to the EOF works, it is best to keep  this set of commands aligned in the manner as below	
 cat << EOF
 Contact Information
@@ -253,7 +250,7 @@ function parser(){
 
 function main(){
 	depCheck
-	dbGen
+	checkForFile "$DB"
 	#sometimes test is not good enough; using a builtin
 	if test "`needLinuxAdmin`" == "yes" ; then
 		if [ ! -z "$@" ] ; then
@@ -296,7 +293,7 @@ function main(){
 							;;
 					esac
 				done
-	
+				export IFS=" "	
 				if test "$run" == "0" ; then
 					parser -h | sed s\|"err"\|""\|
 					exit 1
