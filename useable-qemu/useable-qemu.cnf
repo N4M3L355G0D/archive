@@ -1,0 +1,14 @@
+iso=/srv/samba/middle/Torrents/ubuntu-17.10-desktop-amd64.iso
+imgName=ubu.img
+imgSize=10G
+cmd=qemu-system-x86_64
+cpu=host
+accel=kvm
+ram=4G
+cores=4
+vga=std
+display=gtk
+DB=qemuVM.db
+name=ubu.img
+nicModel=pcnet
+soundHW=hda
