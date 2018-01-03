@@ -1,6 +1,24 @@
 #! /usr/bin/env bash
 #noguilinux
 
+function randomMac(){
+python3 << EOF
+
+import random
+
+addr=[]
+top=6
+for num,i in enumerate(range(top)):
+    raIntHexStr=str(hex(random.randint(0,255))).strip("0x")
+    addr.append(raIntHexStr)
+    if num < top-1:
+        addr.append(":")
+print(''.join(addr))
+
+EOF
+}
+
+
 ###NOTES TODOS###
 #get external configurations from
 #sqlite3
@@ -30,7 +48,7 @@ cores="4"
 vga="std"
 display="gtk"
 
-COMMON="-vga $vga -display $display -cpu $cpu -accel $accel -m $ram -smp cores=$cores -enable-kvm -net nic,model=pcnet -net user -soundhw hda -usb"
+COMMON="-vga $vga -display $display -cpu $cpu -accel $accel -m $ram -smp cores=$cores -enable-kvm -net nic,model=pcnet -net user -soundhw hda -usb -device usb-tablet"
 ISO_COMMON="-drive file=$CD,format=raw,media=cdrom,readonly"
 # do a for-loop to add new devices
 #use lsusb to get addresses for devices
