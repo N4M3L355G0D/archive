@@ -6,8 +6,8 @@ python3 << EOF
 
 import random
 
-addr=[]
-top=6
+addr=['52',':','54',':']
+top=4
 for num,i in enumerate(range(top)):
     raIntHexStr=str(hex(random.randint(0,255))).strip("0x")
     addr.append(raIntHexStr)
@@ -47,8 +47,25 @@ ram="4G"
 cores="4"
 vga="std"
 display="gtk"
+macAddr="`randomMac`"
+DB="qemuVM.db"
 
-COMMON="-vga $vga -display $display -cpu $cpu -accel $accel -m $ram -smp cores=$cores -enable-kvm -net nic,model=pcnet -net user -soundhw hda -usb -device usb-tablet"
+function macRecord(){
+	#need detection if a vm is running
+	if test ! -e "$DB" ; then
+		sqlite3 "$DB" "create table if not exists macs ( mac text );"
+	else
+		exist="`sqlite3 "$DB" "select mac from macs where mac = '$macAddr'"`"
+		if test "$exist" == "" ; then
+			sqlite3 "$DB" "insert into macs(mac) values ('$macAddr' );"
+		fi
+	fi
+}
+#need a function to remove mac after vm has shut down
+
+macRecord
+exit
+COMMON="-vga $vga -display $display -cpu $cpu -accel $accel -m $ram -smp cores=$cores -enable-kvm -net nic,macaddr=$macAddr,model=pcnet -net user -soundhw hda -usb -device usb-tablet"
 ISO_COMMON="-drive file=$CD,format=raw,media=cdrom,readonly"
 # do a for-loop to add new devices
 #use lsusb to get addresses for devices
