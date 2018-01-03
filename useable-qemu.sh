@@ -47,25 +47,47 @@ ram="4G"
 cores="4"
 vga="std"
 display="gtk"
-macAddr="`randomMac`"
+#macAddr="`randomMac`"
 DB="qemuVM.db"
+name="`echo "$IMG" | sed s\|"\.img"$\|\|`"
+exist=''
+
+function records(){
+	if test "$1" != "skip" ; then
+		macAddr="`randomMac`"
+		exist="`sqlite3 "$DB" "select mac from macs where mac = '$macAddr'"`"
+	fi
+	vm="`sqlite3 "$DB" "select name from macs where name = '$name' ;"`"
+	if test "$vm" == "" ; then
+		sqlite3 "$DB" "insert into macs(mac,name) values ('$macAddr','$name');"
+		echo $name@$macAddr
+	else
+		macAddr="`sqlite3 "$DB" "select mac from macs where name='$name'"`"
+		echo $name@$macAddr
+	fi
+}
 
 function macRecord(){
+	macAddr="`randomMac`"
 	#need detection if a vm is running
 	if test ! -e "$DB" ; then
-		sqlite3 "$DB" "create table if not exists macs ( mac text );"
+		sqlite3 "$DB" "create table if not exists macs ( mac text, name text );"
+
+	fi
+	exist="`sqlite3 "$DB" "select mac from macs where mac = '$macAddr'"`"
+	if test "$exist" == "" ; then
+		records skip
 	else
-		exist="`sqlite3 "$DB" "select mac from macs where mac = '$macAddr'"`"
-		if test "$exist" == "" ; then
-			sqlite3 "$DB" "insert into macs(mac) values ('$macAddr' );"
-		fi
+		while test "$exist" != "" ; do
+			records
+		done
 	fi
 }
 #need a function to remove mac after vm has shut down
 
 macRecord
-exit
-COMMON="-vga $vga -display $display -cpu $cpu -accel $accel -m $ram -smp cores=$cores -enable-kvm -net nic,macaddr=$macAddr,model=pcnet -net user -soundhw hda -usb -device usb-tablet"
+#exit
+COMMON="-vga $vga -display $display -cpu $cpu -accel $accel -m $ram -smp cores=$cores -enable-kvm -net nic,macaddr="`macRecord | cut -f2 -d"@"`",model=pcnet -net user -soundhw hda -usb -device usb-tablet"
 ISO_COMMON="-drive file=$CD,format=raw,media=cdrom,readonly"
 # do a for-loop to add new devices
 #use lsusb to get addresses for devices
