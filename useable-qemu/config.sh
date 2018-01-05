@@ -5,10 +5,44 @@
 cnfDb="useable-qemu_cnf.db"
 table="qemuCnf"
 cnf="useable-qemu.cnf"
+xmlCnf="useable-qemu_cnf.xml"
+
+#globals
+version=""
+CD=""
+IMG=""
+IMG_SIZE=""
+CMD=""
+cpu=""
+accel=""
+ram=""
+cores=""
+vga=""
+display=""
+DB=""
+name=""
+nicModel=""
+soundHW=""
+
+#create a function that detects a blank global and attempt to get the missing global from another existing configuration
+
+function header(){
+	inString="$1"
+python3 << EOF
+print("-->","$inString","<--")
+EOF
+}
 
 function optArg(){
 	read opt
 	echo "$opt" | cut -f2 -d=
+}
+
+function varDump(){
+		if test "$1" != "" ; then 
+			header "$1"
+		fi
+		echo -e "$CD\n$IMG\n$IMG_SIZE\n$CMD\n$cpu\n$accel\n$ram\n$cores\n$vga\n$display\n$DB\n$name\n$nicModel\n$soundHW"
 }
 
 function textConfig(){
@@ -27,7 +61,7 @@ function textConfig(){
 		name="`grep -w "name" "$cnf" | optArg`"
 		nicModel="`grep -w "nicModel" "$cnf" | optArg`"
 		soundHW="`grep -w "soundHW" "$cnf" | optArg`"
-		echo -e "$CD\n$IMG\n$IMG_SIZE\n$CMD\n$cpu\n$accel\n$ram\n$cores\n$vga\n$display\n$DB\n$name\n$nicModel\n$soundHW"
+		varDump "textConfig"
 	else
 		echo "textfile configuration does not exist"
 		exit 1
@@ -35,10 +69,36 @@ function textConfig(){
 }
 
 function xmlConfig(){
- #this is just a placeholder
- #i still need to create the xml file/format to be used
- a=0
-
+	if test -e "$xmlCnf" ; then
+		#get the latest version available
+		if test "$1" == "versionOverride" ; then
+			if test "$2" != "" ; then
+				version="$2"
+			else
+				echo "\$2 cannot be blank"
+			fi
+		else
+			version="`cat useable-qemu_cnf.xml | grep -w "<version" | tail -n1 | sed s/['><"\ \t']//g | cut -f 2 -d=`"
+		fi
+		CD="`xmllint --xpath "string(//version[@num='$version']/iso)" "$xmlCnf"`"
+		IMG="`xmllint --xpath "string(//version[@num='$version']/imgName)" "$xmlCnf"`"
+		IMG_SIZE="`xmllint --xpath "string(//version[@num='$version']/imgSize)" "$xmlCnf"`"
+		CMD="`xmllint --xpath "string(//version[@num='$version']/cmd)" "$xmlCnf"`"
+		cpu="`xmllint --xpath "string(//version[@num='$version']/cpu)" "$xmlCnf"`"
+		accel="`xmllint --xpath "string(//version[@num='$version']/accel)" "$xmlCnf"`"
+		ram="`xmllint --xpath "string(//version[@num='$version']/ram)" "$xmlCnf"`"
+		cores="`xmllint --xpath "string(//version[@num='$version']/cores)" "$xmlCnf"`"
+		vga="`xmllint --xpath "string(//version[@num='$version']/vga)" "$xmlCnf"`"
+		display="`xmllint --xpath "string(//version[@num='$version']/display)" "$xmlCnf"`"
+		DB="`xmllint --xpath "string(//version[@num='$version']/DB)" "$xmlCnf"`"
+		name="`xmllint --xpath "string(//version[@num='$version']/name)" "$xmlCnf"`"
+		nicModel="`xmllint --xpath "string(//version[@num='$version']/nicModel)" "$xmlCnf"`"
+		soundHW="`xmllint --xpath "string(//version[@num='$version']/soundHW)" "$xmlCnf"`"
+		#echo -e "$CD\n$IMG\n$IMG_SIZE\n$CMD\n$cpu\n$accel\n$ram\n$cores\n$vga\n$display\n$DB\n$name\n$nicModel\n$soundHW"
+		varDump "xmlConfig"
+	else
+		echo "xml configuration file does not exist"
+	fi
 }
 
 function getConfigOptions(){
@@ -141,12 +201,61 @@ function sqlite3Config(){
 		name="`sqlite3 "$cnfDb" "select name from $table where version=$latest"`"
 		nicModel="`sqlite3 "$cnfDb" "select nicModel from $table where version=$latest"`"
 		soundHW="`sqlite3 "$cnfDb" "select soundHW from $table where version=$latest"`"
-		echo -e "$CD\n$IMG\n$IMG_SIZE\n$CMD\n$cpu\n$accel\n$ram\n$cores\n$vga\n$display\n$DB\n$name\n$nicModel\n$soundHW"
+		varDump "sqlite3Config"
 	fi
 }
 
+function selector(){
+	#test if command exists
+	commands=("sqlite3Config" "xmlConfig" "textConfig")
+	command="$1"
+	exist=""
+	for i in ${commands[@]} ; do
+		if test "$i" == "$command" ; then
+			exist="yes"
+		fi
+	done
+	if test "$1" == "xmlConfig" || test "$1" == "sqlite3Config" ; then
+		if test "$exist" != "" ; then
+			shift
+			if test "$1" != "" || test "$1" != "textConfig" ; then
+				versionOverrideYes="$1"
+				if test "$2" != "" ; then
+					if test "$versionOverrideYes" == "versionOverride" ; then
+						versionOverride="$2"
+					fi
+				else
+					echo "\$2 cannot be blank"
+					exit 1
+				fi
+			"$command" "$versionOverrideYes" "$versionOverride"
+			elif test "$command" == "textConfig" ; then
+				"$command"
+			fi
+		else
+			echo "no such command: $command"
+		fi
+	elif test "$1" == "textConfig" ; then
+		textConfig
+	else
+		#auto-selector
+		if test -e "$cnfDb" && test -f "$cnfDb"; then
+				sqlite3Config
+		elif test -e "$xmlCnf" && test -f "$xmlCnf" ; then
+				xmlConfig
+		elif test -e "$cnf" && test -f "$cnf" ; then
+				textConfig
+		else
+			echo "no configuration files exist!"
+		fi
+	fi
+}
+#configuration style
+tipe=xml
+overrideVersionNum=1
+selector "$tipe"Config versionOverride $overrideVersionNum
+#remember need to create function that detects if a global is blank, or '', and attempt to detect another configuration file, and use the configuration option for the missing value from the other configuration, but if no other configuration options exist, fail with error, do not pass to useable-qemu.sh
 ##access proof of concept
-echo -e "sqlite3\n======"
-sqlite3Config versionOverride 1
-echo -e "textconfig\n==========="
-textConfig
+#xmlConfig
+#sqlite3Config versionOverride 1
+#textConfig

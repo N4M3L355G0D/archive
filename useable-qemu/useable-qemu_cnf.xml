@@ -1,0 +1,21 @@
+<qemu>
+	<version num="1">
+		<iso>/srv/samba/middle/Torrents/ubuntu-17.10-desktop-amd64.iso</iso>
+		<imgName>ubu.img</imgName>
+		<imgSize>10G</imgSize>
+		<cmd>qemu-system-x86_64</cmd>
+		<cpu>host</cpu>
+		<accel>kvm</accel>
+		<ram>4G</ram>
+		<cores>4</cores>
+		<vga>std</vga>
+		<display>gtk</display>
+		<DB>qemuVM.db</DB>
+		<name>ubu.img</name>
+		<nicModel>pcnet</nicModel>
+		<soundHW>hda</soundHW>
+	</version>
+	<!-- to add another configuration use the above version node as a template
+       and increment num by 1 -->
+
+</qemu>
