@@ -52,7 +52,32 @@ DB="qemuVM.db"
 name="`echo "$IMG" | sed s\|"\.img"$\|\|`"
 exist=''
 nicModel="pcnet"
-soundHW="hda"
+#soundHW="hda"
+soundHW=""
+function optionSift(){
+	input="$1"
+	shift
+	option="$1"
+	echo -e "$input" | grep -w "$option" | cut -f2 -d'#' 
+}
+
+function getConfig(){
+	data="`bash ./config.sh`"
+	CD="`optionSift "$data" "CD"`"
+	IMG="`optionSift "$data" "IMG"`"
+	IMG_SIZE="`optionSift "$data" "IMG_SIZE"`"
+	CMD="`optionSift "$data" "CMD"`"
+	cpu="`optionSift "$data" "cpu"`"
+	accel="`optionSift "$data" "accel"`"
+	ram="`optionSift "$data" "ram"`"
+	cores="`optionSift "$data" "cores"`"
+	vga="`optionSift "$data" "vga"`"
+	display="`optionSift "$data" "display"`"
+	DB="`optionSift "$data" "DB"`"
+	name="`optionSift "$data" "name"`"
+	nicModel="`optionSift "$data" "nicModel"`"
+	soundHW="`optionSift "$data" "soundHW"`"
+}
 
 function records(){
 	if test "$1" != "skip" ; then
@@ -85,10 +110,26 @@ function macRecord(){
 		done
 	fi
 }
+
+function resetGlobalDefaults(){
+	macRecord
+	COMMON="-vga $vga -display $display -cpu $cpu -accel $accel -m $ram -smp cores=$cores -enable-kvm -net nic,macaddr="`macRecord | cut -f2 -d"@"`",model="$nicModel" -net user -soundhw $soundHW -usb -device usb-tablet"
+	ISO_COMMON="-drive file=$CD,format=raw,media=cdrom,readonly"
+	# append new element to DEV_PASS_USB array to add new device
+
+	#use lsusb to get addresses for devices
+	#please not that the most reliable way to specify a device is to use vendorid:productid
+	#to use vendorid:productid from lsusb, take the values from the desired device and add 0x to the beginning
+	#this indicates that the value is hexadecimal
+	#in the code below, 0x04f9:0x0075 is my Brother HL-2305W printer
+	DEV_PASS_USB=("-device usb-host,vendorid=0x04f9,productid=0x0075")
+	INSTALL="-cdrom $CD -boot order=d -drive format=raw,file=$IMG"
+	RUN="-drive format=raw,file=$IMG"
+}
 #need a function to remove mac after vm has shut down
 
 macRecord
-#exit
+#global defaults
 COMMON="-vga $vga -display $display -cpu $cpu -accel $accel -m $ram -smp cores=$cores -enable-kvm -net nic,macaddr="`macRecord | cut -f2 -d"@"`",model="$nicModel" -net user -soundhw $soundHW -usb -device usb-tablet"
 ISO_COMMON="-drive file=$CD,format=raw,media=cdrom,readonly"
 # append new element to DEV_PASS_USB array to add new device
@@ -103,6 +144,8 @@ INSTALL="-cdrom $CD -boot order=d -drive format=raw,file=$IMG"
 RUN="-drive format=raw,file=$IMG"
 
 function main(){
+	getConfig
+	resetGlobalDefaults
 	if test "$1" == "iso-only" ; then
 		sudo $CMD $COMMON $ISO_COMMON ${DEV_PASS_USB[@]}
 	elif test "$1" == "install" ; then

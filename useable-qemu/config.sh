@@ -42,7 +42,7 @@ function varDump(){
 		if test "$1" != "" ; then 
 			header "$1"
 		fi
-		echo -e "$CD\n$IMG\n$IMG_SIZE\n$CMD\n$cpu\n$accel\n$ram\n$cores\n$vga\n$display\n$DB\n$name\n$nicModel\n$soundHW"
+		echo -e "CD#$CD\nIMG#$IMG\nIMG_SIZE#$IMG_SIZE\nCMD#$CMD\ncpu#$cpu\naccel#$accel\nram#$ram\ncores#$cores\nvga#$vga\ndisplay#$display\nDB#$DB\nname#$name\nnicModel#$nicModel\nsoundHW#$soundHW"
 }
 
 function textConfig(){
@@ -412,7 +412,7 @@ function cnfType(){
 		echo "fail:1"
 	fi
 }
-
+function getConfig(){
 #configuration style
 tipe=xml
 overrideVersionNum=1
@@ -430,7 +430,11 @@ fi
 
 #dump globals to stdout
 if test "$?" != "1" ; then
-	varDump "$tipe"Config
+	data="`varDump "$tipe"Config`"
+	dataStripSrc="$(echo -e "$data" | tail -n `expr $(wc -l <<< $data) - 1`)"
+	echo -e "$dataStripSrc"
 fi
 #remember need to create function that detects if a global is blank, or '', and attempt to detect another configuration file, and use the configuration option for the missing value from the other configuration, but if no other configuration options exist, fail with error, do not pass to useable-qemu.sh
+}
 
+getConfig
