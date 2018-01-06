@@ -413,28 +413,31 @@ function cnfType(){
 	fi
 }
 function getConfig(){
-#configuration style
-tipe=xml
-overrideVersionNum=1
-#selector command 'textConfig' ignores arguments
-#'versionOverride' is the keyword to override the latest version behavior
-selector "$tipe"Config versionOverride $overrideVersionNum
-
-#this detects a blank configuration entry and attempts to fix the issue
-conf="`cnfType "$tipe"Config`"
-if test "$conf" != "fail:1" ; then
-	detector "$cnf"
-else
-	exit 1
-fi
-
-#dump globals to stdout
-if test "$?" != "1" ; then
-	data="`varDump "$tipe"Config`"
-	dataStripSrc="$(echo -e "$data" | tail -n `expr $(wc -l <<< $data) - 1`)"
-	echo -e "$dataStripSrc"
-fi
-#remember need to create function that detects if a global is blank, or '', and attempt to detect another configuration file, and use the configuration option for the missing value from the other configuration, but if no other configuration options exist, fail with error, do not pass to useable-qemu.sh
+	#configuration style
+	tipe=xml
+	overrideVersionNum=1
+	#selector command 'textConfig' ignores arguments
+	#'versionOverride' is the keyword to override the latest version behavior
+	selector "$tipe"Config versionOverride $overrideVersionNum
+	
+	#this detects a blank configuration entry and attempts to fix the issue
+	conf="`cnfType "$tipe"Config`"
+	if test "$conf" != "fail:1" ; then
+		detector "$cnf"
+	else
+		exit 1
+	fi
+	
+	#dump globals to stdout
+	if test "$?" != "1" ; then
+		data="`varDump "$tipe"Config`"
+		dataStripSrc="$(echo -e "$data" | tail -n `expr $(wc -l <<< $data) - 1`)"
+		echo -e "$dataStripSrc"
+	fi
+	#remember need to create function that detects if a global is blank, or '', 
+	#and attempt to detect another configuration file, and use the configuration 
+	#option for the missing value from the other configuration, but if no other 
+	#configuration options exist, fail with error, do not pass to useable-qemu.sh
 }
 
 getConfig
