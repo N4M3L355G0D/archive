@@ -62,21 +62,31 @@ function optionSift(){
 }
 
 function getConfig(){
-	data="`bash ./config.sh`"
-	CD="`optionSift "$data" "CD"`"
-	IMG="`optionSift "$data" "IMG"`"
-	IMG_SIZE="`optionSift "$data" "IMG_SIZE"`"
-	CMD="`optionSift "$data" "CMD"`"
-	cpu="`optionSift "$data" "cpu"`"
-	accel="`optionSift "$data" "accel"`"
-	ram="`optionSift "$data" "ram"`"
-	cores="`optionSift "$data" "cores"`"
-	vga="`optionSift "$data" "vga"`"
-	display="`optionSift "$data" "display"`"
-	DB="`optionSift "$data" "DB"`"
-	name="`optionSift "$data" "name"`"
-	nicModel="`optionSift "$data" "nicModel"`"
-	soundHW="`optionSift "$data" "soundHW"`"
+	if test "$1" != "" ; then
+		style="$1"
+	else
+		style="text"
+	fi
+	data="`bash ./config.sh style "$style"`"
+	if test "$data" != "invalid configuration format" ; then
+		CD="`optionSift "$data" "CD"`"
+		IMG="`optionSift "$data" "IMG"`"
+		IMG_SIZE="`optionSift "$data" "IMG_SIZE"`"
+		CMD="`optionSift "$data" "CMD"`"
+		cpu="`optionSift "$data" "cpu"`"
+		accel="`optionSift "$data" "accel"`"
+		ram="`optionSift "$data" "ram"`"
+		cores="`optionSift "$data" "cores"`"
+		vga="`optionSift "$data" "vga"`"
+		display="`optionSift "$data" "display"`"
+		DB="`optionSift "$data" "DB"`"
+		name="`optionSift "$data" "name"`"
+		nicModel="`optionSift "$data" "nicModel"`"
+		soundHW="`optionSift "$data" "soundHW"`"
+	else
+		echo "$data"
+		exit 1
+	fi
 }
 
 function records(){
@@ -143,9 +153,54 @@ DEV_PASS_USB=("-device usb-host,vendorid=0x04f9,productid=0x0075")
 INSTALL="-cdrom $CD -boot order=d -drive format=raw,file=$IMG"
 RUN="-drive format=raw,file=$IMG"
 
+function checkDeps(){
+	export IFS=":"
+	deps=("bc":"xmllint":"$CMD":"sqlite3":"python3")
+	exist="no"
+	missing=()
+	counter=0
+	for dep in ${deps[@]} ; do
+		exist="no"
+		for i in $PATH ; do
+			pth="$i"/"$dep"
+			if test -e "$pth" && test -f "$pth" ; then
+				exist="yes"
+			fi
+		done
+		if test "$exist" == "no" ; then
+			counter="`expr $counter + 1`"
+			missing[$counter]="$dep"
+		fi
+	done
+	export IFS=" "
+	if test "${#missing[@]}" -gt 0 ; then
+		echo -e "missing dependencies:\n`echo ${missing[@]} | tr " " "\n" | sed s/^/'\t'/`"
+		exit 1
+	fi	
+}
+
 function main(){
-	getConfig
+	if test $1 == "style" ; then
+		if test "$2" != "" ; then
+			cnfT="$2"
+			shift 2
+		else
+			echo "\$2 cannot be blank"
+			exit 1
+		fi
+	else
+		if test "$2" == "style" ; then
+			if test "$3" != "" ; then
+				cnfT="$3"
+			else
+				echo "\$3 cannot be blank"
+			fi
+		fi
+	fi
+	checkDeps
+	getConfig "$cnfT"
 	resetGlobalDefaults
+	checkDeps
 	if test "$1" == "iso-only" ; then
 		sudo $CMD $COMMON $ISO_COMMON ${DEV_PASS_USB[@]}
 	elif test "$1" == "install" ; then

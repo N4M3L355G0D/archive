@@ -1,9 +1,9 @@
 <qemu>
 	<version num="1">
-		<iso>/srv/samba/middle/Torrents/ubuntu-17.10-desktop-amd64.iso</iso>
-		<imgName>ubu.img</imgName>
-		<imgSize>10G</imgSize>
-		<cmd>qemu-system-x86_64</cmd>
+		<CD>/srv/samba/middle/Torrents/ubuntu-17.10-desktop-amd64.iso</CD>
+		<IMG>ubu.img</IMG>
+		<IMG_Size>10G</IMG_Size>
+		<CMD>qemu-system-x86_64</CMD>
 		<cpu>host</cpu>
 		<accel>kvm</accel>
 		<ram>4G</ram>

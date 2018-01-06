@@ -413,8 +413,28 @@ function cnfType(){
 	fi
 }
 function getConfig(){
-	#configuration style
-	tipe=xml
+	availa=("xml" "sqlite3" "text")
+	exist="no"
+	if test "$1" != "style" ; then
+		#configuration style
+		tipe=xml
+	else
+		if test "$2" != "" ; then
+			for st1le in ${availa[@]} ; do
+				if test "$st1le" == "$2" ; then
+					exist="yes"
+				fi
+			done
+			if test "$exist" == "no" ; then
+				echo "invalid configuration format"
+				exit 1
+			else
+				tipe="$2"
+			fi
+		else
+			echo "\$2 cannot be blank"
+		fi
+	fi
 	overrideVersionNum=1
 	#selector command 'textConfig' ignores arguments
 	#'versionOverride' is the keyword to override the latest version behavior
@@ -440,4 +460,4 @@ function getConfig(){
 	#configuration options exist, fail with error, do not pass to useable-qemu.sh
 }
 
-getConfig
+getConfig "$@"
