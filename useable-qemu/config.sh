@@ -1,7 +1,7 @@
 #! /usr/bin/bash
 #noguilinux
 #this is the building ground to be used to build the configuration access options
-
+cnfError="configuration error: option is blank"
 cnfDb="useable-qemu_cnf.db"
 table="qemuCnf"
 cnf="useable-qemu.cnf"
@@ -47,10 +47,10 @@ function varDump(){
 
 function textConfig(){
 	if test -e "$cnf" ; then
-		CD="`grep -w "iso" "$cnf" | optArg`"
-		IMG="`grep -w "imgName" "$cnf" | optArg`"
-		IMG_SIZE="`grep -w "imgSize" "$cnf" | optArg`"
-		CMD="`grep -w "cmd" "$cnf" | optArg`"
+		CD="`grep -w "CD" "$cnf" | optArg`"
+		IMG="`grep -w "IMG" "$cnf" | optArg`"
+		IMG_SIZE="`grep -w "IMG_Size" "$cnf" | optArg`"
+		CMD="`grep -w "CMD" "$cnf" | optArg`"
 		cpu="`grep -w "cpu" "$cnf" | optArg`"
 		accel="`grep -w "accel" "$cnf" | optArg`"
 		ram="`grep -w "ram" "$cnf" | optArg`"
@@ -61,11 +61,18 @@ function textConfig(){
 		name="`grep -w "name" "$cnf" | optArg`"
 		nicModel="`grep -w "nicModel" "$cnf" | optArg`"
 		soundHW="`grep -w "soundHW" "$cnf" | optArg`"
-		varDump "textConfig"
 	else
 		echo "textfile configuration does not exist"
 		exit 1
 	fi
+}
+
+function latestVersionXml(){
+	version="`cat useable-qemu_cnf.xml | grep -w "<version" | tail -n1 | sed s/['><"\ \t']//g | cut -f 2 -d=`"
+}
+
+function latestVersionSqlite3(){
+	version="`sqlite3 "$cnfDb" "select count(version) from $table"`"
 }
 
 function xmlConfig(){
@@ -78,12 +85,12 @@ function xmlConfig(){
 				echo "\$2 cannot be blank"
 			fi
 		else
-			version="`cat useable-qemu_cnf.xml | grep -w "<version" | tail -n1 | sed s/['><"\ \t']//g | cut -f 2 -d=`"
+			latestVersionXml
 		fi
-		CD="`xmllint --xpath "string(//version[@num='$version']/iso)" "$xmlCnf"`"
-		IMG="`xmllint --xpath "string(//version[@num='$version']/imgName)" "$xmlCnf"`"
-		IMG_SIZE="`xmllint --xpath "string(//version[@num='$version']/imgSize)" "$xmlCnf"`"
-		CMD="`xmllint --xpath "string(//version[@num='$version']/cmd)" "$xmlCnf"`"
+		CD="`xmllint --xpath "string(//version[@num='$version']/CD)" "$xmlCnf"`"
+		IMG="`xmllint --xpath "string(//version[@num='$version']/IMG)" "$xmlCnf"`"
+		IMG_SIZE="`xmllint --xpath "string(//version[@num='$version']/IMG_Size)" "$xmlCnf"`"
+		CMD="`xmllint --xpath "string(//version[@num='$version']/CMD)" "$xmlCnf"`"
 		cpu="`xmllint --xpath "string(//version[@num='$version']/cpu)" "$xmlCnf"`"
 		accel="`xmllint --xpath "string(//version[@num='$version']/accel)" "$xmlCnf"`"
 		ram="`xmllint --xpath "string(//version[@num='$version']/ram)" "$xmlCnf"`"
@@ -95,7 +102,6 @@ function xmlConfig(){
 		nicModel="`xmllint --xpath "string(//version[@num='$version']/nicModel)" "$xmlCnf"`"
 		soundHW="`xmllint --xpath "string(//version[@num='$version']/soundHW)" "$xmlCnf"`"
 		#echo -e "$CD\n$IMG\n$IMG_SIZE\n$CMD\n$cpu\n$accel\n$ram\n$cores\n$vga\n$display\n$DB\n$name\n$nicModel\n$soundHW"
-		varDump "xmlConfig"
 	else
 		echo "xml configuration file does not exist"
 	fi
@@ -183,25 +189,24 @@ function sqlite3Config(){
 		#by default, the latest version will be used
 		#if failed configuration occurs from update, use versionOverride $versionNumber
 		if test "$1" == "versionOverride" ; then
-			latest="$2"
+			version="$2"
 		else
-			latest="`sqlite3 "$cnfDb" "select count(version) from qemuCnf"`"
+			latestVersionSqlite3
 		fi
-		CD="`sqlite3 "$cnfDb" "select CD from $table where version=$latest"`"
-		IMG="`sqlite3 "$cnfDb" "select IMG from $table where version=$latest"`"
-		IMG_SIZE="`sqlite3 "$cnfDb" "select IMG_SIZE from $table where version=$latest"`"
-		CMD="`sqlite3 "$cnfDb" "select CMD from $table where version=$latest"`"
-		cpu="`sqlite3 "$cnfDb" "select cpu from $table where version=$latest"`"
-		accel="`sqlite3 "$cnfDb" "select accel from $table where version=$latest"`"
-		ram="`sqlite3 "$cnfDb" "select ram from $table where version=$latest"`"
-		cores="`sqlite3 "$cnfDb" "select cores from $table where version=$latest"`"
-		vga="`sqlite3 "$cnfDb" "select vga from $table where version=$latest"`"
-		display="`sqlite3 "$cnfDb" "select display from $table where version=$latest"`"
-		DB="`sqlite3 "$cnfDb" "select DB from $table where version=$latest"`"
-		name="`sqlite3 "$cnfDb" "select name from $table where version=$latest"`"
-		nicModel="`sqlite3 "$cnfDb" "select nicModel from $table where version=$latest"`"
-		soundHW="`sqlite3 "$cnfDb" "select soundHW from $table where version=$latest"`"
-		varDump "sqlite3Config"
+		CD="`sqlite3 "$cnfDb" "select CD from $table where version=$version"`"
+		IMG="`sqlite3 "$cnfDb" "select IMG from $table where version=$version"`"
+		IMG_SIZE="`sqlite3 "$cnfDb" "select IMG_SIZE from $table where version=$version"`"
+		CMD="`sqlite3 "$cnfDb" "select CMD from $table where version=$version"`"
+		cpu="`sqlite3 "$cnfDb" "select cpu from $table where version=$version"`"
+		accel="`sqlite3 "$cnfDb" "select accel from $table where version=$version"`"
+		ram="`sqlite3 "$cnfDb" "select ram from $table where version=$version"`"
+		cores="`sqlite3 "$cnfDb" "select cores from $table where version=$version"`"
+		vga="`sqlite3 "$cnfDb" "select vga from $table where version=$version"`"
+		display="`sqlite3 "$cnfDb" "select display from $table where version=$version"`"
+		DB="`sqlite3 "$cnfDb" "select DB from $table where version=$version"`"
+		name="`sqlite3 "$cnfDb" "select name from $table where version=$version"`"
+		nicModel="`sqlite3 "$cnfDb" "select nicModel from $table where version=$version"`"
+		soundHW="`sqlite3 "$cnfDb" "select soundHW from $table where version=$version"`"
 	fi
 }
 
@@ -250,12 +255,182 @@ function selector(){
 		fi
 	fi
 }
+
+function cnfExists(){
+	broken="$1"
+	shift
+	option="$1"
+	cnfs=("$cnf" "$xmlCnf" "$cnfDb")
+	result=''
+	allNoExist="yes"
+	for cf in ${cnfs[@]} ; do
+		if test -e "$cf" && test -f "$cf" && test "$cf" != "$broken" ; then
+			if test "$cf" == "$xmlCnf" ; then
+				latestVersionXml
+				result="`xmllint --xpath "string(//version[@num=$version]/$option)" "$xmlCnf"`"
+				if test "$result" != "" ; then
+					allNoExists="no"
+					break
+				fi
+			elif test "$cf" == "$cnf" ; then
+				result="`grep -w "$option" "$cnf" | cut -f2 -d=`"
+				if test "$result" != "" ; then
+					allNoExists="no"
+					break
+				fi
+			elif test "$cf" == "$cnfDb" ; then
+				latestVersionSqlite3
+				result="`sqlite3 "$cnfDb" "select "$option" from $table where version=$version"`"
+				if test "$result" != "" ; then
+					allNoExists="no"
+					break
+				fi
+			fi
+		else
+			allNoExists="yes"
+		fi
+	done
+	if test "$allNoExists" == "yes" ; then
+		result="$cnfError"
+	fi
+	echo "$result"
+}
+
+function detector(){
+	err=''
+	if test "$CD" == "" ; then
+		CD="`cnfExists "$1" "CD"`"
+		if test "$CD" == "$cnfError" ; then
+			echo "$cnfError : CD"
+			err="1"
+		fi
+	fi
+	if test "$IMG" == "" ; then
+		IMG="`cnfExists "$1" "IMG"`"
+		if test "$IMG" == "$cnfError" ; then
+			echo "$cnfError : IMG"
+			err="1"
+		fi
+	fi
+	if test "$IMG_SIZE" == "" ; then
+		IMG_SIZE="`cnfExists "$1" "IMG_SIZE"`"
+		if test "$IMG" == "$cnfError" ; then
+			echo "$cnfError : IMG_SIZE"
+			err="1"
+		fi
+	fi
+	if test "$CMD" == "" ; then
+		CMD="`cnfExists "$1" "CMD"`"
+		if test "$CMD" == "$cnfError" ; then
+			echo "$cnfError : CMD"
+			err="1"
+		fi
+	fi
+	if test "$cpu" == "" ; then
+		cpu="`cnfExists "$1" "cpu"`"
+		if test "$cpu" == "$cnfError" ; then
+			echo "$cnfError : cpu"
+			err="1"
+		fi
+	fi
+	if test "$accel" == "" ; then
+		accel="`cnfExists "$1" "accel"`"
+		if test "$accel" == "$cnfError" ; then
+			echo "$cnfError : accel"
+			err="1"
+		fi
+	fi
+	if test "$ram" == "" ; then
+		ram="`cnfExists "$1" "ram"`"
+		if test "$ram" == "$cnfError" ; then
+			echo "$cnfError : ram"
+			err="1"
+		fi
+	fi
+	if test "$cores" == "" ; then
+		cores="`cnfExists "$1" "cores"`"
+		if test "$cores" == "$cnfError" ; then
+			echo "$cnfError : cores"
+			err="1"
+		fi
+	fi
+	if test "$vga" == "" ; then
+		vga="`cnfExists "$1" "vga"`"
+		if test "$vga" == "$cnfError" ; then
+			echo "$cnfError : vga"
+			err="1"
+		fi
+	fi
+	if test "$display" == "" ; then
+		display="`cnfExists "$1" "display"`"
+		if test "$display" == "$cnfError" ; then
+			echo "$cnfError : display"
+			err="1"
+		fi
+	fi
+	if test "$DB" == "" ; then
+		DB="`cnfExists "$1" "DB"`"
+		if test "$DB" == "$cnfError" ; then
+			echo "$cnfError : DB"
+			err="1"
+		fi
+	fi
+	if test "$name" == "" ; then
+		name="`cnfExists "$1" "name"`"
+		if test "$name" == "$cnfError" ; then
+			echo "$cnfError : name"
+			err="1"
+		fi
+	fi
+	if test "$nicModel" == "" ; then
+		nicModel="`cnfExists "$1" "nicModel"`"
+		if test "$nicModel" == "$cnfError" ; then
+			echo "$cnfError : nicModel"
+			err="1"
+		fi
+	fi
+	if test "$soundHW" == "" ; then
+		soundHw="`cnfExists "$1" "soundHW"`"
+		if test "$soundHW" == "$cnfError" ; then
+			echo "$cnfError : soundHW"
+			err="1"
+		fi
+	fi
+	if test "$err" == "1" ; then
+		exit 1
+	fi
+}
+
+function cnfType(){
+	if test "$1" == "textConfig" ; then
+		echo "$cnf"
+	elif test "$1" == "xmlConfig" ; then
+		echo "$xmlCnf"
+	elif test "$1" == "sqlite3Config" ; then
+		echo "$cnfDb"
+	else
+		echo "fail:1"
+	fi
+}
+
 #configuration style
 tipe=xml
 overrideVersionNum=1
+#selector command 'textConfig' ignores arguments
+#'versionOverride' is the keyword to override the latest version behavior
 selector "$tipe"Config versionOverride $overrideVersionNum
+
+#this detects a blank configuration entry and attempts to fix the issue
+conf="`cnfType "$tipe"Config`"
+if test "$conf" != "fail:1" ; then
+	detector "$cnf"
+else
+	exit 1
+fi
+
+#dump globals to stdout
+if test "$?" != "1" ; then
+	varDump "$tipe"Config
+fi
 #remember need to create function that detects if a global is blank, or '', and attempt to detect another configuration file, and use the configuration option for the missing value from the other configuration, but if no other configuration options exist, fail with error, do not pass to useable-qemu.sh
-##access proof of concept
-#xmlConfig
-#sqlite3Config versionOverride 1
-#textConfig
+
