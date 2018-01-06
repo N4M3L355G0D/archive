@@ -63,12 +63,22 @@ function optionSift(){
 
 function getConfig(){
 	if test "$1" != "" ; then
+		arg="style"
 		style="$1"
 	else
-		style="text"
+		arg=""
 	fi
-	data="`bash ./config.sh style "$style"`"
-	if test "$data" != "invalid configuration format" ; then
+	data="`bash ./config.sh $arg "$style"`"
+	if test "$data" == "invalid configuration format" ; then
+		echo "$data"
+		exit 1
+	elif test "`echo $data | cut -f2 -d":"`" == "configuration file does not exist" ; then
+		echo "$data"
+		exit 1
+	elif test "$data" == "no configuration files exist!" ; then
+		echo "$data"
+		exit 1
+	else
 		CD="`optionSift "$data" "CD"`"
 		IMG="`optionSift "$data" "IMG"`"
 		IMG_SIZE="`optionSift "$data" "IMG_SIZE"`"
@@ -83,9 +93,6 @@ function getConfig(){
 		name="`optionSift "$data" "name"`"
 		nicModel="`optionSift "$data" "nicModel"`"
 		soundHW="`optionSift "$data" "soundHW"`"
-	else
-		echo "$data"
-		exit 1
 	fi
 }
 
@@ -180,7 +187,7 @@ function checkDeps(){
 }
 
 function main(){
-	if test $1 == "style" ; then
+	if test "$1" == "style" ; then
 		if test "$2" != "" ; then
 			cnfT="$2"
 			shift 2

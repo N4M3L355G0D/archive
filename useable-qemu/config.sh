@@ -62,7 +62,7 @@ function textConfig(){
 		nicModel="`grep -w "nicModel" "$cnf" | optArg`"
 		soundHW="`grep -w "soundHW" "$cnf" | optArg`"
 	else
-		echo "textfile configuration does not exist"
+		echo "textfile:configuration file does not exist"
 		exit 1
 	fi
 }
@@ -101,9 +101,9 @@ function xmlConfig(){
 		name="`xmllint --xpath "string(//version[@num='$version']/name)" "$xmlCnf"`"
 		nicModel="`xmllint --xpath "string(//version[@num='$version']/nicModel)" "$xmlCnf"`"
 		soundHW="`xmllint --xpath "string(//version[@num='$version']/soundHW)" "$xmlCnf"`"
-		#echo -e "$CD\n$IMG\n$IMG_SIZE\n$CMD\n$cpu\n$accel\n$ram\n$cores\n$vga\n$display\n$DB\n$name\n$nicModel\n$soundHW"
 	else
-		echo "xml configuration file does not exist"
+		echo "xml:configuration file does not exist"
+		exit 1
 	fi
 }
 
@@ -181,6 +181,7 @@ function sqlite3Config(){
 		if test "$ANSWER" == "yes" ; then
 			sqlite3ConfigGen
 		else
+			echo "sqlite3:configuration file does not exist"
 			exit 1
 		fi
 	elif test "$1" == "newConf" ; then
@@ -252,6 +253,7 @@ function selector(){
 				textConfig
 		else
 			echo "no configuration files exist!"
+			exit 1
 		fi
 	fi
 }
@@ -416,8 +418,8 @@ function getConfig(){
 	availa=("xml" "sqlite3" "text")
 	exist="no"
 	if test "$1" != "style" ; then
-		#configuration style
-		tipe=xml
+		#configuration style auto
+		selector
 	else
 		if test "$2" != "" ; then
 			for st1le in ${availa[@]} ; do
@@ -434,18 +436,18 @@ function getConfig(){
 		else
 			echo "\$2 cannot be blank"
 		fi
-	fi
-	overrideVersionNum=1
-	#selector command 'textConfig' ignores arguments
-	#'versionOverride' is the keyword to override the latest version behavior
-	selector "$tipe"Config versionOverride $overrideVersionNum
-	
-	#this detects a blank configuration entry and attempts to fix the issue
-	conf="`cnfType "$tipe"Config`"
-	if test "$conf" != "fail:1" ; then
-		detector "$cnf"
-	else
-		exit 1
+		overrideVersionNum=1
+		#selector command 'textConfig' ignores arguments
+		#'versionOverride' is the keyword to override the latest version behavior
+		selector "$tipe"Config versionOverride $overrideVersionNum
+		
+		#this detects a blank configuration entry and attempts to fix the issue
+		conf="`cnfType "$tipe"Config`"
+		if test "$conf" != "fail:1" ; then
+			detector "$cnf"
+		else
+			exit 1
+		fi
 	fi
 	
 	#dump globals to stdout

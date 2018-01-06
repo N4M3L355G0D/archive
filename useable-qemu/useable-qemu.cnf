@@ -1,7 +1,7 @@
-iso=/srv/samba/middle/Torrents/ubuntu-17.10-desktop-amd64.iso
-imgName=ubu.img
-imgSize=10G
-cmd=qemu-system-x86_64
+CD=/srv/samba/middle/Torrents/ubuntu-17.10-desktop-amd64.iso
+IMG=ubu.img
+IMG_Size=10G
+CMD=qemu-system-x86_64
 cpu=host
 accel=kvm
 ram=4G
