@@ -231,7 +231,11 @@ class conf:
     def sqlite3GetCol(self,column,db,cursor):
         sql="select "+column+" from "+self.table+" where version="+str(self.latestVersion)+";"
         cursor.execute(sql)
-        val=cursor.fetchone()[0]
+        val=cursor.fetchone()
+        if val[0] == None:
+            val=''
+        else:
+            val=val[0]
         return val
 
     def sqlite3Config(self,versionOverride=None,singleCol=None):
@@ -399,12 +403,38 @@ class conf:
         #execute sqlInsert, now that it is fully generated
         cursor.execute(sqlInsert)
         db.commit()
-    #modify sqlite3Config with versionOverride
-    #      modified to get individual config options
-    #      modified self.sqlite3ConfigGen() with versionOverride
+    def detector(self,style):
+        cmds=[i for i in self.cnfFiles.keys()]
+        if style not in cmds:
+            exit('cmd not available')
+                
+        if self.CMD == '':
+            #printline is temporary
+            print('blank cfg line')
+            #selector(ignore=style)
+    def selector(self,preferred=None,ignore=None):
+        if preferred != None:
+            pass
+        elif ignore != None:
+            pass
+        else:
+            #autoselector
+            for cnf in self.cnfFiles.keys():
+                fileStatus=self.cfgExist(cnf)
+                if cnf == 'xml' and fileStatus == True:
+                    self.xmlConfig()
+                    return 'xml'
+                elif cnf == 'sqlite3' and fileStatus == True:
+                    self.sqlite3Config()
+                    return 'sqlite3'
+                elif cnf == 'text' and fileStatus == True:
+                    self.textConfig()
+                    return 'text'
 
-    #need to create sqlite3ConfigGen [done]
-    #need to create selector
+            
+    #need to create selector [selector needs to be created first
+    #     need ignore conf - to choose from anything but the specified ignore
+    #     need prefer conf - to use only the specified conf
     #need to create detector [detector is next]
     #for better info, please see config.sh
 
@@ -420,11 +450,11 @@ stile="sqlite3"
 #cfg.sqlite3Config(versionOverride=1)
 
 #cfg.sqlite3ConfigGen()
-cfg.sqlite3Config(versionOverride=1)
-
+#cfg.sqlite3Config(versionOverride=1)
+#cfg.detector(style='xml')
 #get individual elements for xml 
 #cfg.xmlConfig(versionOverride=2,singleNode="CD")
 #cfg.xmlConfig(versionOverride=2,singleNode="IMG_Size")
-
+stile=cfg.selector()
 cfg.varDump(stile+'Config')
 
