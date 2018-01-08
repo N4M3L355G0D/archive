@@ -39,7 +39,10 @@ class conf:
         self.header(style)
         Vars={'CD':self.CD,'IMG':self.IMG,'IMG_SIZE':self.IMG_SIZE,'CMD':self.CMD,'cpu':self.cpu,'accel':self.accel,'ram':self.ram,'cores':self.cores,'vga':self.vga,'display':self.display,'DB':self.DB,'name':self.name,'nicModel':self.nicModel,'soundHW':self.soundHW}
         for i in Vars.keys():
-            print(i,Vars[i].rstrip("\n"),sep="#")
+            if Vars[i] != None:
+                print(i,Vars[i].rstrip("\n"),sep="#")
+            else:
+                print(i,"",sep='#')
 
     def cfgExist(self,cfgStyle):
         for i in self.cnfFiles.keys():
@@ -222,8 +225,9 @@ class conf:
             sql="select count(version) from "+self.table+";"
             cursor.execute(sql)
             self.latestVersion=cursor.fetchone()[0]
-            if self.latestVersion == None:
-                self.latestVersion=0
+            if self.latestVersion == 0:
+                exit("no configuration data")
+
     def sqlite3GetCol(self,column,db,cursor):
         sql="select "+column+" from "+self.table+" where version="+str(self.latestVersion)+";"
         cursor.execute(sql)
@@ -240,7 +244,8 @@ class conf:
 
             db=sqlite3.connect(cnfDb)
             cursor=db.cursor()
-            self.sqlite3GetLatestVersion()
+            if versionOverride == None:
+                self.sqlite3GetLatestVersion()
 
             if singleCol == None:
                 self.CD=self.sqlite3GetCol('CD',db,cursor)
@@ -315,12 +320,92 @@ class conf:
             #self.varDump('sqlite3')
         elif fileStatus == False:
             pass
+    def sqlite3ConfigGen(self):
+        ignores=("version",)
+        sqllist=list()
+        sqllistData=list()
+        tableValsList=list()
+        sql=''
+        final=''
+        tabloid=''
+        sqlInsert=''
+        idiotCounter=0
+        maxIdiotCount=10
+        rt="text"
+        errEarlyExit='user exited wizard prematurely... nothing will be written!'
+        rows={'CD':{'rt':rt,'data':self.CD},'IMG':{'rt':rt,'data':self.IMG},'IMG_SIZE':{'rt':rt,'data':self.IMG_SIZE},'CMD':{'rt':rt,'data':self.CMD},'cpu':{'rt':rt,'data':self.cpu},'accel':{'rt':rt,'data':self.accel},'ram':{'rt':rt,'data':self.ram},'cores':{'rt':rt,'data':self.cores},'vga':{'rt':rt,'data':self.vga},'display':{'rt':rt,'data':self.display},'DB':{'rt':rt,'data':self.DB},'name':{'rt':rt,'data':self.name},'nicModel':{'rt':rt,'data':self.nicModel},'soundHW':{'rt':rt,'data':self.soundHW},'version':{'rt':"INTEGER PRIMARY KEY AUTOINCREMENT",'data':self.latestVersion}}
+        while final != "yes":
+            counterPrompt=0
+            for opt in rows.keys():
+                if opt != "version":
+                    counterPrompt+=1
+                    rows[opt]['data']=str(input(opt+" "+str(counterPrompt)+" : "))
+                if rows[opt]['data'] == '#quit':
+                    exit(errEarlyExit)
+            #print the wizard header
+            self.header('sqlite3ConfigGen')
+            final=input("is this final? : ")
+            if final == "#quit":
+                exit(errEarlyExit)
+            while final not in ('yes','no','#quit'):
+                if idiotCounter < maxIdiotCount:
+                    idiotCounter+=1
+                    final=input("[ Retry "+str(idiotCounter)+"-"+str(maxIdiotCount)+" ] "+"is this final? [yes/no/#quit] : ")
+                    if final == "#quit":
+                        exit(errEarlyExit)
+                else:
+                    print("you apparently do not know how to read, dUm6@55 617Ch!,use 'yes' or 'no' to answer the 3ff1n9 prompt. Restarting wizzzzaaaarrrrrd!")
+                    break
+        db=sqlite3.connect(cnfDb)
+        cursor=db.cursor()
+
+        #create the table sql
+        rowsLen=len(rows.keys())-len(ignores)
+        for num,i in enumerate(rows.keys()):
+            if 0 < num < rowsLen:
+                sqllist.append(",")
+            sqllist.append(''.join((i," ",rows[i]['rt'])))
+        sqlCreateTable="create table if not exists "+self.table+"("+''.join(sqllist)+");"
+        #run sql
+        cursor.execute(sqlCreateTable)
+        #if ignores is len of 1, it throws an err for code that is len of 2+
+        if len(ignores) < 2:
+                rowsLen=rowsLen-1
+        #begin generating values()
+        for num,i in enumerate(rows.keys()):
+            if i not in ignores:
+                if num < rowsLen:
+                    if type(rows[i]['data']) == type(str()):
+                        sqllistData.append('"'+rows[i]['data']+'",')
+                    elif type(rows[i]['data']) == type(int()):
+                        sqllistData.append(str(rows[i]['data'])+",")
+                else:
+                   if type(rows[i]['data']) == type(str()):
+                       sqllistData.append('"'+rows[i]['data']+'"')
+                   elif type(rows[i]['data']) == type(int()):
+                       sqllistData.append(str(rows[i]['data']))
+        values="values("+''.join(sqllistData)+");"
+        
+        #generate table insert string
+        for num,i in enumerate(rows.keys()):
+            if i not in ignores:
+                if num < rowsLen:
+                    tableValsList.append(i+",")
+                else:
+                    tableValsList.append(i)
+
+        tabloid=self.table+"("+''.join(tableValsList)+") "
+        sqlInsert="insert into "+tabloid+values
+        #execute sqlInsert, now that it is fully generated
+        cursor.execute(sqlInsert)
+        db.commit()
     #modify sqlite3Config with versionOverride
     #      modified to get individual config options
     #      modified self.sqlite3ConfigGen() with versionOverride
-    #need to create sqlite3ConfigGen 
+
+    #need to create sqlite3ConfigGen [done]
     #need to create selector
-    #need to create detector
+    #need to create detector [detector is next]
     #for better info, please see config.sh
 
 cfg=conf()
@@ -334,8 +419,12 @@ stile="sqlite3"
 #if versionOverride is out of range, it will default to using the latest configuration
 #cfg.sqlite3Config(versionOverride=1)
 
+#cfg.sqlite3ConfigGen()
+cfg.sqlite3Config(versionOverride=1)
+
 #get individual elements for xml 
 #cfg.xmlConfig(versionOverride=2,singleNode="CD")
 #cfg.xmlConfig(versionOverride=2,singleNode="IMG_Size")
+
 cfg.varDump(stile+'Config')
 
