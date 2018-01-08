@@ -30,6 +30,7 @@ class conf:
     nicModel=''
     soundHW=''
     latestVersion=0
+    table='qemuCnf'
 
     def header(self,string):
          print("-->"+string+"<--")
@@ -84,7 +85,7 @@ class conf:
                         self.nicModel=i[1]
                     if i[0] == "soundHW":
                         self.soundHW=i[1]
-            self.varDump("textConfig")
+            #self.varDump("textConfig")
         else:
             if fileStatus == False:
                 print("textfile:configuration file does not exist")
@@ -97,7 +98,7 @@ class conf:
             if int(attr['num']) > self.latestVersion:
                 self.latestVersion=int(child.attrib['num'])
 
-    def xmlConfig(self,versionOverride=None):
+    def xmlConfig(self,versionOverride=None,singleNode=None):
         #need version override
         fileStatus=self.cfgExist('xml')
         if fileStatus == True:
@@ -114,40 +115,227 @@ class conf:
             child=root[self.latestVersion-1]
             for node in child:
                 if node.tag == "CD":
-                    self.CD=node.text
+                    if singleNode == None:
+                        self.CD=node.text
+                    elif singleNode == "CD":
+                        self.CD=node.text
+                        break
+
                 if node.tag == "IMG":
-                    self.IMG=node.text
+                    if singleNode == None:
+                        self.IMG=node.text
+                    elif singleNode == "IMG":
+                        self.IMG=node.text
+                        break
+
                 if node.tag == "IMG_Size":
-                    self.IMG_SIZE=node.text
+                    if singleNode == None:
+                        self.IMG_SIZE=node.text
+                    elif singleNode == "IMG_Size":
+                        self.IMG_SIZE=node.text
+                        break
+
                 if node.tag == "CMD":
-                    self.CMD=node.text
+                    if singleNode == None:
+                        self.CMD=node.text
+                    elif singleNode == "CMD":
+                        self.CMD=node.text
+                        break
+
                 if node.tag == "cpu":
-                    self.cpu=node.text
+                    if singleNode == None:
+                        self.cpu=node.text
+                    elif singleNode == "cpu":
+                        self.cpu=node.text
+                        break
+
                 if node.tag == "accel":
-                    self.accel=node.text
+                    if singleNode == None:
+                        self.accel=node.text
+                    elif singleNode == "accel":
+                        self.accel=node.text
+                        break
+
                 if node.tag == "ram":
-                    self.ram=node.text
+                    if singleNode == None:
+                        self.ram=node.text
+                    elif singleNode == "ram":
+                        self.ram=node.text
+                        break
+
                 if node.tag == "cores":
-                    self.cores=node.text
+                    if singleNode == None:
+                        self.cores=node.text
+                    elif singleNode == "cores":
+                        self.cores=node.text
+                        break
+
                 if node.tag == "vga":
-                    self.vga=node.text
+                    if singleNode == None:
+                        self.vga=node.text
+                    elif singleNode == "vga":
+                        self.vga=node.text
+                        break
+
                 if node.tag == "display":
-                    self.display=node.text
+                    if singleNode == None:
+                        self.display=node.text
+                    elif singleNode == "display":
+                        self.display=node.text
+                        break
+
                 if node.tag == "DB":
-                    self.DB=node.text
+                    if singleNode == None:
+                        self.DB=node.text
+                    elif singleNode == "DB":
+                        self.DB=node.text
+                        break
+
                 if node.tag == "name":
-                    self.name=node.text
+                    if singleNode == None:
+                        self.name=node.text
+                    elif singleNode == "name":
+                        self.name=node.text
+                        break
+
                 if node.tag == "nicModel":
-                    self.nicModel=node.text
+                    if singleNode == None:
+                        self.nicModel=node.text
+                    elif singleNode == "nicModel":
+                        self.nicModel=node.text
+                        break
+
                 if node.tag == "soundHW":
-                    self.soundHW=node.text
-            self.varDump("xmlConfig")
-    #need to create sqlite3Config
-    #need to create sqlite3ConfigGen
+                    if singleNode == None:
+                        self.soundHW=node.text
+                    elif singleNode == "soundHW":
+                        self.soundHW=node.text
+                        break
+            #if singleNode == None:
+            #self.varDump("xmlConfig")
+
+    def sqlite3GetLatestVersion(self,db=None,cursor=None):
+        if db == None and cursor == None:
+            self.latestVersion=0
+            db=sqlite3.connect(cnfDb)
+            cursor=db.cursor()
+            sql="select count(version) from "+self.table+";"
+            cursor.execute(sql)
+            self.latestVersion=cursor.fetchone()[0]
+            if self.latestVersion == None:
+                self.latestVersion=0
+    def sqlite3GetCol(self,column,db,cursor):
+        sql="select "+column+" from "+self.table+" where version="+str(self.latestVersion)+";"
+        cursor.execute(sql)
+        val=cursor.fetchone()[0]
+        return val
+
+    def sqlite3Config(self,versionOverride=None,singleCol=None):
+        fileStatus=self.cfgExist("sqlite3")
+        if fileStatus == True:
+            if versionOverride != None:
+                self.sqlite3GetLatestVersion()
+                if 0 < versionOverride <= self.latestVersion:
+                    self.latestVersion=versionOverride
+
+            db=sqlite3.connect(cnfDb)
+            cursor=db.cursor()
+            self.sqlite3GetLatestVersion()
+
+            if singleCol == None:
+                self.CD=self.sqlite3GetCol('CD',db,cursor)
+            elif singleCol == "CD":
+                self.CD=self.sqlite3GetCol("CD",db,cursor)
+
+            if singleCol == None:
+                self.IMG=self.sqlite3GetCol('IMG',db,cursor)
+            elif singleCol == "IMG":
+                self.IMG=self.sqlite3GetCol('IMG',db,cursor)
+
+            if singleCol == None:
+                self.IMG_SIZE=self.sqlite3GetCol('IMG_SIZE',db,cursor)
+            elif singleCol == 'IMG_SIZE':
+                self.IMG_SIZE=self.sqlite3GetCol('IMG_SIZE',db,cursor)
+
+            if singleCol == None:
+                self.CMD=self.sqlite3GetCol('CMD',db,cursor)
+            elif singleCol == "CMD":
+                self.CMD=self.sqlite3GetCol('CMD',db,cursor)
+
+            if singleCol == None:
+                self.cpu=self.sqlite3GetCol('cpu',db,cursor)
+            elif singleCol == "cpu":
+                self.cpu=self.sqlite3GetCol('cpu',db,cursor)
+
+            if singleCol == None:
+                self.accel=self.sqlite3GetCol('accel',db,cursor)
+            elif singleCol == "accel":
+                self.accel=self.sqlite3GetCol('accel',db,cursor)
+
+            if singleCol == None:
+                self.ram=self.sqlite3GetCol('ram',db,cursor)
+            elif singleCol == "ram":
+                self.ram=self.sqlite3GetCol('ram',db,cursor)
+
+            if singleCol == None:
+                self.cores=self.sqlite3GetCol('cores',db,cursor)
+            elif singleCol == "cores":
+                self.cores=self.sqlite3GetCol('cores',db,cursor)
+
+            if singleCol == None:
+                self.vga=self.sqlite3GetCol('vga',db,cursor)
+            elif singleCol == "vga":
+                self.vga=self.sqlite3GetCol('vga',db,cursor)
+
+            if singleCol == None:
+                self.display=self.sqlite3GetCol('display',db,cursor)
+            elif singleCol == "display":
+                self.display=self.sqlite3GetCol('display',db,cursor)
+
+            if singleCol == None:
+                self.DB=self.sqlite3GetCol('DB',db,cursor)
+            elif singleCol == "DB":
+                self.DB=self.sqlite3GetCol('DB',db,cursor)
+
+            if singleCol == None:
+                self.name=self.sqlite3GetCol('name',db,cursor)
+            elif singleCol == "name":
+                self.name=self.sqlite3GetCol('name',db,cursor)
+
+            if singleCol == None:
+                self.nicModel=self.sqlite3GetCol('nicModel',db,cursor)
+            elif singleCol == "nicModel":
+                self.nicModel=self.sqlite3GetCol('nicModel',db,cursor)
+
+            if singleCol == None:
+                self.soundHW=self.sqlite3GetCol('soundHW',db,cursor)
+            elif singleCol == "soundHW":
+                self.soundHW=self.sqlite3GetCol('soundHW',db,cursor)
+
+            #self.varDump('sqlite3')
+        elif fileStatus == False:
+            pass
+    #modify sqlite3Config with versionOverride
+    #      modified to get individual config options
+    #      modified self.sqlite3ConfigGen() with versionOverride
+    #need to create sqlite3ConfigGen 
     #need to create selector
     #need to create detector
     #for better info, please see config.sh
 
 cfg=conf()
-cfg.textConfig()
-cfg.xmlConfig(versionOverride=2)
+#cfg.textConfig()
+stile="sqlite3"
+
+#get individual cfg cols for sqlite3
+#cfg.sqlite3Config(singleCol='soundHW')
+#cfg.sqlite3Config(singleCol="CD")
+# for xml and sqlite3 configuration options: 
+#if versionOverride is out of range, it will default to using the latest configuration
+#cfg.sqlite3Config(versionOverride=1)
+
+#get individual elements for xml 
+#cfg.xmlConfig(versionOverride=2,singleNode="CD")
+#cfg.xmlConfig(versionOverride=2,singleNode="IMG_Size")
+cfg.varDump(stile+'Config')
+
