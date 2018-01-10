@@ -1,0 +1,20 @@
+
+; <<>> DiG 9.11.2 <<>> https://www.2opp-system.cf/call-microsoft-support-at-1-833-864-5500/
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 42589
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;https://www.2opp-system.cf/call-microsoft-support-at-1-833-864-5500/. IN A
+
+;; AUTHORITY SECTION:
+.			10794	IN	SOA	a.root-servers.net. nstld.verisign-grs.com. 2018010901 1800 900 604800 86400
+
+;; Query time: 0 msec
+;; SERVER: 10.42.0.5#53(10.42.0.5)
+;; WHEN: Tue Jan 09 22:49:20 EST 2018
+;; MSG SIZE  rcvd: 172
+
