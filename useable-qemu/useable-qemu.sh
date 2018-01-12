@@ -69,18 +69,25 @@ function getConfig(){
 		arg=""
 	fi
 	data="`bash ./config.sh $arg "$style"`"
-	if test "$data" == "invalid configuration format" ; then
-		echo "$data"
-		exit 1
-	elif test "`echo $data | cut -f2 -d":"`" == "configuration file does not exist" ; then
-		echo "$data"
-		exit 1
-	elif test "$data" == "no configuration files exist!" ; then
+	#if test "$data" == "invalid configuration format" ; then
+	#	echo "$data"
+	#	exit 1
+	#elif test "`echo $data | cut -f2 -d":"`" == "configuration file does not exist" ; then
+	#	echo "$data"
+	#	exit 1
+	#elif test "$data" == "no configuration files exist!" ; then
+	#	echo "$data"
+	#	exit 1
+	if test "`wc -l <<< "$data"`" -lt 14  ; then
 		echo "$data"
 		exit 1
 	else
 		CD="`optionSift "$data" "CD"`"
 		IMG="`optionSift "$data" "IMG"`"
+		if test ! -e "$IMG" ; then
+			echo "img file does not exist!"
+			exit 1
+		fi
 		IMG_SIZE="`optionSift "$data" "IMG_SIZE"`"
 		CMD="`optionSift "$data" "CMD"`"
 		cpu="`optionSift "$data" "cpu"`"

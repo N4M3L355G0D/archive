@@ -35,8 +35,9 @@ class conf:
     def header(self,string):
          print("-->"+string+"<--")
 
-    def varDump(self,style):
-        self.header(style)
+    def varDump(self,style,suppressHeader=False):
+        if suppressHeader == False:
+            self.header(style)
         Vars={'CD':self.CD,'IMG':self.IMG,'IMG_SIZE':self.IMG_SIZE,'CMD':self.CMD,'cpu':self.cpu,'accel':self.accel,'ram':self.ram,'cores':self.cores,'vga':self.vga,'display':self.display,'DB':self.DB,'name':self.name,'nicModel':self.nicModel,'soundHW':self.soundHW}
         for i in Vars.keys():
             if Vars[i] != None:
@@ -54,44 +55,114 @@ class conf:
         #if for-loop exits due to unknown format, do a return
         return None
 
-    def textConfig(self):
+    def textConfig(self,singleX=None):
         fileStatus=self.cfgExist("text")
         if fileStatus == True:
             with open(cnf,"r") as data:
                 for i in data:
                     i=i.split("=")
                     if i[0] == "CD":
-                        self.CD=i[1]
+                        if singleX == None:
+                            self.CD=i[1]
+                        else:
+                            self.CD=i[1]
+                            break
+
                     if i[0] == "IMG":
-                        self.IMG=i[1]
+                        if singleX == None:
+                            self.IMG=i[1]
+                        else:
+                            self.IMG=i[1]
+                            break
+
                     if i[0] == "IMG_Size":
-                        self.IMG_SIZE=i[1]
+                        if singleX == None:
+                            self.IMG_SIZE=i[1]
+                        else:
+                            self.IMG_SIZE=i[1]
+                            break
+
                     if i[0] == "CMD":
-                        self.CMD=i[1]
+                        if singleX == None:
+                            self.CMD=i[1]
+                        else:
+                            self.CMD=i[1]
+                            break
+
                     if i[0] == "cpu":
-                        self.cpu=i[1]
+                        if singleX == None:
+                            self.cpu=i[1]
+                        else:
+                            self.cpu=i[1]
+                            break
+
                     if i[0] == "accel":
-                        self.accel=i[1]
+                        if singleX == None:
+                            self.accel=i[1]
+                        else:
+                            self.accel=i[1]
+                            break
+
                     if i[0] == "ram":
-                        self.ram=i[1]
+                        if singleX == None:
+                            self.ram=i[1]
+                        else:
+                            self.ram=i[1]
+                            break
+
                     if i[0] == "cores":
-                        self.cores=i[1]
+                        if singleX == None:
+                            self.cores=i[1]
+                        else:
+                            self.cores=i[1]
+                            break
+
                     if i[0] == "vga":
-                        self.vga=i[1]
+                        if singleX == None:
+                            self.vga=i[1]
+                        else:
+                            self.vga=i[1]
+                            break
+
                     if i[0] == "display":
-                        self.display=i[1]
+                        if singleX == None:
+                            self.display=i[1]
+                        else:
+                            self.display=i[1]
+                            break
+
                     if i[0] == "DB":
-                        self.DB=i[1]
+                        if singleX == None:
+                            self.DB=i[1]
+                        else:
+                            self.DB=i[1]
+                            break
+
                     if i[0] == "name":
-                        self.name=i[1]
+                        if singleX == None:
+                            self.name=i[1]
+                        else:
+                            self.name=i[1]
+                            break
+
                     if i[0] == "nicModel":
-                        self.nicModel=i[1]
+                        if singleX == None:
+                            self.nicModel=i[1]
+                        else:
+                            self.nicModel=i[1]
+                            break
+
                     if i[0] == "soundHW":
-                        self.soundHW=i[1]
-            #self.varDump("textConfig")
+                        if singleX == None:
+                            self.soundHW=i[1]
+                        else:
+                            self.soundHW=i[1]
+                            break
         else:
             if fileStatus == False:
                 print("textfile:configuration file does not exist")
+        return 'text'
+
     #next function definition set will be for xmlCnf
     def xmlGetLatestConfig(self,root):
         self.latestVersion=0
@@ -101,7 +172,8 @@ class conf:
             if int(attr['num']) > self.latestVersion:
                 self.latestVersion=int(child.attrib['num'])
 
-    def xmlConfig(self,versionOverride=None,singleNode=None):
+    def xmlConfig(self,versionOverride=None,singleX=None):
+        singleNode=singleX
         #need version override
         fileStatus=self.cfgExist('xml')
         if fileStatus == True:
@@ -216,6 +288,7 @@ class conf:
                         break
             #if singleNode == None:
             #self.varDump("xmlConfig")
+            return 'xml'
 
     def sqlite3GetLatestVersion(self,db=None,cursor=None):
         if db == None and cursor == None:
@@ -238,7 +311,8 @@ class conf:
             val=val[0]
         return val
 
-    def sqlite3Config(self,versionOverride=None,singleCol=None):
+    def sqlite3Config(self,versionOverride=None,singleX=None):
+        singleCol=singleX
         fileStatus=self.cfgExist("sqlite3")
         if fileStatus == True:
             if versionOverride != None:
@@ -321,9 +395,11 @@ class conf:
             elif singleCol == "soundHW":
                 self.soundHW=self.sqlite3GetCol('soundHW',db,cursor)
 
-            #self.varDump('sqlite3')
+
         elif fileStatus == False:
             pass
+        return 'sqlite3'
+
     def sqlite3ConfigGen(self):
         ignores=("version",)
         sqllist=list()
@@ -403,34 +479,82 @@ class conf:
         #execute sqlInsert, now that it is fully generated
         cursor.execute(sqlInsert)
         db.commit()
+
     def detector(self,style):
         cmds=[i for i in self.cnfFiles.keys()]
         if style not in cmds:
             exit('cmd not available')
                 
-        if self.CMD == '':
-            #printline is temporary
-            print('blank cfg line')
-            #selector(ignore=style)
-    def selector(self,preferred=None,ignore=None):
+        cfg={'CD':self.CD,'IMG':self.IMG,'IMG_SIZE':self.IMG_SIZE,'CMD':self.CMD,'cpu':self.cpu,'accel':self.accel,'ram':self.ram,'cores':self.cores,'vga':self.vga,'display':self.display,'DB':self.DB,'name':self.name,'nicModel':self.nicModel,'soundHW':self.soundHW}
+        for cf in cfg.keys():
+            if cfg[cf] == '':
+                #if a blank config is detected, pull config from the next available configuration file
+                self.selector(ignore=style,singleXX=cf)
+
+    def selector(self,preferred=None,ignore=None,versionOverridE=None,singleXX=None):
+        cnfType=''
+        counter=0
+        errNoCmdExist='config/cmd file does not exist'
         if preferred != None:
-            pass
+            #use only the desired configuration format
+            fileStatus=self.cfgExist(preferred)
+            if fileStatus != None:
+                if fileStatus == True:
+                    if preferred == 'xml':
+                        cnfType=self.xmlConfig(versionOverride=versionOverridE,singleX=singleXX)
+                    elif preferred == 'sqlite3':
+                        cnfType=self.sqlite3Config(versionOverride=versionOverridE,singleX=singleXX)
+                    elif preferred == 'text':
+                        cnfType=self.textConfig(singleX=singleXX)
+                else:
+                    print(errNoCmdExist)
+                    exit(1)
+            else:
+                counter+=1
+                        
         elif ignore != None:
-            pass
+            #ignore specified configuration file and choose from one of the other two format
+            for cnf in self.cnfFiles.keys():
+                if cnf != ignore:
+                    fileStatus=self.cfgExist(cnf)
+                    if fileStatus != None:
+                        if cnf == 'xml' and fileStatus == True:
+                            cnfType=self.xmlConfig(versionOverride=versionOverridE,singleX=singleXX)
+                            break
+                        elif cnf == 'sqlite3' and fileStatus == True:
+                            cnfType=self.sqlite3Config(versionOverride=versionOverridE,singleX=singleXX)
+                            break
+                        elif cnf == 'text' and fileStatus == True:
+                            cnfType=self.textConfig(singleX=singleXX)
+                            break
+                        else:
+                            print(errNoCmdExist)
+                            exit(1)
+                    else:
+                        counter+=1
         else:
             #autoselector
             for cnf in self.cnfFiles.keys():
                 fileStatus=self.cfgExist(cnf)
-                if cnf == 'xml' and fileStatus == True:
-                    self.xmlConfig()
-                    return 'xml'
-                elif cnf == 'sqlite3' and fileStatus == True:
-                    self.sqlite3Config()
-                    return 'sqlite3'
-                elif cnf == 'text' and fileStatus == True:
-                    self.textConfig()
-                    return 'text'
-
+                if fileStatus != None:
+                    if cnf == 'xml' and fileStatus == True:
+                        cnfType=self.xmlConfig(versionOverride=versionOverridE)
+                        break
+                    elif cnf == 'sqlite3' and fileStatus == True:
+                        cnfType=self.sqlite3Config(versionOverride=versionOverridE)
+                        break
+                    elif cnf == 'text' and fileStatus == True:
+                        cnfType=self.textConfig(singleX=singleXX)
+                        break
+                    else:
+                        print(errNoCmdExist)
+                        exit(1)
+                else:
+                    counter+=1
+        if counter == len(self.cnfFiles.keys()):
+            exit("no configuration files")
+        else:
+            return cnfType
             
     #need to create selector [selector needs to be created first
     #     need ignore conf - to choose from anything but the specified ignore
@@ -440,21 +564,25 @@ class conf:
 
 cfg=conf()
 #cfg.textConfig()
-stile="sqlite3"
 
 #get individual cfg cols for sqlite3
 #cfg.sqlite3Config(singleCol='soundHW')
 #cfg.sqlite3Config(singleCol="CD")
+
 # for xml and sqlite3 configuration options: 
 #if versionOverride is out of range, it will default to using the latest configuration
 #cfg.sqlite3Config(versionOverride=1)
 
 #cfg.sqlite3ConfigGen()
 #cfg.sqlite3Config(versionOverride=1)
-#cfg.detector(style='xml')
+
 #get individual elements for xml 
 #cfg.xmlConfig(versionOverride=2,singleNode="CD")
 #cfg.xmlConfig(versionOverride=2,singleNode="IMG_Size")
-stile=cfg.selector()
-cfg.varDump(stile+'Config')
 
+#versionOverridE applies to xml and sqlite3 formats
+#singleXX applies to all formats
+Format="sqlite3"
+stile=cfg.selector(preferred='sqlite3')
+cfg.detector(stile)
+cfg.varDump(stile+'Config',suppressHeader=True)
