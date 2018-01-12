@@ -68,7 +68,8 @@ function getConfig(){
 	else
 		arg=""
 	fi
-	data="`bash ./config.sh $arg "$style"`"
+	#data="`bash ./config.sh $arg "$style"`"
+	data="`python config.py`"
 	#if test "$data" == "invalid configuration format" ; then
 	#	echo "$data"
 	#	exit 1
