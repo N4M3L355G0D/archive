@@ -21,9 +21,8 @@ function checkDeps(){
 		export IFS=":"
 		exist=''
 		for pth in $PATH ; do
-			Exist="`ls $pth/$cmd |& grep -v "ls: cannot access"`"
-			if test "$Exist" != "" ; then
-				exist="$Exist"
+			if test -e "$pth/$cmd" ; then
+				exist="yes"
 			fi
 		done
 		export IFS=" "
