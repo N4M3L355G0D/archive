@@ -1,6 +1,6 @@
 #! /usr/bin/env python2
 import string
-
+import base64
 def checkNum(num=''):
     badchars=string.ascii_letters+string.punctuation+string.whitespace
     if num != '':
@@ -17,10 +17,13 @@ def main():
     MaxStr=''
     dumbMessage="apparently you do not know what a number is... why should I help you?"
     message="I will not throw paper airplanes in class"
+    egg=b"WW91IGhhdmUgZGlzY292ZXJlZCBteSBlYXN0ZXIgZWdnISBEbyBiZSBhIGRpY2sgYWJvdXQgaXQhIEdGWSEK"
     dumbCounter=1
     countOut=20
     while checkNum(MaxStr) == 1:
         MaxStr=raw_input("How many lines do you want me to write for you? : ")
+        if MaxStr == "#triggered":
+            print str(base64.b64decode(egg)).rstrip("\n")
         if countOut <= dumbCounter:
             exit(dumbMessage)
         dumbCounter+=1
