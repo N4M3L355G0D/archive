@@ -1,4 +1,5 @@
 #! /usr/bin/env python3
+#NoGuiLinux
 import os,gzip,base64,argparse
 import xml.etree.ElementTree as ET
 
@@ -198,6 +199,3 @@ class resume:
             exit("please see -h/--help")
 resumE=resume()
 resumE.main()
-#dataParse(root)
-
-
