@@ -1,0 +1,134 @@
+Contact Information
+===================
+name: Carl Joseph Hirner III
+email: k.j.hirner.wisdom@gmail.com
+phone: 804-854-4057
+=================
+Summary Of Skills
+=================
+software - ProPresenter 5
+software - Team Viewer/SSH/putty/telnet
+software - Virtualization Technologies (VMWare,VirtualBox, Qemu/KVM)
+software - Ghost Cast
+software - Wireshark
+software - GNU GCC/G++ Compiler
+software - Linux Package management
+software - systems ( Apt, RPM, Pacman, Yast )MicroSoft Office
+software - LAMP/LAPP Stacks
+software - Sqlite3
+software - Various Servers ( Apache, NFS, SSH, NFS, Samba, FTP, SFTP, DHCP, Telnet, VNC, Mariadb, PostgreSQL, etc.)
+software - Systemd/Upstart
+software - Bash/Shell
+software - SAP
+software - Cisco iOS
+software - IpTables
+software - Packet Tracer
+skills - C++/C
+skills - HTML/PHP/CSS
+skills - Bash/SH/Python/Awk shell scripting
+skills - Operating System installation and management ( Linux/FreeBSD/Windows)
+skills - Linux System management
+skills - Installation of Various Servers ( Apache, NFS, SSH, NFS, Samba, FTP, SFTP, DHCP, Telnet, VNC, Mariadb, PostgreSQL, etc.)
+skills - Batch Scripting
+skills - Network Cabling
+skills - Remote System Management
+skills - Windows Server 2008/2012
+skills - Cisco iOS CLI
+skills - pfSense ( as captive portal, router, NAT, firewall, traffic shaper)
+skills - MySQL/SQLite3/PostgreSQL
+operatingSystems - Microsoft Windows ( Server and Desktop )
+operatingSystems - Mac OSX/Apple iOS
+operatingSystems - Ubuntu/Debian
+operatingSystems - Cent OS/Fedora/Red Hat
+operatingSystems - Kali
+operatingSystems - PC Linux OS
+operatingSystems - OpenSuse
+operatingSystems - Arch/Manjaro Linux
+operatingSystems - pfSense
+operatingSystems - Cisco IOS
+==============
+Certifications
+==============
+Fiber Optic Installer Certified (ETA) - May 7, 2015
+	Developed the knowledge and skills for Fiber optic installations through courses provided by ECPI University
+===============
+Work Experience
+===============
+Canon, Production Services Support - May 7, 2015
+	Disassembler, Reclaimer
+	 - De-bag and un-box toner used cartridges from inbound trucks
+	 - Ensure continuous production line operation through constant observation of the production line state
+	 - Package toner cartridges for shipment to Canon clients
+	 - Identify 3rd party cartridges by ROM, Drum, and cartridge Label and distribute them to their appropriate storage, and disposal, bins
+	 - Disassemble cartridges as they are provided on the Disassembly line
+Techzone - May 7, 2015
+	IT Specialist
+	 - Build and Administrate on-site Linux Servers
+	 - design, build, and implement new centralized IT Infrastructure
+	 - Install, and maintain, on-site Windows based computer systems.
+	 - Maintain On-site Samba Network file-share
+	 - Manage user access to  system accounts
+	 - Develop Bash, and Python scripts to improve the system efficiency
+	 - Provide Technical consultation to staff, and customers
+	 - Provide network administration to ensure the security of critical information
+	 - Provide website development
+I64 Hotel IT - May 7, 2015
+	Consultant, IT Maintenance Tech., IT Admin.
+	 - Administrate on-site servers
+	 - Redesign IT infrastructure with the General Manager's Guidance
+	 - Maintain/Install Cisco equipment
+	 - Upgrade/Maintain/Document on-site Desktop OS's from Windows 7/XP to Ubuntu
+	 - Linux 15.10
+	 - Install and Upgrade servers
+	 - Implement new firewall systems with pSense
+	 - Utilize on-site equipment for the purpose of security and network efficiency
+	 - Develop Network Security/routing/system nomenclature
+	 - Develop Hotel Guest Network Landing Page
+	 - Document Hotel network and system's information
+	 - Develop Disaster Recovery options
+	 - Develop new sources of revenue.
+	 - Convert unused Desktop equipment into additional Linux/FreeBSD Servers.
+Conquest Research, Adams and Garth - May 7, 2015
+	Outbound Telemarketer
+	 - calling individuals through the predictive calling program, Vector to gather survey research information.
+Contracted to Twitter, Addecco USA - May 7, 2015
+	TechOps Assistant
+	 - erformed cabling for new server installations, which includes network and power cables
+	 - Provided installation of server hardware into server racks
+	 - Installed Juniper Switches, Triplite PSU’s, and various servers into server racks. (HP, Dell PowerEdge, etc)
+	 - Provides additional support where needed.
+	 - Warehouse Labor
+ECPI University - May 7, 2015
+	Computer Repair Technician
+	 - Maintained Network connectivity and providing connectivity solutions
+	 - Provided PC and iMac hardware upgrades, repair, and maintenance
+	 - Software installation/upgrades/removal
+	 - Provide consultation for the Linux OS
+	 - Dual boot support for Mac OSX and Windows 7
+	 - Imaged iMac hardware with Mac OSX Disk Utility, and Apple Recovery Server
+	 - Imaged HP and Dell hardware with Norton Ghost
+	 - Network cable production/running
+Crosswalk Community Church - May 7, 2015
+	Tech. Team Lead
+	 - Audio/Video/Mac OSX Support/Management
+	 - Ensure proper maintenance of equipment
+	 - Ensuring proper cable networks are run
+	 - Provide training for new volunteers to the Tech. Team
+	 - Maintain a positive atmosphere
+Virginia Dominion Power - May 7, 2015
+	Intern/Co-Op
+	 - Software Development in HTML 
+	 - Microsoft Office
+	 - Electro-Mechanical Relay Maintenance
+Virginia Dominion Power - May 7, 2015
+	Intern/Co-Op
+	 - HTML4 software development continuation
+	 - MS Batch File Scripting
+	 - Provided Pre-audit reviews/corrections
+	 - Maintained inbound Electro-Mechanical Relays
+	 - Calibrated Outbound Electro-Mechanical relays.
+=========
+Education
+=========
+ECPI University - August, 2013 – 2015 ( Incomplete )
+	Bachelor's in Electronics Engineering
