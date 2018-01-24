@@ -1,3 +1,0 @@
-#! /bin/bash
-
-conky --config $HOME/.config/conky/conky.config

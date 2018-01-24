@@ -1,8 +1,0 @@
-PING 2opp-system.cf (160.153.62.194) 56(84) bytes of data.
-64 bytes from ip-160-153-62-194.ip.secureserver.net (160.153.62.194): icmp_seq=1 ttl=53 time=264 ms
-64 bytes from ip-160-153-62-194.ip.secureserver.net (160.153.62.194): icmp_seq=2 ttl=53 time=109 ms
-64 bytes from ip-160-153-62-194.ip.secureserver.net (160.153.62.194): icmp_seq=3 ttl=53 time=92.9 ms
-
---- 2opp-system.cf ping statistics ---
-3 packets transmitted, 3 received, 0% packet loss, time 3603ms
-rtt min/avg/max/mdev = 92.907/155.686/264.587/77.304 ms
