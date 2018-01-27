@@ -1,8 +1,6 @@
 #! /usr/bin/env python3
-# scan a directory -- create an xml manifest of its contents -- zip the xml manifest and the directory up into an archive -- send to a remote server
-#need to add cmdline interface, add a prompt to ask if local zip copy is to be kept or deleted
+#scan a directory -- create an xml manifest of its contents -- zip the xml manifest and the directory up into an archive -- send to a remote server
 #NoGuiLinux
-
 
 from xml.etree.ElementTree import Element as element, SubElement as subElement, Comment as comment, tostring
 import os, hashlib
@@ -295,7 +293,10 @@ class run:
         if options.host:
             self.host=options.host
         if options.port:
-            self.port=options.port
+            try:
+                self.port=int(options.port)
+            except:
+                exit("it seems that the provided port number is not a number: '{}'".format(options.port))
         if options.rsa_keyfile:
             self.keyFile=options.rsa_keyfile
         if options.src:
