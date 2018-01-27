@@ -3,9 +3,9 @@
 import zipfile, os,shutil
 
 class zipUp:
-    SRC="/home/carl/Documents"
+    SRC=os.path.realpath(os.path.expanduser("~/Documents"))
     DST="tmp"
-    oPath="torgen.zip"
+    oPath="default.zip"
     counter=1
     dirCounter=1
     manifest="manifest.xml"
