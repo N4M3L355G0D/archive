@@ -12,9 +12,9 @@ import zipfile,shutil,argparse
 
 class ssh:
     keyFile=os.path.expanduser("~/.ssh/id_rsa")
-    host="192.168.1.9"
+    host="127.0.0.1"
     port=22
-    username="carl"
+    username=""
     def client(self):
         Client=paramiko.SSHClient()
         Client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -126,9 +126,9 @@ class docGen:
         file.write(tostring(top))
 
 class zipUp:
-    SRC="/home/carl/Documents"
+    SRC=os.path.realpath(os.path.expanduser("~/Documents"))
     DST="tmp"
-    oPath="torgen.zip"
+    oPath="default.zip"
     counter=1
     dirCounter=1
     manifest="manifest.xml"
