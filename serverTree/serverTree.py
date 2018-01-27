@@ -8,7 +8,7 @@ from xml.etree.ElementTree import Element as element, SubElement as subElement, 
 import os, hashlib
 import pwd,grp
 import base64,paramiko
-import zipfile,shutil
+import zipfile,shutil,argparse
 
 class ssh:
     keyFile=os.path.expanduser("~/.ssh/id_rsa")
@@ -178,32 +178,131 @@ class zipUp:
         finally:
             zippy.close()
             shutil.rmtree(self.DST)
+            os.remove(self.manifest)
 
 class run:
-    host="192.168.1.9"
+    host="127.0.0.1"
     port=22
-    username="carl"
-    keyFile="~/.ssh/id_rsa"
-    keyFile=os.path.realpath(os.path.expanduser(keyFile))
-    src="/home/carl/Documents"
+    username=""
+    keyFile=""
+    src=""
+    zipName=""
+    dst=""
+    def pathExpand(self,path):
+        return os.path.realpath(os.path.expanduser(path))
+
+    def zipnameMod(self):
+        if self.zipName == "":
+            self.zipName=os.path.split(self.src)[1]+".zip"
+        else:
+            if os.path.splitext(self.zipName)[1] == "":
+                self.zipName+=".zip"
+   
+    def dstMod(self):
+        if self.dst == "":
+            self.dst=os.path.join(self.pathExpand('~'),self.zipName)
+        else:
+            self.dst=os.path.join(self.pathExpand(self.dst),self.zipName)
+    def delPrompt(self):
+        breakStates=['y','n']
+        stupidCounter=0
+        stupidTimeout=10
+        ERR_FailToDelete="something went wrong and '{}' was not successfully deleted".format(self.zipName)
+        if os.path.split(self.dst)[0] != self.pathExpand("."):
+            user=input("do you wish to delete the generated zipfile in the current directory? : ")
+            while user not in breakStates:
+                stupidCounter+=1
+                if stupidCounter <= stupidTimeout:
+                    user=input("[ {}/{} ] do you wish to delete the generated zipfile in the current directory? [y/n] : ".format(stupidCounter,stupidTimeout))
+                else:
+                    print("the user apparently cannot read... not deleting the residue!")
+                    break
+            if user == 'y':
+                os.remove(os.path.join(self.pathExpand("."),self.zipName))
+                try:
+                    if not os.path.exists(os.path.join(self.pathExpand("."),self.zipName)):
+                        print("the residual zipfile '{}' was successfully deleted!".format(self.zipName))
+                    else:
+                        print(ERR_FailToDelete)
+                except IOError as message:
+                    print(ERR_FailToDelete)
+                    exit(message)
+                except OSError as message:
+                    print(ERR_FailToDelete)
+                    exit(message)
+            else:
+                print("user chose to keep the residual zip file.")
+
 
     def main(self):
-        src=self.src
-        src=os.path.realpath(src)
-        gen=docGen()
-        gen.verbose=True
-        gen.genXml(src)
-        Zip=zipUp()
-        Zip.oPath=os.path.split(src)[1]+".zip"
-        Zip.zipper()
-        send=ssh()
-        send.host=self.host
-        send.port=self.port
-        send.username=self.username
-        send.keyFile=self.keyFile
-        client=send.client()
-        send.transfer(client,Zip.oPath,os.path.join("/home/carl",Zip.oPath),mode="put")
-        send.clientClose(client)
+        if self.username != "":
+            if self.host != "":
+                if self.keyFile != "":
+                    if self.src != "":
+                        if 1 < self.port < 65535:
+                            self.zipnameMod()
+                            self.dstMod()
+                            #perform any necessary expansions 
+                            self.keyFile=self.pathExpand(self.keyFile)
+                            self.src=self.pathExpand(self.src)
+                            src=self.src
+                            if os.path.isdir(src):
+                                gen=docGen()
+                                gen.verbose=True
+                                gen.genXml(src)
+                                Zip=zipUp()
+                                Zip.oPath=self.zipName
+                                Zip.SRC=src
+                                Zip.zipper()
+                                send=ssh()
+                                send.host=self.host
+                                send.port=self.port
+                                send.username=self.username
+                                send.keyFile=self.keyFile
+                                client=send.client()
+                                print('SRC -> {}\nDST -> {}@{}:{}'.format(self.zipName,self.username,self.host,self.dst))
+                                send.transfer(client,self.zipName,self.dst,mode="put")
+                                send.clientClose(client)
+                                self.delPrompt()
+                            else:
+                                exit("src directory provided is not a directory!")
+                        else:
+                            exit("port must be within 1-65535!")
+                    else:
+                        exit("src directory cannot be blank!")
+                else:
+                    exit("keyFile cannot be blank!")
+            else:
+                exit("hostname cannot be blank!")
+        else:
+            exit("username cannot be blank!")
+
+    def cmdline(self):
+        parser=argparse.ArgumentParser()
+        parser.add_argument("-d","--dst")
+        parser.add_argument("-z","--zipname")
+        parser.add_argument("-H","--host")
+        parser.add_argument("-p","--port")
+        parser.add_argument("-k","--rsa-keyfile")
+        parser.add_argument("-s","--src")
+        parser.add_argument("-u","--username")
+        options=parser.parse_args()
+
+        if options.dst:
+            self.dst=options.dst
+        if options.zipname:
+            self.zipName=options.zipname
+        if options.host:
+            self.host=options.host
+        if options.port:
+            self.port=options.port
+        if options.rsa_keyfile:
+            self.keyFile=options.rsa_keyfile
+        if options.src:
+            self.src=options.src
+        if options.username:
+            self.username=options.username
 
 Run=run()
+Run.cmdline()
 Run.main()

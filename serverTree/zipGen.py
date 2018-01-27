@@ -55,6 +55,7 @@ class zipUp:
         finally:
             zippy.close()
             shutil.rmtree(self.DST)
+            os.remove(self.manifest)
 
 z=zipUp()
 z.oPath="tryMe.zip"
