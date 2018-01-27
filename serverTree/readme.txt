@@ -3,6 +3,9 @@
 #a python3 script to:
 scan a directory -> create an xml manifest of its contents -> zip the xml manifest and the directory up into an archive -> send to a remote server expecting a zipfile
 
+
+#if id_rsa fails, attempt password authentication, if given password is provided with the -P option
+
 #complete utility with all modules built in
 #includes cmdline utility
 serverTree.py

@@ -9,14 +9,21 @@ import base64,paramiko
 import zipfile,shutil,argparse
 
 class ssh:
-    keyFile=os.path.expanduser("~/.ssh/id_rsa")
+    keyFile=""
     host="127.0.0.1"
     port=22
     username=""
+    password=""
     def client(self):
         Client=paramiko.SSHClient()
         Client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        Client.connect(self.host,port=self.port,username=self.username,key_filename=self.keyFile)
+        try:
+            if os.path.exists(os.path.realpath(os.path.expanduser(self.keyFile))):
+                Client.connect(self.host,port=self.port,username=self.username,key_filename=self.keyFile)
+            else:
+                Client.connect(self.host,port=self.port,username=self.username,password=self.password)
+        except:
+            Client.connect(self.host,port=self.port,username=self.username,password=self.password)
         return Client
 
     def transfer(self,client,src=None,dest=None,mode="put"):
@@ -182,6 +189,7 @@ class run:
     host="127.0.0.1"
     port=22
     username=""
+    password=""
     keyFile=""
     src=""
     zipName=""
@@ -254,6 +262,7 @@ class run:
                                 Zip.zipper()
                                 send=ssh()
                                 send.host=self.host
+                                send.password=self.password
                                 send.port=self.port
                                 send.username=self.username
                                 send.keyFile=self.keyFile
@@ -281,6 +290,7 @@ class run:
         parser.add_argument("-z","--zipname")
         parser.add_argument("-H","--host")
         parser.add_argument("-p","--port")
+        parser.add_argument("-P","--password")
         parser.add_argument("-k","--rsa-keyfile")
         parser.add_argument("-s","--src")
         parser.add_argument("-u","--username")
@@ -303,6 +313,8 @@ class run:
             self.src=options.src
         if options.username:
             self.username=options.username
+        if options.password:
+            self.password=options.password
 
 Run=run()
 Run.cmdline()
