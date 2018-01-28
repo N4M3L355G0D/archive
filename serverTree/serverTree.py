@@ -8,6 +8,7 @@ import pwd,grp
 import base64,paramiko
 import zipfile,shutil,argparse
 import subprocess as sp
+import xattr,posix1e
 
 class ssh:
     keyFile=""
@@ -102,28 +103,43 @@ class docGen:
         process=sp.Popen(cmd,shell=True,stdout=sp.PIPE)
         out,err = process.communicate()
         return out.decode().rstrip("\n")
-    def lsAcl(self,fname):
-        pass
-        #this function will be used to get extended attributes as used by the getfacl command
+    def lsAttr2(self,fname,node):
+        if len(xattr.list(fname)) > 0:
+            attr2Top=subElement(node,'getfattr')
+            for xat in xattr.list(fname):
+                if xat != b"":
+                    attr2=subElement(attr2Top,'attr')
+                    attr2.text=xat.decode()
+                    attr2Val=subElement(attr2Top,'value')
+                    attr2Val.text=xattr.get(fname,xat).decode()
+        #this function will be used to get extended attributes as used by the setfattr command
+    def getfacl(self,fname,node):
+        faclTop=subElement(node,"facl")
+        acl=[el for el in posix1e.ACL(file=fname).to_any_text().decode().split("\n")]
+        for counter,lien in enumerate(acl):
+            if lien != "":
+                facl=subElement(faclTop,'acl',num=str(counter))
+                facl.text=lien
 
     def genXml(self,dir='.'):
         path=os.path.realpath(dir)
         dirStrip=os.path.dirname(path)
-        top = element("Directory",path=os.path.basename(path))
+        top = element("Directory",dpath=os.path.basename(path))
         counter=0
         dircounter=0
         for root,dirname,fnames in os.walk(path):
             dirs=subElement(top,'dir',num=str(dircounter),dpath=root.strip(dirStrip))
             counter=0
             dircounter+=1
-            names=subElement(dirs,'dirname')
-            names.text=root.strip(dirStrip)
+            if root.strip(dirStrip) != '':
+                names=subElement(dirs,'dirname')
+                names.text=root.strip(dirStrip)
             for fname in fnames:
                 fpath=os.path.join(root,fname)
                 if os.path.exists(fpath):
                     if self.verbose == True:
                         print(fpath)
-                    names=subElement(dirs,'file',num=str(counter),path=fpath)
+                    names=subElement(dirs,'file',num=str(counter),name=fname)
                     subNames=subElement(names,'fname')
                     subNames.text=fname
                     nameStat=subElement(names,'fsize')
@@ -144,6 +160,8 @@ class docGen:
                     ftype.text=self.getFileType(fpath)
                     lsattr=subElement(names,"lsattr")
                     lsattr.text=self.lsAttr(fpath)
+                    self.lsAttr2(fpath,names)
+                    self.getfacl(fpath,names)
                     #do file integreity check and record
                     counter+=1    
                 else:
