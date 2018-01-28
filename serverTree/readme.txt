@@ -25,5 +25,7 @@ python serverTree.py -u carl -k ~/.ssh/id_rsa -s ~/Documents/ -d /home/remote/Do
 #expanded general useage
 python serverTree.py -u carl -k ~/.ssh/id_rsa -s ~/Documents/resume -d /home/carl/Downloads -z try.zip -H 192.168.1.9 -p 22
 
+#in the event that you do not have rsa keys set up in openssh, you can use the -F, or --force-password $PASSWORD, option to skip using the rsa key
+
 #best of luck,
 NoGuiLinux

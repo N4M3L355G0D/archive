@@ -14,16 +14,23 @@ class ssh:
     port=22
     username=""
     password=""
+    forcePassword=None
     def client(self):
         Client=paramiko.SSHClient()
         Client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        try:
-            if os.path.exists(os.path.realpath(os.path.expanduser(self.keyFile))):
-                Client.connect(self.host,port=self.port,username=self.username,key_filename=self.keyFile)
-            else:
+        if self.forcePassword == None:
+            try:
+                if os.path.exists(os.path.realpath(os.path.expanduser(self.keyFile))):
+                    Client.connect(self.host,port=self.port,username=self.username,key_filename=self.keyFile)
+                else:
+                    Client.connect(self.host,port=self.port,username=self.username,password=self.password)
+            except:
                 Client.connect(self.host,port=self.port,username=self.username,password=self.password)
-        except:
-            Client.connect(self.host,port=self.port,username=self.username,password=self.password)
+        else:
+            try:
+                Client.connect(self.host,port=self.port,username=self.username,password=self.forcePassword)
+            except:
+                exit("something went wrong and forcePassword could not be used!")
         return Client
 
     def transfer(self,client,src=None,dest=None,mode="put"):
@@ -194,6 +201,7 @@ class run:
     src=""
     zipName=""
     dst=""
+    forcePassword=None
     def pathExpand(self,path):
         return os.path.realpath(os.path.expanduser(path))
 
@@ -243,7 +251,7 @@ class run:
     def main(self):
         if self.username != "":
             if self.host != "":
-                if self.keyFile != "":
+                if self.keyFile != "" or self.forcePassword != None:
                     if self.src != "":
                         if 1 < self.port < 65535:
                             self.zipnameMod()
@@ -262,6 +270,7 @@ class run:
                                 Zip.zipper()
                                 send=ssh()
                                 send.host=self.host
+                                send.forcePassword=self.forcePassword
                                 send.password=self.password
                                 send.port=self.port
                                 send.username=self.username
@@ -294,6 +303,7 @@ class run:
         parser.add_argument("-k","--rsa-keyfile")
         parser.add_argument("-s","--src")
         parser.add_argument("-u","--username")
+        parser.add_argument("-F","--force-password")
         options=parser.parse_args()
 
         if options.dst:
@@ -315,6 +325,10 @@ class run:
             self.username=options.username
         if options.password:
             self.password=options.password
+        if options.force_password:
+            self.forcePassword=options.force_password
+        else:
+            self.forcePassword=None
 
 Run=run()
 Run.cmdline()
