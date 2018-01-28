@@ -27,5 +27,8 @@ python serverTree.py -u carl -k ~/.ssh/id_rsa -s ~/Documents/resume -d /home/car
 
 #in the event that you do not have rsa keys set up in openssh, you can use the -F, or --force-password $PASSWORD, option to skip using the rsa key
 
+#a brief video on the tool's operation can be on youtube at:
+https://youtu.be/JPgqb_Jnl5Q
+
 #best of luck,
 NoGuiLinux
