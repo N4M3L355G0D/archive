@@ -1,2 +1,3 @@
 paramiko
 python3
+python-pyxattr

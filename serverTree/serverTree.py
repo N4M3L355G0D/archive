@@ -7,6 +7,7 @@ import os, hashlib
 import pwd,grp
 import base64,paramiko
 import zipfile,shutil,argparse
+import subprocess as sp
 
 class ssh:
     keyFile=""
@@ -96,7 +97,15 @@ class docGen:
             return types[num]
         else:
             return num
-    
+    def lsAttr(self,fname):
+        cmd="lsattr '"+fname+"' | cut -f 1 -d' '"
+        process=sp.Popen(cmd,shell=True,stdout=sp.PIPE)
+        out,err = process.communicate()
+        return out.decode().rstrip("\n")
+    def lsAcl(self,fname):
+        pass
+        #this function will be used to get extended attributes as used by the getfacl command
+
     def genXml(self,dir='.'):
         path=os.path.realpath(dir)
         dirStrip=os.path.dirname(path)
@@ -114,7 +123,7 @@ class docGen:
                 if os.path.exists(fpath):
                     if self.verbose == True:
                         print(fpath)
-                    names=subElement(dirs,'file',num=str(counter))
+                    names=subElement(dirs,'file',num=str(counter),path=fpath)
                     subNames=subElement(names,'fname')
                     subNames.text=fname
                     nameStat=subElement(names,'fsize')
@@ -133,6 +142,8 @@ class docGen:
                     permissions.text=self.getPermissions(fpath)
                     ftype=subElement(names,"ftype")
                     ftype.text=self.getFileType(fpath)
+                    lsattr=subElement(names,"lsattr")
+                    lsattr.text=self.lsAttr(fpath)
                     #do file integreity check and record
                     counter+=1    
                 else:
@@ -210,6 +221,8 @@ class run:
 
     def zipnameMod(self):
         if self.zipName == "":
+            if self.src[len(self.src)-1] == "/":
+                self.src=self.src[0:len(self.src)-1]
             self.zipName=os.path.split(self.src)[1]+".zip"
         else:
             if os.path.splitext(self.zipName)[1] == "":
