@@ -67,6 +67,7 @@ class ssh:
 class docGen:
     manifest="manifest.xml"
     verbose=False
+    integType="sha512"
     def integrity(self,fname):
         obj=hashlib.sha512()
         with open(fname,"rb") as file:
@@ -75,7 +76,7 @@ class docGen:
                 if not data:
                     break
                 obj.update(data)
-        return obj.hexdigest()
+        return [obj.hexdigest(),self.integType]
 
     def fsize(self,fname):
         return str(os.stat(fname).st_size)
@@ -98,11 +99,13 @@ class docGen:
             return types[num]
         else:
             return num
+
     def lsAttr(self,fname):
         cmd="lsattr '"+fname+"' | cut -f 1 -d' '"
         process=sp.Popen(cmd,shell=True,stdout=sp.PIPE)
         out,err = process.communicate()
         return out.decode().rstrip("\n")
+
     def lsAttr2(self,fname,node):
         if len(xattr.list(fname)) > 0:
             attr2Top=subElement(node,'getfattr')
@@ -113,6 +116,7 @@ class docGen:
                     attr2Val=subElement(attr2Top,'value')
                     attr2Val.text=xattr.get(fname,xat).decode()
         #this function will be used to get extended attributes as used by the setfattr command
+
     def getfacl(self,fname,node):
         faclTop=subElement(node,"facl")
         acl=[el for el in posix1e.ACL(file=fname).to_any_text().decode().split("\n")]
@@ -140,28 +144,39 @@ class docGen:
                     if self.verbose == True:
                         print(fpath)
                     names=subElement(dirs,'file',num=str(counter),name=fname)
-                    subNames=subElement(names,'fname')
+                    allocation=subElement(names,'allocation')
+                    subNames=subElement(allocation,'fname')
                     subNames.text=fname
-                    nameStat=subElement(names,'fsize')
+                    nameStat=subElement(allocation,'fsize')
                     nameStat.text=self.fsize(fpath)
+                    #info concerning integrity
+                    integrity=self.integrity(fpath)
                     integ=subElement(names,'integ')
-                    integ.text=self.integrity(fpath)
-                    uid=subElement(names,"uid")
-                    uid.text=self.getUserGroup(fpath)[1]
-                    user=subElement(names,"user")
-                    user.text=self.getUserGroup(fpath)[0]
-                    gid=subElement(names,"gid")
-                    gid.text=self.getUserGroup(fpath)[3]
-                    group=subElement(names,"group")
-                    group.text=self.getUserGroup(fpath)[2]
-                    permissions=subElement(names,"permissions")
+                    value=subElement(integ,"value")
+                    value.text=integrity[0]
+                    integT=subElement(integ,"hash")
+                    integT.text=integrity[1]
+                    #info concerning ownership
+                    own=subElement(names,"owners")
+                    owners=self.getUserGroup(fpath)
+                    uid=subElement(own,"uid")
+                    uid.text=owners[1]
+                    user=subElement(own,"user")
+                    user.text=owners[0]
+                    gid=subElement(own,"gid")
+                    gid.text=owners[3]
+                    group=subElement(own,"group")
+                    group.text=owners[2]
+                    #info concerning how the file is used 
+                    fsdata=subElement(names,"controls")
+                    permissions=subElement(fsdata,"permissions")
                     permissions.text=self.getPermissions(fpath)
-                    ftype=subElement(names,"ftype")
+                    ftype=subElement(fsdata,"ftype")
                     ftype.text=self.getFileType(fpath)
-                    lsattr=subElement(names,"lsattr")
+                    lsattr=subElement(fsdata,"lsattr")
                     lsattr.text=self.lsAttr(fpath)
-                    self.lsAttr2(fpath,names)
-                    self.getfacl(fpath,names)
+                    self.lsAttr2(fpath,fsdata)
+                    self.getfacl(fpath,fsdata)
                     #do file integreity check and record
                     counter+=1    
                 else:
@@ -251,6 +266,7 @@ class run:
             self.dst=os.path.join(self.pathExpand('~'),self.zipName)
         else:
             self.dst=os.path.join(self.pathExpand(self.dst),self.zipName)
+
     def delPrompt(self):
         breakStates=['y','n']
         stupidCounter=0
@@ -280,7 +296,6 @@ class run:
                     exit(message)
             else:
                 print("user chose to keep the residual zip file.")
-
 
     def main(self):
         if self.username != "":
