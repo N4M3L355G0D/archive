@@ -15,6 +15,9 @@ class ssh:
     username=""
     password=""
     forcePassword=None
+    def printTotals(self,transferred, toBeTransferred):
+        print("Transferred [Bytes]: {0}/{1} ({2}%)".format(transferred, toBeTransferred,round(100*(transferred/toBeTransferred),2)))
+
     def client(self):
         Client=paramiko.SSHClient()
         Client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -38,9 +41,9 @@ class ssh:
         if src != None:
             if dest != None:
                 if mode == "put":
-                    sftp_client.put(src,dest)
+                    sftp_client.put(src,dest,callback=self.printTotals)
                 elif mode == "get":
-                    sftp_client.get(src,dest)
+                    sftp_client.get(src,dest,callback=self.printTotals)
                 else:
                     print("invalid mode")
             else:
