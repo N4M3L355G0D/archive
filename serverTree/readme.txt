@@ -32,3 +32,32 @@ https://youtu.be/JPgqb_Jnl5Q
 
 #best of luck,
 NoGuiLinux
+
+#example xml entry
+<?xml version="1.0"?>
+<file name="resume-10262017v1.pdf" num="6">
+  <allocation>
+    <fname>resume-10262017v1.pdf</fname>
+    <fsize>52877</fsize>
+  </allocation>
+  <integ>
+    <value>3cb4c85d94ea03b17a123e75144c71425829c042a60cfaff61eca0b7489ba12ce1c28811095d8286dcb4231cdbd18ef56dc31fcd535580ae6c57c36b43d65902</value>
+    <hash>sha512</hash>
+  </integ>
+  <owners>
+    <uid>1000</uid>
+    <user>carl</user>
+    <gid>1000</gid>
+    <group>carl</group>
+  </owners>
+  <controls>
+    <permissions>0644</permissions>
+    <ftype>Regular file</ftype>
+    <lsattr>--------------e----</lsattr>
+    <facl>
+      <acl num="0">user::rw-</acl>
+      <acl num="1">group::r--</acl>
+      <acl num="2">other::r--</acl>
+    </facl>
+  </controls>
+</file>
