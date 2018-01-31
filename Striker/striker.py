@@ -13,11 +13,12 @@ import json
 import subprocess as sp
 
 import argparse
-
+#this annoys to me to no end, if you call an interpreter, and it has multiple versions, which are installed at the same time, like python3 and python2,
+#call the interpreter by its name+version
 class writer:
     inMemoryLog=b''
     target=''
-    logFile='striker.log'
+    logFile=''
     def cmdline(self):
         parser=argparse.ArgumentParser()
         parser.add_argument("-t","--target")
@@ -32,18 +33,22 @@ class writer:
 
         if options.logfile:
             self.logFile=options.logfile
+        else:
+            self.logFile=None
 
         return self.target
 
     def actualWrite(self):
-        file=open(self.logFile,"wb")
-        file.write(self.inMemoryLog)
-        file.close()
+        if self.logFile != None:
+            file=open(self.logFile,"wb")
+            file.write(self.inMemoryLog)
+            file.close()
 
     def writeLog(self,string=b'',ignorePrint=False):
         if ignorePrint == False:
             print string
-        self.inMemoryLog+=string+b"\n"
+        if self.logFile != None:
+            self.inMemoryLog+=string+b"\n"
 
 logger=writer()        
 
@@ -325,7 +330,7 @@ string='\033[1;31m-\033[1;m' * 40
 logger.writeLog(string.encode())
 dnsdump(domain)
 #instead of using os.system to execute the below, use subprocess so a record of the output can be made
-data=sp.Popen('cd plugins && python theHarvester.py -d {} -b all'.format(domain),shell=True,stdout=sp.PIPE)
+data=sp.Popen('cd plugins && python2 theHarvester.py -d {} -b all'.format(domain),shell=True,stdout=sp.PIPE)
 stdout,err=data.communicate()
 logger.writeLog(stdout.encode())
 
@@ -361,4 +366,5 @@ try:
 except:
     pass
 
-logger.actualWrite()
+if logger.logFile != None:
+    logger.actualWrite()
