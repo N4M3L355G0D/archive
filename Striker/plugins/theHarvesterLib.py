@@ -21,11 +21,8 @@ class harvester:
     vhost=[]
     full=[]
     flashMem=[]
-    def usage(self):
-        comm=os.path.basename(sys.argv[0])
-        if os.path.dirname(sys.argv[0]) == os.getcwd():
-            comm="./"+comm
-
+    ERR_ENGINE="{} : engine not supported."
+    
     def alphaModule(self):
         string="\033[1;97m[>]\033[1;m Loading Alpha modules (1/3)"
         self.flashMem.append(string)
@@ -129,8 +126,7 @@ class harvester:
             virtual=False
             limit=int(self.limit)
             if self.engine not in self.engines:
-                usage()
-                sys.exit()
+                sys.exit(self.ERR_ENGINE.format(self.engine))
             else:
                 pass
             if self.engine == "all":
