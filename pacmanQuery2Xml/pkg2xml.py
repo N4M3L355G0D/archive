@@ -1,12 +1,12 @@
 #! /usr/bin/env python3
 #NoGuiLinux
 
-import pyalpm, time
+import pyalpm, time, argparse
 from xml.etree.ElementTree import Element as element, SubElement as subElement, tostring
 
 class pac2xml:
     top=element("pkg",name="vim")
-    package="vim"
+    package=""
     def setup(self):
         pkg=self.package
             
@@ -145,14 +145,13 @@ class pac2xml:
         self.replaces(pkg)
         self.reasons(pkg)
         self.provides(pkg)
-        print(tostring(self.top).decode())
-
+        
     def cmdline(self):
         true="store_true"
         parser=argparse.ArgumentParser()
-        parser.add_argument('-p','--package')
+        parser.add_argument('-p','--package',required='yes')
         parser.add_argument('-o','--opt-deps',action=true)
-        parser.add_argument('-d','--depends',action=true)
+        parser.add_argument('-D','--depends',action=true)
         parser.add_argument('-r','--required_by',action=true)
         parser.add_argument('-c','--conflicts',action=true)
         parser.add_argument('-m','--details',action=true)
@@ -160,11 +159,104 @@ class pac2xml:
         parser.add_argument('-d','--dates',action=true)
         parser.add_argument('-f','--files',action=true)
         parser.add_argument('-g','--groups',action=true)
-        parser.add_argument('-k','--checkSumsAndSigs',action=true)
+        parser.add_argument('-k','--checksumsAndSigs',action=true)
         parser.add_argument('-R','--replaces',action=true)
         parser.add_argument('-e','--reason',action=true)
-        parser.add_argument('-p','--provides',action=true)
+        parser.add_argument('-P','--provides',action=true)
+        parser.add_argument('-A','--dump-all',action=true)
+        parser.add_argument('-w','--write',help="file to write xml dump to")
 
+        options=parser.parse_args()
+        self.package=options.package
+        package=self.setup()
+        notUsed=0
+        if options.opt_deps:
+            self.optDeps(package)
+        else:
+            notUsed+=1
+
+        if options.depends:
+            self.deps(package)
+        else:
+            notUsed+=1
+            
+        if options.required_by:
+            self.requiredBy(package)
+        else:
+            notUsed+=1
+            
+        if options.conflicts:
+            self.conflicts(package)
+        else:
+            notUsed+=1
+
+        if options.details:
+            self.Pdetails(package)
+        else:
+            notUsed+=1
+
+        if options.backup:
+            self.backup(package)
+        else:
+            notUsed+=1
+
+        if options.dates:
+            self.dates(package)
+        else:
+            notUsed+=1
+
+        if options.files:
+            self.files(package)
+        else:
+            notUsed+=1
+
+        if options.groups:
+            self.groups(package)
+        else:
+            notUsed+=1
+
+        if options.checksumsAndSigs:
+            self.checksumsAndSigs(package)
+        else:
+            notUsed+=1
+
+        if options.replaces:
+            self.replaces(package)
+        else:
+            notUsed+=1
+
+        if options.reason:
+            self.reason(package)
+        else:
+            notUsed+=1
+
+        if options.provides:
+            self.provides(package)
+        else:
+            notUsed+=1
+
+        if options.dump_all:
+            self.allDump()
+        else:
+            notUsed+=1
+
+        if notUsed > 13:
+            self.allDump()
+
+        if options.write:
+            self.printOrWriteTop(write=options.write)
+        else:
+            self.printOrWriteTop(write=None)
+
+    def printOrWriteTop(self,write=None):
+        if write == None:
+            xml=tostring(self.top).decode()
+            print(xml)
+        else:
+            file=open(write,"wb")
+            file.write(tostring(self.top))
+            file.close()
+        
 
 data=pac2xml()
-data.allDump()
+data.cmdline()
