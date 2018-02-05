@@ -1,3 +1,6 @@
+#! /usr/bin/env python3
+#NoGuiLinux
+
 import pyalpm
 from xml.etree.ElementTree import Element as element, SubElement as subElement, tostring
 
@@ -40,10 +43,28 @@ def conflicts(pkg):
         conflicts=subElement(top,"conflicts")
         for num,i in enumerate(pkg.conflicts):
             conflict=subElement(conflicts,"conflict",num=str(num))
-            contlict.text=i
+            conflict.text=i
+def Pdetails(pkg):
+    details={}
+    details['name']=pkg.name
+    details['version']=pkg.version
+    details['desc']=pkg.desc
+    details['arch']=pkg.arch
+    details['url']=pkg.url
+    details['isize']=pkg.isize
+    details['size']=pkg.size
+    details['download_size']=pkg.download_size
+    details['install_script']=pkg.has_scriptlet
+    singles=subElement(top,"misc")
+    for detail in details.keys():
+        child=subElement(singles,detail)
+        child.text=str(details[detail])
+
 
 pkg=setup()
 optDeps(pkg)
 deps(pkg)
 requiredBy(pkg)
+conflicts(pkg)
+Pdetails(pkg)
 print(tostring(top).decode())
