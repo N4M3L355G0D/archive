@@ -3,6 +3,7 @@
 import pyalpm
 import argparse
 from xml.etree.ElementTree import Element as element, SubElement as subelement, tostring as ts
+
 def getDb():
     h=pyalpm.Handle('/','/var/lib/pacman')
     dbs='core:community:extra'
@@ -99,7 +100,6 @@ def getRequiredDeps(db,pkg=''):
     #total.extend(deps)
     return final
 
-db=getDb()
 def mainPrime(db,pkg):
     c=[]
     b=[]
@@ -127,17 +127,36 @@ def cmdline():
     options=parser.parse_args()
     return options
 
-def xmlDump(data,package):
+def conflicts(db,pkg):
+    dB=db[0]
+    dBs=db[1]
+    for i in dBs:
+        pk=dB[i].get_pkg(pkg)
+        if pk != None:
+            return pk.conflicts
+        else:
+            return []
+
+def xmlDump(data,package,db):
     top=element("pkg",{'name':package})
     for num,i in enumerate(data):
-        dep=subelement(top,'dep',{'num':str(num),'name':str(i)})
-        dep.text=i
+        p=i 
+        dep=subelement(top,'dep',{'num':str(num),'name':str(p)}) 
+        con=conflicts(db,p)
+
+        pk=subelement(dep,'pack')
+        pk.text=p
+        if con != []:
+            for num,x in enumerate(con):
+                conDep=subelement(dep,'conflict',{'num':str(num),'name':x})
+                conDep.text=x
     return ts(top).decode()
 
 #need conflict resolution to display conflicting files
 #need a function to gather conflicts from mainPrime's returned list
 ##that can be called within xmlDump to to modify data structure to display conflicts
+db=getDb()
 cmd=cmdline()
 a=mainPrime(db,cmd.package)
-data=xmlDump(a,cmd.package)
+data=xmlDump(a,cmd.package,db)
 print(data)
