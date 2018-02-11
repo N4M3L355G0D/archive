@@ -10,6 +10,18 @@ import zipfile,shutil,argparse
 import subprocess as sp
 import xattr,posix1e
 
+class colors:
+    errors="\033[1;33;40m"
+    end="\033[1;m"
+    manifest="\033[1;35;40m"
+    transfer="\033[1;33;40m"
+    start="\033[1;32;40m"
+    stop="\033[1;31;40m"
+    files="\033[1;34;40m"
+    dirs="\033[1;36;40m"
+    message="\033[2;37;40m"
+    question="\033[1;36;44m"
+color=colors()
 class ssh:
     keyFile=""
     host="127.0.0.1"
@@ -18,7 +30,7 @@ class ssh:
     password=""
     forcePassword=None
     def printTotals(self,transferred, toBeTransferred):
-        displayString="Transferred [Bytes]: {0}/{1} ({2}%)".format(transferred, toBeTransferred,round(100*(transferred/toBeTransferred),2))
+        displayString=color.transfer+"Transferred [Bytes]: {0}/{1} - {2}".format(color.start+str(transferred)+color.end,color.stop+str(toBeTransferred)+color.end,color.stop+str(round(100*(transferred/toBeTransferred),2))+color.end )+color.end
         #for me, i like to not see a whole bunch of Transfered...yadeeyada text, asside from the filesystem based info
         #so backspace over previous display string, and print the new string
         #talk about automation
@@ -39,7 +51,7 @@ class ssh:
             try:
                 Client.connect(self.host,port=self.port,username=self.username,password=self.forcePassword)
             except:
-                exit("something went wrong and forcePassword could not be used!")
+                exit(color.errors+"something went wrong and forcePassword could not be used!"+colors.end)
         return Client
 
     def transfer(self,client,src=None,dest=None,mode="put"):
@@ -146,7 +158,7 @@ class docGen:
                 fpath=os.path.join(root,fname)
                 if os.path.exists(fpath):
                     if self.verbose == True:
-                        print(fpath)
+                        print(color.start+fpath+color.end)
                     names=subElement(dirs,'file',num=str(counter),name=fname)
                     allocation=subElement(names,'allocation')
                     subNames=subElement(allocation,'fname')
@@ -185,7 +197,7 @@ class docGen:
                     #do file integreity check and record
                     counter+=1    
                 else:
-                    print('path {} is a broken symlink'.format(fpath))
+                    print(color.error+'path {} is a broken symlink'.format(fpath)+color.end)
         file=open(self.manifest,"wb")
         file.write(tostring(top))
 
@@ -220,19 +232,19 @@ class zipUp:
                     absolutePath=os.path.join(root,dir)
                     relativePath=absolutePath.replace(self.DST,os.path.splitext(self.oPath)[0])
                     zippy.write(absolutePath,relativePath)
-                    print("directory {} : {} added.".format(self.dirCounter,dir))
+                    print(color.dirs+"directory {}{} : {} added.".format(self.dirCounter,color.end,dir))
                     self.dirCounter+=1
                 for fname in fnames:
                     if fname == self.manifest:
-                        print("file {} : manifest {} added.".format(self.counter,fname))
+                        print(color.manifest+"file {} {}: manifest {} added.".format(self.counter,color.end,fname))
                     else:
-                        print("file {} : {} added.".format(self.counter,fname))
+                        print(color.files+"file {} {}: {} added.".format(self.counter,color.end,fname))
                     absolutePath=os.path.join(root,fname)
                     relativePath=absolutePath.replace(self.DST,os.path.splitext(self.oPath)[0])
                     zippy.write(absolutePath,relativePath)
                     self.counter+=1
-            print("{} created successfully.".format(self.oPath))
-            print("Directories : {}\nFiles : {}".format(self.dirCounter,self.counter))
+            print(color.message+"{} created successfully.{}".format(self.oPath,color.end))
+            print("{}Directories {}: {}\n{}Files{} : {}".format(color.message,color.end,self.dirCounter,color.message,color.end,self.counter))
         except IOError as message:
             exit(message)
         except OSError as message:
@@ -276,21 +288,23 @@ class run:
         breakStates=['y','n']
         stupidCounter=0
         stupidTimeout=10
-        ERR_FailToDelete="something went wrong and '{}' was not successfully deleted".format(self.zipName)
+        ERR_FailToDelete=color.errors+"something went wrong and '{}' was not successfully deleted{}".format(self.zipName,color.end)
         if os.path.split(self.dst)[0] != self.pathExpand("."):
-            user=input("do you wish to delete the generated zipfile in the current directory? : ")
+            inputString=color.question+"do you wish to delete the generated zipfile in the current directory?"+color.end+" : "
+            user=input(inputString)
+            print(color.message+"="*len(inputString)+color.end)
             while user not in breakStates:
                 stupidCounter+=1
                 if stupidCounter <= stupidTimeout:
-                    user=input("[ {}/{} ] do you wish to delete the generated zipfile in the current directory? [y/n] : ".format(stupidCounter,stupidTimeout))
+                    user=input(color.question+"[ {}{}{}/{}{}{} ] do you wish to delete the generated zipfile in the current directory? [{}y/n{}] : ".format(color.start,stupidCounter,color.end.color.stop,stupidTimeout,color.end,color.stop,color.end))
                 else:
-                    print("the user apparently cannot read... not deleting the residue!")
+                    print("{}the user apparently cannot read... not deleting the residue!{}".format(color.errors,color.end))
                     break
             if user == 'y':
                 os.remove(os.path.join(self.pathExpand("."),self.zipName))
                 try:
                     if not os.path.exists(os.path.join(self.pathExpand("."),self.zipName)):
-                        print("the residual zipfile '{}' was successfully deleted!".format(self.zipName))
+                        print("{}the residual zipfile '{}' was successfully deleted!{}".format(color.errors,self.zipName,color.end))
                     else:
                         print(ERR_FailToDelete)
                 except IOError as message:
@@ -300,7 +314,7 @@ class run:
                     print(ERR_FailToDelete)
                     exit(message)
             else:
-                print("user chose to keep the residual zip file.")
+                print("{}user chose to keep the residual zip file.{}".format(color.errors,color.end))
 
     def main(self):
         if self.username != "":
@@ -330,7 +344,7 @@ class run:
                                 send.username=self.username
                                 send.keyFile=self.keyFile
                                 client=send.client()
-                                print('SRC -> {}\nDST -> {}@{}:{}'.format(self.zipName,self.username,self.host,self.dst))
+                                print('{}SRC{} -> {}\n{}DST{} -> {}@{}:{}'.format(color.start,color.end,self.zipName,color.stop,color.end,self.username,self.host,self.dst))
                                 send.transfer(client,self.zipName,self.dst,mode="put")
                                 send.clientClose(client)
                                 self.delPrompt()
@@ -383,6 +397,7 @@ class run:
             self.forcePassword=options.force_password
         else:
             self.forcePassword=None
+
 
 Run=run()
 Run.cmdline()
