@@ -9,6 +9,8 @@ import base64,paramiko
 import zipfile,shutil,argparse
 import subprocess as sp
 import xattr,posix1e
+from curses import wrapper
+import curses
 
 class ssh:
     keyFile=""
@@ -52,15 +54,7 @@ class ssh:
                 print("dest cannot be blank")
         else:
             print("src cannot be blank")
-
-    def commander(self,client,cmd=None):
-        if cmd != "None":
-            stdin,stdout,stderr=client.exec_command(cmd)
-            for line in stdout:
-                yield line.rstrip("\n")
-        else:
-            print("there is no command to execute")
-    
+   
     def clientClose(self,client):
         client.close()
 
