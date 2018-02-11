@@ -121,6 +121,14 @@ class docGen:
                 facl=subElement(faclTop,'acl',num=str(counter))
                 facl.text=lien
 
+    def getFSType(self,fname,node):
+        cmd='df --output=fstype /home/carl | tail -n 1'
+        data=sp.Popen(cmd,shell=True,stdout=sp.PIPE)
+        stdout,err=data.communicate()
+        fstype=subElement(node,"fstype")
+        fstype.text=stdout.decode().rstrip("\n")
+
+
     def genXml(self,dir='.'):
         path=os.path.realpath(dir)
         dirStrip=os.path.dirname(path)
@@ -171,6 +179,7 @@ class docGen:
                     ftype.text=self.getFileType(fpath)
                     lsattr=subElement(fsdata,"lsattr")
                     lsattr.text=self.lsAttr(fpath)
+                    self.getFSType(fpath,fsdata)
                     self.lsAttr2(fpath,fsdata)
                     self.getfacl(fpath,fsdata)
                     #do file integreity check and record
