@@ -9,8 +9,6 @@ import base64,paramiko
 import zipfile,shutil,argparse
 import subprocess as sp
 import xattr,posix1e
-from curses import wrapper
-import curses
 
 class ssh:
     keyFile=""
@@ -20,7 +18,11 @@ class ssh:
     password=""
     forcePassword=None
     def printTotals(self,transferred, toBeTransferred):
-        print("Transferred [Bytes]: {0}/{1} ({2}%)".format(transferred, toBeTransferred,round(100*(transferred/toBeTransferred),2)))
+        displayString="Transferred [Bytes]: {0}/{1} ({2}%)".format(transferred, toBeTransferred,round(100*(transferred/toBeTransferred),2))
+        #for me, i like to not see a whole bunch of Transfered...yadeeyada text, asside from the filesystem based info
+        #so backspace over previous display string, and print the new string
+        #talk about automation
+        print(displayString,end=str(len(displayString)*'\b'))
 
     def client(self):
         Client=paramiko.SSHClient()
