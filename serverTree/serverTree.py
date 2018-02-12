@@ -109,7 +109,7 @@ class docGen:
             return num
 
     def lsAttr(self,fname):
-        cmd="lsattr '"+fname+"' | cut -f 1 -d' '"
+        cmd='lsattr "'+fname+'" | cut -f 1 -d" "'
         process=sp.Popen(cmd,shell=True,stdout=sp.PIPE)
         out,err = process.communicate()
         return out.decode().rstrip("\n")
@@ -317,50 +317,47 @@ class run:
                 print("{}user chose to keep the residual zip file.{}".format(color.errors,color.end))
 
     def main(self):
-        if self.username != "":
-            if self.host != "":
-                if self.keyFile != "" or self.forcePassword != None:
-                    if self.src != "":
-                        if 1 < self.port < 65535:
-                            self.zipnameMod()
-                            self.dstMod()
-                            #perform any necessary expansions 
-                            self.keyFile=self.pathExpand(self.keyFile)
-                            self.src=self.pathExpand(self.src)
-                            src=self.src
-                            if os.path.isdir(src):
-                                gen=docGen()
-                                gen.verbose=True
-                                gen.genXml(src)
-                                Zip=zipUp()
-                                Zip.oPath=self.zipName
-                                Zip.SRC=src
-                                Zip.zipper()
-                                send=ssh()
-                                send.host=self.host
-                                send.forcePassword=self.forcePassword
-                                send.password=self.password
-                                send.port=self.port
-                                send.username=self.username
-                                send.keyFile=self.keyFile
-                                client=send.client()
-                                print('{}SRC{} -> {}\n{}DST{} -> {}@{}:{}'.format(color.start,color.end,self.zipName,color.stop,color.end,self.username,self.host,self.dst))
-                                send.transfer(client,self.zipName,self.dst,mode="put")
-                                send.clientClose(client)
-                                self.delPrompt()
-                            else:
-                                exit("src directory provided is not a directory!")
-                        else:
-                            exit("port must be within 1-65535!")
-                    else:
-                        exit("src directory cannot be blank!")
-                else:
-                    exit("keyFile cannot be blank!")
-            else:
-                exit("hostname cannot be blank!")
-        else:
-            exit("username cannot be blank!")
+        if self.username == "":
+            exit(color.errors+"username cannot be blank!"+color.end)
+        if self.host == "":
+            exit(color.errors+"hostname cannot be blank!"+color.end)
+        if self.keyFile == "" and self.forcePassword == None:
+            exit(color.errors+"keyFile cannot be blank!"+color.end)           
+        if self.src == "":
+            exit(color.errors+"src directory cannot be blank!"+color.end)
+        if not 1 < self.port < 65535:
+            exit(color.errors+"port must be within 1-65535!"+color.end)
 
+        self.zipnameMod()
+        self.dstMod()
+        #perform any necessary expansions 
+        self.keyFile=self.pathExpand(self.keyFile)
+        self.src=self.pathExpand(self.src)
+        src=self.src
+        if os.path.isdir(src):
+            gen=docGen()
+            gen.verbose=True
+            gen.genXml(src)
+            Zip=zipUp()
+            Zip.oPath=self.zipName
+            Zip.SRC=src
+            Zip.zipper()
+            send=ssh()
+            send.host=self.host
+            send.forcePassword=self.forcePassword
+            send.password=self.password
+            send.port=self.port
+            send.username=self.username
+            send.keyFile=self.keyFile
+            client=send.client()
+            print('{}SRC{} -> {}\n{}DST{} -> {}@{}:{}'.format(color.start,color.end,self.zipName,color.stop,color.end,self.username,self.host,self.dst))
+            send.transfer(client,self.zipName,self.dst,mode="put")
+            send.clientClose(client)
+            self.delPrompt()
+        else:
+            exit("src directory provided is not a directory!")
+           
+            
     def cmdline(self):
         parser=argparse.ArgumentParser()
         parser.add_argument("-d","--dst")
