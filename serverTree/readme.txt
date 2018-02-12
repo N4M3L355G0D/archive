@@ -29,7 +29,8 @@ python serverTree.py -u carl -k ~/.ssh/id_rsa -s ~/Documents/resume -d /home/car
 
 #a brief video on the tool's operation can be on youtube at:
 https://youtu.be/JPgqb_Jnl5Q
-
+# an update videoon the tool's useage can be found at
+https://youtu.be/R4Xy94Dp_6g
 #best of luck,
 NoGuiLinux
 
