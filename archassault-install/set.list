@@ -1,3 +1,0 @@
-#! /bin/bash
-
-sudo cat /etc/pacman.d/archassault-mirrorlist | sed s/#Server/Server/g > archassault-mirrorlist && sudo mv archassault-mirrorlist /etc/pacman.d/

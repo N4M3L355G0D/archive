@@ -1,1 +1,0 @@
-0 8 * * * python /home/carl/build/sign-switch/sign_switch.py -s 840

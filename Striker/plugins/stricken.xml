@@ -1,6 +1,0 @@
-<striker>
-	<plugin num="0">
-		<name>harvester</name>
-		<module>theHarvesterLib</module>
-	</plugin>
-</striker>

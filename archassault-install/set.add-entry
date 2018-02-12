@@ -1,5 +1,0 @@
-#! /bin/bash
-
-echo '[archassault]' >> /etc/pacman.conf
-echo 'SigLevel = Never' >> /etc/pacman.conf
-echo 'Server = http://repo.archassault.org/archassault/$repo/os/$arch' >> /etc/pacman.conf

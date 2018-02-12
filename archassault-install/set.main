@@ -1,8 +1,0 @@
-#! /bin/bash
-
-./set.add-entry
-./set.pacman-update
-./set.list
-./set.mod-entry
-./set.rebuild
-
