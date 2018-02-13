@@ -10,18 +10,13 @@ import zipfile,shutil,argparse
 import subprocess as sp
 import xattr,posix1e
 
-class colors:
-    errors="\033[1;33;40m"
-    end="\033[1;m"
-    manifest="\033[1;35;40m"
-    transfer="\033[1;33;40m"
-    start="\033[1;32;40m"
-    stop="\033[1;31;40m"
-    files="\033[1;34;40m"
-    dirs="\033[1;36;40m"
-    message="\033[2;37;40m"
-    question="\033[1;36;44m"
-color=colors()
+#plugins
+import sys
+sys.path.insert(0,os.path.realpath('./plugins'))
+import colors
+from archiveLib import tarball
+color=colors.colors()
+
 class ssh:
     keyFile=""
     host="127.0.0.1"
@@ -266,17 +261,25 @@ class run:
     zipName=""
     dst=""
     forcePassword=None
+    tarball=False
+    tarball_compression="gz"
+    compModes=['xz','gz','bz2']
+    tarballMessage=''
     def pathExpand(self,path):
         return os.path.realpath(os.path.expanduser(path))
 
     def zipnameMod(self):
+        if self.tarball == True:
+            ext=".tar."+self.tarball_compression
+        else:
+            ext=".zip"
         if self.zipName == "":
             if self.src[len(self.src)-1] == "/":
                 self.src=self.src[0:len(self.src)-1]
-            self.zipName=os.path.split(self.src)[1]+".zip"
+            self.zipName=os.path.split(self.src)[1]+ext
         else:
             if os.path.splitext(self.zipName)[1] == "":
-                self.zipName+=".zip"
+                self.zipName+=ext
    
     def dstMod(self):
         if self.dst == "":
@@ -288,15 +291,20 @@ class run:
         breakStates=['y','n']
         stupidCounter=0
         stupidTimeout=10
+        if self.tarball == True:
+            archive = "tarball"
+        else:
+            archive = "zipfile"
+
         ERR_FailToDelete=color.errors+"something went wrong and '{}' was not successfully deleted{}".format(self.zipName,color.end)
         if os.path.split(self.dst)[0] != self.pathExpand("."):
-            inputString=color.question+"do you wish to delete the generated zipfile in the current directory?"+color.end+" : "
+            inputString=color.question+"do you wish to delete the generated "+archive+" in the current directory?"+color.end+" : "
             user=input(inputString)
             print(color.message+"="*len(inputString)+color.end)
             while user not in breakStates:
                 stupidCounter+=1
                 if stupidCounter <= stupidTimeout:
-                    user=input(color.question+"[ {}{}{}/{}{}{} ] do you wish to delete the generated zipfile in the current directory? [{}y/n{}] : ".format(color.start,stupidCounter,color.end.color.stop,stupidTimeout,color.end,color.stop,color.end))
+                    user=input(color.question+"[ {}{}{}/{}{}{} ] do you wish to delete the generated {} in the current directory? [{}y/n{}] : ".format(color.start,stupidCounter,color.end.color.stop,stupidTimeout,color.end,archive,color.stop,color.end))
                 else:
                     print("{}the user apparently cannot read... not deleting the residue!{}".format(color.errors,color.end))
                     break
@@ -304,7 +312,7 @@ class run:
                 os.remove(os.path.join(self.pathExpand("."),self.zipName))
                 try:
                     if not os.path.exists(os.path.join(self.pathExpand("."),self.zipName)):
-                        print("{}the residual zipfile '{}' was successfully deleted!{}".format(color.errors,self.zipName,color.end))
+                        print("{}the residual {} '{}' was successfully deleted!{}".format(color.errors,archive,self.zipName,color.end))
                     else:
                         print(ERR_FailToDelete)
                 except IOError as message:
@@ -314,8 +322,14 @@ class run:
                     print(ERR_FailToDelete)
                     exit(message)
             else:
-                print("{}user chose to keep the residual zip file.{}".format(color.errors,color.end))
-
+                print("{}user chose to keep the residual {}.{}".format(color.errors,archive,color.end))
+    def checkTarballCompMode(self):
+        if self.tarball_compression not in self.compModes:
+            exit(color.errors+"'{}' not available for tarballing".format(self.tarball_compression)+color.end)
+        else:
+            #i would prefer the message be displayed in a different location, so saving the string for later
+            self.tarballMessage=color.message+"'{}' is using '{}' for compression.".format(self.zipName,self.tarball_compression)+color.end
+            
     def main(self):
         if self.username == "":
             exit(color.errors+"username cannot be blank!"+color.end)
@@ -327,8 +341,13 @@ class run:
             exit(color.errors+"src directory cannot be blank!"+color.end)
         if not 1 < self.port < 65535:
             exit(color.errors+"port must be within 1-65535!"+color.end)
-
+        
         self.zipnameMod()
+        if self.tarball == True:
+            #would have put this later for better grouping, but since this is technically an error check
+            #it would better be here
+            self.checkTarballCompMode()
+
         self.dstMod()
         #perform any necessary expansions 
         self.keyFile=self.pathExpand(self.keyFile)
@@ -338,10 +357,18 @@ class run:
             gen=docGen()
             gen.verbose=True
             gen.genXml(src)
-            Zip=zipUp()
-            Zip.oPath=self.zipName
-            Zip.SRC=src
-            Zip.zipper()
+            if self.tarball == True:
+                tar=tarball()
+                tar.compression=self.tarball_compression
+                tar.oPath=self.zipName
+                tar.SRC=src
+                tar.tarbit()
+                print(self.tarballMessage)
+            else:
+                Zip=zipUp()
+                Zip.oPath=self.zipName
+                Zip.SRC=src
+                Zip.zipper()
             send=ssh()
             send.host=self.host
             send.forcePassword=self.forcePassword
@@ -369,10 +396,16 @@ class run:
         parser.add_argument("-s","--src")
         parser.add_argument("-u","--username")
         parser.add_argument("-F","--force-password")
+        parser.add_argument("-t","--tarball",action="store_true")
+        parser.add_argument("-m","--tarball-compression")
         options=parser.parse_args()
 
         if options.dst:
             self.dst=options.dst
+        if options.tarball:
+            self.tarball=options.tarball
+            if options.tarball_compression:
+                self.tarball_compression=options.tarball_compression
         if options.zipname:
             self.zipName=options.zipname
         if options.host:
