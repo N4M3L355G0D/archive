@@ -3,6 +3,7 @@
 #gpg user
 User="Karl Josef Wisdom III"
 endCode="#stop"
+password=''
 function banner(){
 python2 << EOF
 string="$1"
@@ -57,7 +58,11 @@ function gzipData(){
 	data | gzip - -f
 }
 function gpgData(){
-	gzipData | gpg -e -r "$User"
+	if test password == "" ; then
+		gzipData | gpg -e -r "$User"
+	else
+		gzipData | gpg -c 
+	fi
 }
 function b64Data(){
 	gpgData | base64 -
@@ -79,7 +84,11 @@ function b64DataD(){
 	dataD | base64 -d -
 }
 function gpgDataD(){
-	b64DataD | gpg -d -r "$User"
+	if test "$password" == "" ; then
+		b64DataD | gpg -d -r "$User"
+	else
+		b64DataD | gpg -d 
+	fi
 }
 function gunzipData(){
 	gpgDataD | gunzip -d - -f
@@ -87,8 +96,16 @@ function gunzipData(){
 function main(){
 	if checkDeps ; then
 		if test "$1" == "-e" ; then
+			shift
+			if test "$1" == "-s" ; then
+				password="true"
+			fi
 			dataToXclip
 		elif test "$1" == "-d" ; then
+			shift
+			if test "$1" == "-s" ; then
+				password="true"
+			fi
 			gunzipData
 		else
 			echo -e "-d to decrypt\n-e to encrypt"
