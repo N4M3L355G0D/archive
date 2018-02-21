@@ -12,15 +12,16 @@ function xml(){
 	xmllint "$1" --xpath "$2"/"text()"
 }
 function getcfg(){
+	diskname="$1"
 	cfg="useimg.xml"
 	if test -e "$cfg" ; then
-		period=`xml "$cfg" "/config/period"`
-		imgFile=`xml "$cfg" "/config/imgFile"`
-		eFile=`xml "$cfg" "/config/eFile"`
-		mdDevice=`xml "$cfg" "/config/mdDevice"`
-		localMount=`xml "$cfg" "/config/localMount"`
-		loopFile=`xml "$cfg" "/config/loopFile"`
-		VG=`xml "$cfg" "/config/VG"`
+		period=`xml "$cfg" "/config/disk[@name='$diskname']/period"`
+		imgFile=`xml "$cfg" "/config/disk[@name='$diskname']/imgFile"`
+		eFile=`xml "$cfg" "/config/disk[@name='$diskname']/eFile"`
+		mdDevice=`xml "$cfg" "/config/disk[@name='$diskname']/mdDevice"`
+		localMount=`xml "$cfg" "/config/disk[@name='$diskname']/localMount"`
+		loopFile=`xml "$cfg" "/config/disk[@name='$diskname']/loopFile"`
+		VG=`xml "$cfg" "/config/disk[@name='$diskname']/VG"`
 		return 0
 	else
 		printf "%s\n" "config file '$cfg' does not exist"
@@ -82,45 +83,50 @@ function eFileCheck(){
 	fi
 }
 function run(){
+	if test `whoami` != "root" ; then
+		echo "user is not root/sudo"
+		exit 1
+	fi
+
 	#execution appears to occur too fast, so application of a wait period seems to fix it	
-	if getcfg ; then
+	if getcfg "$2"; then
 		if ! periodCheck ; then
 			exit 1
 		else
-			printf "%s" "#"
+			printf "stage %s\n" "1"
 		fi
 
 		if ! imgFileCheck ; then
 			exit 2
 		else
-			printf "%s" "#"
+			printf "stage %s\n" "2"
 		fi
 
 		if test "$1" == "-m" ; then
 
-			sudo losetup "$loopFile" "$imgFile"
+			losetup "$loopFile" "$imgFile"
 			if ! loopFileCheck; then
 				exit 3
 			else
-				printf "%s" "#"
+				printf "stage %s\n" "3"
 			fi
 	        	
 			sleep $period	
 			
-			sudo mdadm --auto-detect
+			mdadm --auto-detect
 			if ! mdDeviceCheck; then
 				exit 4
 			else
-				printf "%s\n" "#"
+				printf "stage %s\n" "4"
 			fi
 
 			sleep $period
 			
-			sudo cryptsetup luksOpen "$mdDevice" "$eFile"
+			cryptsetup luksOpen "$mdDevice" "$eFile"
 			if ! eFileCheck; then
 				exit 5
 			else
-				printf "%s" "#"
+				printf "stage %s\n" "5"
 			fi
 
 			sleep $period
@@ -128,17 +134,17 @@ function run(){
 			if ! localMountCheck; then
 				exit 6
 			else
-				printf "%s\n" "#"
+				printf "stage %s\n" "6"
 			fi
 
-			sudo mount /dev/mapper/"$eFile" "$localMount"
+			mount /dev/mapper/"$eFile" "$localMount"
 
 		elif test "$1" == "-u" ; then
-			sudo umount "$localMount"
-			sudo cryptsetup close "$eFile"
-			sudo mdadm --stop "$mdDevice"
-			sudo vgchange -an "$VG"
-			sudo losetup -d "$loopFile"
+			umount "$localMount"
+			cryptsetup close "$eFile"
+			mdadm --stop "$mdDevice"
+			vgchange -an "$VG"
+			losetup -d "$loopFile"
 		fi
 	else
 		printf "%s\n" "an error occurred during the process of getting the configuration"

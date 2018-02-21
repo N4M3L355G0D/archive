@@ -1,9 +1,11 @@
 <config>
-	<period>1</period>
-	<imgFile>flashdrive-partition1.img</imgFile>
-	<eFile>e</eFile>
-	<mdDevice>/dev/md0</mdDevice>
-	<localMount>mount</localMount>
-	<loopFile>/dev/loop0</loopFile>
-	<VG>critical</VG>
+	<disk name='disk.img'>
+		<period>1</period>
+		<imgFile>disk.img</imgFile>
+		<eFile>e</eFile>
+		<mdDevice>/dev/md0</mdDevice>
+		<localMount>mount</localMount>
+		<loopFile>/dev/loop0</loopFile>
+		<VG>critical</VG>
+	</disk>
 </config>
