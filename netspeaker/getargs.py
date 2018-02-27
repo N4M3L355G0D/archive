@@ -69,58 +69,59 @@ except:
 
 
 def main():
-    blank=[""," "]
-    parser=argparse.ArgumentParser()
-    parser.add_argument("-s","--server")
-    parser.add_argument("-c","--clients")
-    parser.add_argument("-p","--port")
-    parser.add_argument("-u","--user")
-    parser.add_argument("-r","--rate")
-    parser.add_argument("-g","--save-to-db",action="store_true")
-    parser.add_argument("-G","--use-db-options",action="store_true")
-    parser.add_argument("-D","--setting-db-location")
-    options=parser.parse_args()
+    try:
+        blank=[""," "]
+        nsDb='ns-settings.db'
+        parser=argparse.ArgumentParser()
+        parser.add_argument("-s","--server")
+        parser.add_argument("-c","--clients")
+        parser.add_argument("-p","--port")
+        parser.add_argument("-u","--user")
+        parser.add_argument("-r","--rate")
+        parser.add_argument("-g","--save-to-db",action="store_true")
+        parser.add_argument("-G","--use-db-options",action="store_true")
+        parser.add_argument("-D","--setting-db-location")
+        options,unknown=parser.parse_known_args() 
+        noopt="error_no_options"
+        if options.setting_db_location:
+            if os.path.exists(os.path.split(options.setting_db_location)[0]):
+                nsDb=options.setting_db_location
     
-    noopt="error_no_options"
-    if options.setting_db_location:
-        if os.path.exists(os.path.split(options.setting_db_location)[0]):
-            nsDb=options.setting_db_location
-        else:
-            nsDb="ns-settings.db"
-
-    if not options.use_db_options:
-        if options.server:
-            print("server: {}\n".format(options.server))
-        else:
-            print("server: {}\n".format(noopt))
-        
-        if options.clients:
-            print("clients: {}\n".format(options.clients))
-        else:
-            print("clients: {}\n".format(noopt)) 
-        if options.port:
-            print("port: {}\n".format(options.port))
-        else:
-            print("port: {}\n".format(noopt))
-        
-        if options.user:
-            print("user: {}\n".format(options.user))
-        else:
-            print("user: {}\n".format(noopt))
-        
-        if options.rate:
-            print("rate: {}\n".format(options.rate))
-        else:
-            print("rate: {}\n".format(noopt))
-    
-        if options.save_to_db:
-            save(options,nsDb)
-    else:
-        settings=get_settings(nsDb)
-        for key in settings.keys():
-            if settings[key] not in blank:
-                print("{}: {}\n".format(key,settings[key]))
+        if not options.use_db_options:
+            if options.server:
+                print("server: {}\n".format(options.server))
             else:
-                print("{}: {}\n".format(key,noopt))
+                print("server: {}\n".format(noopt))
+            
+            if options.clients:
+                print("clients: {}\n".format(options.clients))
+            else:
+                print("clients: {}\n".format(noopt)) 
+            if options.port:
+                print("port: {}\n".format(options.port))
+            else:
+                print("port: {}\n".format(noopt))
+            
+            if options.user:
+                print("user: {}\n".format(options.user))
+            else:
+                print("user: {}\n".format(noopt))
+            
+            if options.rate:
+                print("rate: {}\n".format(options.rate))
+            else:
+                print("rate: {}\n".format(noopt))
+        
+            if options.save_to_db:
+                save(options,nsDb)
+        else:
+            settings=get_settings(nsDb)
+            for key in settings.keys():
+                if settings[key] not in blank:
+                    print("{}: {}\n".format(key,settings[key]))
+                else:
+                    print("{}: {}\n".format(key,noopt))
+    except:
+        exit(1)
         
 main()
