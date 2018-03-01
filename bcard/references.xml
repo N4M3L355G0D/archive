@@ -1,0 +1,45 @@
+<references>
+	<employer name="hotel i64">
+		<street_address>6531 W Broad St</street_address>
+		<city>Richmond</city>
+		<state>VA</state>
+        	<zip>23230</zip>
+		<phone type="landline" owner="hotel i64">(804) 977-6440</phone>
+		<manager_supervisor num="1" title="general manager">Anil Patel</manager_supervisor>
+	</employer>
+	<employer name="techzone">
+		<street_address>6537 Market Dr</street_address>
+		<city>Gloucester</city>
+		<state>VA</state>
+		<zip>23061</zip>
+		<phone type="landline" owner="techzone">(804) 695-1825</phone>
+		<manager_supervisor num="1" title="manager">Steve Finch</manager_supervisor>
+	</employer>
+	<employer name="production services support">
+		<street_address>6000 Industrial Dr</street_address>
+		<city>Gloucester</city>
+		<state>VA</state>
+		<zip>23061</zip>
+		<phone type="landline" owner="production support services">(757) 599-5959</phone>
+		<manager_supervisor num="1" title="manager">Randy Troutman</manager_supervisor>
+	</employer>
+	<employer name="mcdonalds">
+		<street_address>7099 George Washington Memorial Hwy</street_address>
+        	<city>Gloucester</city>
+		<state>VA</state>
+        	<zip>23061</zip>
+		<phone type="landline" owner="mcdonalds">(804) 694-4810</phone>
+		<phone type="cell" owner="manager">(757) 525-6476</phone>
+		<manager_supervisor num="1" title="manager">Tina Evans</manager_supervisor>
+	</employer>
+	<employer name="sonic">
+		<street_address>7060 George Washington Memorial Hwy</street_address>
+		<city>Gloucester</city>
+		<state>VA</state>
+		<zip>23061</zip>
+		<phone type="landline" owner="sonic">(804) 694-4447</phone>
+		<phone type="cell" owner="shift manager">(804) 824-7920</phone>
+		<manager_supervisor num="1" title="general manager">Kevin White</manager_supervisor>
+		<manager_supervisor num="2" title="shift manager">Taylor Northrop</manager_supervisor>
+	</employer>
+</references>
