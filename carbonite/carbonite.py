@@ -59,7 +59,7 @@ class conform:
             for line in data:
                odata.write(base64.b64encode(line)+b'\n')
                self.progress()
-        print('{}base64 - stage done{}'.format(colors.startBoldYellow,colors.reset))
+        print('{}\nbase64 - stage done{}'.format(colors.startBoldYellow,colors.reset))
 
     def progress(self,lines=None):
                 termRows=os.get_terminal_size().columns
@@ -79,7 +79,7 @@ class conform:
                     break
                 odata.write(gzip.compress(d))
                 self.progress()
-        print('{}gzip - stage done{}'.format(colors.startBoldYellow,colors.reset))
+        print('{}\ngzip - stage done{}'.format(colors.startBoldYellow,colors.reset))
 
     def cleanup(self):  
         print('{}Finishing up!{}'.format(colors.startBoldBlinkRed,colors.reset))
