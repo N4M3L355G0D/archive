@@ -63,8 +63,9 @@ class conform:
 
     def progress(self,lines=None):
                 termRows=os.get_terminal_size().columns
-                sys.stdout.write('\b'*termRows+'{}{}{}'.format(colors.startBoldYellow,str(self.counter),colors.reset))
-                sys.stdout.flush()
+                if (self.counter % 1000) == 0:
+                    sys.stdout.write('\b'*termRows+'{}{}{}'.format(colors.startBoldYellow,str(self.counter),colors.reset))
+                    sys.stdout.flush()
                 self.counter+=1
 
     def gzArchive(self):
