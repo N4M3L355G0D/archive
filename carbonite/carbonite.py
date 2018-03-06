@@ -2,7 +2,7 @@
 #NoGuiLinux
 #convert a text file to line by line base64 then followed by gzip compression
 #call this prog carbonite.py
-import base64, gzip, os, argparse
+import base64, gzip, os, argparse,sys
 
 class color:
     startBoldBlinkRed='\033[1;5;31;40m'
@@ -21,6 +21,7 @@ class conform:
     file='biglist.txt'
     ext='.b64.gz'
     gzMul=10
+    counter=0
 
     def cmdline(self):
         parser=argparse.ArgumentParser()
@@ -52,13 +53,22 @@ class conform:
             exit("{} '{}' : Exists, but is not a {}{}'Regular File'{}".format(colors.startBoldYellow,self.ofile,colors.reset,colors.startBold,colors.reset))
 
     def base64(self):
+        self.counter=0
         print('{}base64 - stage begin{}'.format(colors.startBoldBlinkRed,colors.reset))
         with open(self.file,'rb') as data, open(self.ofile,'wb') as odata:
             for line in data:
                odata.write(base64.b64encode(line)+b'\n')
+               self.progress()
         print('{}base64 - stage done{}'.format(colors.startBoldYellow,colors.reset))
 
+    def progress(self,lines=None):
+                termRows=os.get_terminal_size().columns
+                sys.stdout.write('\b'*termRows+'{}{}{}'.format(colors.startBoldYellow,str(self.counter),colors.reset))
+                sys.stdout.flush()
+                self.counter+=1
+
     def gzArchive(self):
+        self.counter=0
         print('{}gzip - stage begin{}'.format(colors.startBoldBlinkRed,colors.reset))
         mul=self.gzMul
         with open(self.ofile,'rb') as data, open(self.file+'.tmp','wb') as odata:
@@ -67,12 +77,14 @@ class conform:
                 if not d:
                     break
                 odata.write(gzip.compress(d))
+                self.progress()
         print('{}gzip - stage done{}'.format(colors.startBoldYellow,colors.reset))
 
     def cleanup(self):  
         print('{}Finishing up!{}'.format(colors.startBoldBlinkRed,colors.reset))
         os.remove(self.ofile)
         os.rename(self.file+'.tmp',self.ofile)
+        os.remove(self.file)
         print('{}Done{}{}!{}'.format(colors.startBoldGreen,colors.reset,colors.startBoldBlinkRed,colors.reset))
 
     def conformist(self):
