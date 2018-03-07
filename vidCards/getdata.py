@@ -3,7 +3,7 @@
 from bs4 import BeautifulSoup as bs
 import urllib.request
 from xml.etree.ElementTree import Element as element, SubElement as subElement, tostring as ts
-import sys,os
+import sys,os,argparse
 
 #get the webpage data
 class nvidiaCardGet:
@@ -98,8 +98,34 @@ class nvidiaCardGet:
         for model in total:
             print("\t - {}".format(model))
 
+    def getHelp(self,options):
+        counter=0
+        if not options.list_supported:
+            counter+=1
+        if not options.get_one_card:
+            counter+=1
+        if not options.get_all_cards:
+            counter+=1
+        if counter >= 3:
+            exit('please see -h/--help')
+
+    def cmdline(self):
+        parser=argparse.ArgumentParser()
+        parser.add_argument('-l','--list-supported',help='list supported cards',action='store_true')
+        parser.add_argument('-1','--get-one-card',help='get one card model\'s specs')
+        parser.add_argument('-a','--get-all-cards',help='get all card models',action='store_true')
+
+        options=parser.parse_args()
+        if options.list_supported:
+            self.listSupported()
+        if options.get_one_card:
+            self.getOne(options.get_one_card)
+        if options.get_all_cards:
+            self.getAllSupported()
+        self.getHelp(options)
+
 get=nvidiaCardGet()
-get.listSupported()
+get.cmdline()
 #get.getOne('gtx-680')
 #get.getAllSupported()
 
@@ -107,4 +133,3 @@ get.listSupported()
 #titan v, titan Xp need seperate functions
 #geforce gtx460,gtx460-se,gtx560ti,gt630,gt640,gt640oem,gt730,gt740, has embedded tables needs special work
 #geforce gtx560 has embedded tables that need to be operated on differently
-#create a argparse cmdline interface for the various functions
