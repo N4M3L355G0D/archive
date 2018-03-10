@@ -20,7 +20,7 @@ color=colors()
 class hourlyForecast:
     table=[]
     rowCast={}
-    address='https://www.wunderground.com/hourly/us/or/seaside?cm_ven=localwx_hour'
+    address='https://www.wunderground.com/hourly/us/ca/seaside?cm_ven=localwx_hour'
 
     def webpage(self,url):
         page=urllib.request.urlopen(url)
@@ -48,8 +48,10 @@ class hourlyForecast:
                 self.rowCast={'time':time,'conditions':conditions,'temp':temp,'feels_like':feelsLike,'precip':precip,'amount':amount,'cloud_cover':cloudCover,'dew_point':dewpoint,'humidity':humidity,'wind':wind,'pressure':pressure}
                 self.table.append(self.rowCast)
 
+
+class display:
+    table=[]
     def printTable(self):
-        self.setTable()
         header=[color.formatFront+i+color.formatReset for i in self.table[0].keys()]
         orgHdLen=len(header)
         longest=0
@@ -81,5 +83,53 @@ class hourlyForecast:
         for i in tableList:
             print('>{}<'.format(i.replace('|','{}|{}'.format(color.formatFrontCyan,color.formatReset))))
 
-a=hourlyForecast()
-a.printTable()
+class tenDayForecast:
+    table=[]
+    rowCast={}
+    address='https://weather.com/weather/tenday/l/Seaside+CA+93955:4:US'
+    def webpage(self,url):
+        url=urllib.request.urlopen(url)
+        return url
+
+    def setTable(self):
+        page=self.webpage(self.address)
+        soup=bs(page,'html.parser')
+        table=[]
+        rowCast={}
+        specdata=soup.find('tbody').find_all('tr')
+        for i in specdata:
+            #day column
+            day=i.find('td',{'headers':'day'})
+            dayName=day.find('span',{'class':'date-time'}).text
+            dayDetail=day.find('span',{'class':'day-detail clearfix'}).text
+            day='{} {}'.format(dayName,dayDetail)
+            #description
+            desc=i.find('td',{'headers':'description'}).text
+            #temp
+            temp=i.find('td',{'headers':'hi-lo'})
+            temp='/'.join([i.text for i in temp.find_all('span') if i.text != ''])
+            #precip
+            precip=i.find('td',{'headers':'precip'}).find('span',{'class':''}).text
+            #wind
+            wind=i.find('td',{'headers','wind'}).find('span',{'class':''}).text
+            #humidity
+            humidity=i.find('td',{'headers','humidity'}).find('span',{'class':''}).text
+            #append to table
+            self.rowCast={'day':day,'desc':desc,'temp':temp,'precip':precip,'wind':wind,'humidity':humidity}
+            self.table.append(self.rowCast)
+
+hourly=hourlyForecast()
+hourly.setTable()
+
+tenDay=tenDayForecast()
+tenDay.setTable()
+#set the display interface
+disp=display()
+
+#display ten day forecast
+disp.table=tenDay.table
+disp.printTable()
+
+#display hourly forecast
+disp.table=hourly.table
+disp.printTable()
