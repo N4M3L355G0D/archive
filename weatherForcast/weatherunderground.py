@@ -80,12 +80,11 @@ class display:
                     header[num]+=' '*(longest-((len(i)-len(color.formatFront+color.formatReset))))
         
             header='|'.join(header)
-            header+='\n'+'{}-'.format(color.formatFrontCyan)*((len(header)-(len(color.formatFront+color.formatReset)*orgHdLen))-1)+color.formatReset
+            separator='{}-'.format(color.formatFrontCyan)*((len(header)-(len(color.formatFront+color.formatReset)*orgHdLen))-3)+color.formatReset
             header=header.replace('|','{}|{}'.format(color.formatFrontCyan,color.formatReset))
-            header='>'+header
-            print(header)
+            print(header,separator,sep='\n')
             for i in tableList:
-                print('>{}<'.format(i.replace('|','{}|{}'.format(color.formatFrontCyan,color.formatReset))))
+                print('{}'.format(i.replace('|','{}|{}'.format(color.formatFrontCyan,color.formatReset))))
         else:
             print("no data available at this time")
 
