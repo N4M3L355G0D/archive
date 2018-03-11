@@ -8,8 +8,8 @@ import sqlite3,os,sys
 
 db=sqlite3.connect('urls.db')
 cursor=db.cursor()
-cursor.execute("create table if not exists e404(url text,id INTEGER PRIMARY KEY AUTOINCREMENT);")
-cursor.execute("create table if not exists webaddress(url text,location text,id INTEGER PRIMARY KEY AUTOINCREMENT);")
+cursor.execute("create table if not exists e404(hourlyUrl text, id INTEGER PRIMARY KEY AUTOINCREMENT);")
+cursor.execute("create table if not exists webaddress(hourlyUrl text,tendayUrl text,location text,id INTEGER PRIMARY KEY AUTOINCREMENT);")
 
 top=Element('location')
 
@@ -30,11 +30,12 @@ for x in state:
         num=str(i+1)
         if len(str(num)) < 4:
             num='0'*(4-len(str(num)))+num
-        address='https://weather.com/weather/today/l/US{}{}:1:US'.format(x,num)
-        cursor.execute('select url from webaddress where url="{}";'.format(address))
+        addressTenDay='https://weather.com/tenday/l/US{}{}:1:US'.format(x,num)
+        address='https://weather.com/weather/hourbyhour/l/US{}{}:1:US'.format(x,num)
+        cursor.execute('select hourlyUrl from webaddress where hourlyUrl="{}";'.format(address))
         result=cursor.fetchone()
         if result == None:
-            cursor.execute('select url from webaddress where url="{}";'.format(address))
+            cursor.execute('select hourlyUrl from webaddress where hourlyUrl="{}";'.format(address))
             result=cursor.fetchone()
             if result == None:
                 try:
@@ -55,7 +56,7 @@ for x in state:
                         webaddress=SubElement(geo,'url')
                         webaddress.text=address
                         #write data to sqlite3Db
-                        cursor.execute('insert into webaddress(url,location) values ("{}","{}");'.format(address,location))
+                        cursor.execute('insert into webaddress(hourlyUrl,tendayUrl,location) values ("{}","{}","{}");'.format(address,addressTenDay,location))
                         db.commit()
                         #if within max404, a new region is found, reset counter404 to zero, we need to try to find all regions
                         counter404=0
@@ -64,7 +65,7 @@ for x in state:
                 except OSError as err:
                     print('{} : {} : 404'.format(counter404,address))
                     print(err)
-                    cursor.execute('insert into e404(url) values ("{}");'.format(address))
+                    cursor.execute('insert into e404(hourlyUrl) values ("{}");'.format(address))
                     db.commit()
                     if counter404 <= max404:
                         counter404+=1
