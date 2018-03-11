@@ -29,8 +29,9 @@ class hourlyForecast:
     def setTable(self):
         url=self.webpage(self.address)
         soup=bs(url,'html.parser')
-        targetData=soup.find('table',{'id':'hourly-forecast-table'}).find_all('tr')
+        targetData=soup.find('table',{'id':'hourly-forecast-table'})
         if targetData != None:
+            targetData=targetData.find_all('tr')
             #set rowCast data
             for i in targetData:
                 rowdata=i.find_all('td')
@@ -49,7 +50,7 @@ class hourlyForecast:
                     self.rowCast={'time':time,'conditions':conditions,'temp':temp,'feels_like':feelsLike,'precip':precip,'amount':amount,'cloud_cover':cloudCover,'dew_point':dewpoint,'humidity':humidity,'wind':wind,'pressure':pressure}
                     self.table.append(self.rowCast)
         else:
-            self.Table=None
+            self.table=None
 
 
 class display:
