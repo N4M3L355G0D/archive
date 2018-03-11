@@ -20,7 +20,7 @@ color=colors()
 class hourlyForecast:
     table=[]
     rowCast={}
-    address='https://www.wunderground.com/hourly/us/ca/seaside?cm_ven=localwx_hour'
+    address='https://weather.com/weather/hourbyhour/l/USCA1037:1:US'
 
     def webpage(self,url):
         page=urllib.request.urlopen(url)
@@ -29,26 +29,35 @@ class hourlyForecast:
     def setTable(self):
         url=self.webpage(self.address)
         soup=bs(url,'html.parser')
-        targetData=soup.find('table',{'id':'hourly-forecast-table'})
+        targetData=soup.find('table',{'class':'twc-table'})
         if targetData != None:
-            targetData=targetData.find_all('tr')
+            targetData=targetData.find('tbody').find_all('tr')
             #set rowCast data
             for i in targetData:
-                rowdata=i.find_all('td')
-                if len(rowdata) > 0:
-                    time=rowdata[0].find_all('span')[0].text
-                    conditions=rowdata[1].find_all('span')[1].text
-                    temp=rowdata[2].find_all('span')[0].text
-                    feelsLike=rowdata[3].find_all('span')[0].text
-                    precip=rowdata[4].find_all('span')[0].text
-                    amount=rowdata[5].find_all('span')[0].text
-                    cloudCover=rowdata[6].find_all('span')[0].text
-                    dewpoint=rowdata[7].find_all('span')[0].text
-                    humidity=rowdata[8].find_all('span')[0].text
-                    wind=rowdata[9].find_all('span')[0].text
-                    pressure=rowdata[10].find_all('span')[0].text.replace('\n','')
-                    self.rowCast={'time':time,'conditions':conditions,'temp':temp,'feels_like':feelsLike,'precip':precip,'amount':amount,'cloud_cover':cloudCover,'dew_point':dewpoint,'humidity':humidity,'wind':wind,'pressure':pressure}
-                    self.table.append(self.rowCast)
+                #day column
+                timeDay=''
+                timeHour=''
+                time=i.find('td',{'headers':'time'})
+                timeDay=time.find('div',{'class':'hourly-date'}).text
+                timeHour=time.find('div',{'class':'hourly-time'}).find('span',{'class':'dsx-date'}).text
+                time='{} {}'.format(timeDay,timeHour)
+                #description
+                desc=i.find('td',{'headers':'description'}).text
+                #temp
+                temp=i.find('td',{'headers':'temp'})
+                temp='/'.join([i.text for i in temp.find_all('span') if i.text != ''])
+                #precip
+                precip=i.find('td',{'headers':'precip'}).find('span',{'class':''}).text
+                #feels like
+                feels=i.find('td',{'headers':'feels'}).text
+                #wind
+                wind=i.find('td',{'headers','wind'}).find('span',{'class':''}).text
+                #humidity
+                humidity=i.find('td',{'headers','humidity'}).find('span',{'class':''}).text
+                #append to table
+                self.rowCast={'time':time,'desc':desc,'temp':temp,'feels_like':feels,'precip':precip,'wind':wind,'humidity':humidity}
+                self.table.append(self.rowCast)
+                #self.table=None
         else:
             self.table=None
 
@@ -102,9 +111,9 @@ class tenDayForecast:
         soup=bs(page,'html.parser')
         table=[]
         rowCast={}
-        specdata=soup.find('tbody')
+        specdata=soup.find('table',{'class':'twc-table'})
         if specdata != None:
-            specdata=specdata.find_all('tr')
+            specdata=specdata.find('tbody').find_all('tr')
             for i in specdata:
                 #day column
                 day=i.find('td',{'headers':'day'})
