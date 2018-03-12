@@ -4,8 +4,7 @@
 
 import urllib.request
 from bs4 import BeautifulSoup as bs
-#address='https://www.wunderground.com/hourly/us/or/seaside?cm_ven=localwx_hour'
-#url=urllib.request.urlopen(address)
+import sqlite3, pymysql, time
 
 #terminal colorization for table output
 class colors:
@@ -137,18 +136,82 @@ class tenDayForecast:
         else:
             self.table=None
 
+class recordTable:
+    #save the statistics to local db
+    table=[]
+    dbName='stats.db'
+    date=''
+    DB={}
+    def connect(self):
+        db=sqlite3.connect(self.dbName)
+        cursor=db.cursor()
+        self.DB={'db':db,'cursor':cursor}
+
+    def getTime(self):
+        self.date=time.ctime()
+
+    def mk10DayTable(self):
+        db=self.DB['db']
+        cursor=self.DB['cursor']
+        sql='''
+        create table if not exists tendayForecast(day text,temp text,description text,precip text,wind text,humidity text,
+        date text, rowid INTEGER PRIMARY KEY AUTOINCREMENT);
+
+        '''
+        cursor.execute(sql)
+        db.commit()
+    def mkHourlyTable(self):
+        db=self.DB['db']
+        cursor=self.DB['cursor']
+        sql='''
+        create table if not exists hourlyForecast(time text, desc text, temp text, feels_like text, precip text, wind text,
+        humidity text,date text,rowid INTEGER PRIMARY KEY AUTOINCREMENT);
+        '''
+        cursor.execute(sql)
+        db.commit()
+    def insertHourlyData(self):
+        self.getTime()
+        for i in self.table:
+            sql='''
+            insert into hourlyForecast(time,desc,temp,feels_like,precip,wind,humidity,date)
+            values ("{0}","{1}","{2}","{3}","{4}","{5}","{6}","{7}")
+            '''.format(i['time'],i['desc'],i['temp'],i['feels_like'],i['precip'],i['wind'],i['humidity'],self.date)
+            self.DB['cursor'].execute(sql)
+            self.DB['db'].commit()
+
+    def closeTable(self,DB={}):
+        self.DB['db'].close()
+        self.DB['db'].close()
+
+    def insert10DayData(self):
+        self.getTime()
+        for i in self.table:
+            sql='''insert into tendayForecast(day,temp,description,precip,wind,humidity,date)
+            values ("{0}","{1}","{2}","{3}","{4}","{5}","{6}");'''.format(i['day'],i['temp'],i['desc'],i['precip'],i['wind'],i['humidity'],self.date)
+            self.DB['cursor'].execute(sql)
+            self.DB['db'].commit()
+
+disp=display()
+tenday=tenDayForecast()
+tenday.setTable()
 hourly=hourlyForecast()
 hourly.setTable()
 
-tenDay=tenDayForecast()
-tenDay.setTable()
-#set the display interface
-disp=display()
+record=recordTable()
+record.connect()
 
-#display ten day forecast
-disp.table=tenDay.table
+record.mk10DayTable()
+record.table=tenday.table
+disp.table=tenday.table
 disp.printTable()
+record.insert10DayData()
 
-#display hourly forecast
+record.mkHourlyTable()
+record.table=hourly.table
 disp.table=hourly.table
 disp.printTable()
+record.insertHourlyData()
+
+record.closeTable()
+
+
