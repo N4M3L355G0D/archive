@@ -5,6 +5,7 @@
 import urllib.request
 from bs4 import BeautifulSoup as bs
 import sqlite3, pymysql, time
+import string
 
 #terminal colorization for table output
 class colors:
@@ -19,7 +20,7 @@ color=colors()
 class hourlyForecast:
     table=[]
     rowCast={}
-    address='https://weather.com/weather/hourbyhour/l/USCA1037:1:US'
+    address='https://weather.com/weather/hourbyhour/l/Seaside+CA+93955'
 
     def webpage(self,url):
         page=urllib.request.urlopen(url)
@@ -142,6 +143,14 @@ class recordTable:
     dbName='stats.db'
     date=''
     DB={}
+    def stripNA(self,text):
+        if text != None:
+            text=text.replace(color.formatReset,'')
+            text=text.replace(color.formatFront,'')
+            text=text.replace(color.formatFrontCyan,'')
+            text=text.replace(color.colorFrontCell,'')
+        return text
+
     def connect(self):
         db=sqlite3.connect(self.dbName)
         cursor=db.cursor()
@@ -154,7 +163,7 @@ class recordTable:
         db=self.DB['db']
         cursor=self.DB['cursor']
         sql='''
-        create table if not exists tendayForecast(day text,temp text,description text,precip text,wind text,humidity text,
+        create table if not exists tendayForecast(day text,temp text,desc text,precip text,wind text,humidity text,
         date text, rowid INTEGER PRIMARY KEY AUTOINCREMENT);
 
         '''
@@ -170,28 +179,38 @@ class recordTable:
         cursor.execute(sql)
         db.commit()
     def insertHourlyData(self):
-        self.getTime()
-        for i in self.table:
-            sql='''
-            insert into hourlyForecast(time,desc,temp,feels_like,precip,wind,humidity,date)
-            values ("{0}","{1}","{2}","{3}","{4}","{5}","{6}","{7}")
-            '''.format(i['time'],i['desc'],i['temp'],i['feels_like'],i['precip'],i['wind'],i['humidity'],self.date)
-            self.DB['cursor'].execute(sql)
-            self.DB['db'].commit()
+        if self.table != None:
+            self.getTime()
+            for i in self.table:
+                sql='''
+                insert into hourlyForecast(time,desc,temp,feels_like,precip,wind,humidity,date)
+                values ("{0}","{1}","{2}","{3}","{4}","{5}","{6}","{7}")
+                '''.format(self.stripNA(i['time']),self.stripNA(i['desc']),self.stripNA(i['temp']),self.stripNA(i['feels_like']),self.stripNA(i['precip']),self.stripNA(i['wind']),self.stripNA(i['humidity']),self.date)
+                self.DB['cursor'].execute(sql)
+                self.DB['db'].commit()
 
     def closeTable(self,DB={}):
         self.DB['db'].close()
         self.DB['db'].close()
 
     def insert10DayData(self):
-        self.getTime()
-        for i in self.table:
-            sql='''insert into tendayForecast(day,temp,description,precip,wind,humidity,date)
-            values ("{0}","{1}","{2}","{3}","{4}","{5}","{6}");'''.format(i['day'],i['temp'],i['desc'],i['precip'],i['wind'],i['humidity'],self.date)
-            self.DB['cursor'].execute(sql)
-            self.DB['db'].commit()
+        if self.table != None:
+            self.getTime()
+            for i in self.table:
+                sql='''insert into tendayForecast(day,temp,desc,precip,wind,humidity,date)
+                values ("{0}","{1}","{2}","{3}","{4}","{5}","{6}");'''.format(self.stripNA(i['day']),self.stripNA(i['temp']),self.stripNA(i['desc']),self.stripNA(i['precip']),self.stripNA(i['wind']),self.stripNA(i['humidity']),self.date)
+                self.DB['cursor'].execute(sql)
+                self.DB['db'].commit()
 
-disp=display()
+# the section below will be added to a class called master
+##recordOnly is for data gathering purposes
+#should have a logging capability added down the line
+#need a cmdline argument class as well
+recordOnly=True
+
+if recordOnly == False:
+    disp=display()
+
 tenday=tenDayForecast()
 tenday.setTable()
 hourly=hourlyForecast()
@@ -202,14 +221,19 @@ record.connect()
 
 record.mk10DayTable()
 record.table=tenday.table
-disp.table=tenday.table
-disp.printTable()
+if recordOnly == False:
+    disp.table=tenday.table
+    disp.printTable()
+
 record.insert10DayData()
 
 record.mkHourlyTable()
 record.table=hourly.table
-disp.table=hourly.table
-disp.printTable()
+
+if recordOnly == False:
+    disp.table=hourly.table
+    disp.printTable()
+
 record.insertHourlyData()
 
 record.closeTable()
