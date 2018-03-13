@@ -4,9 +4,8 @@
 
 import urllib.request
 from bs4 import BeautifulSoup as bs
-import sqlite3, pymysql, time
-import string, argparse
-
+import sqlite3, pymysql, time, os, string, argparse
+import xml.etree.ElementTree as ET
 #terminal colorization for table output
 class colors:
     formatReset='\033[0;m'
@@ -208,52 +207,142 @@ class cmdArgs:
         parser=argparse.ArgumentParser()
         parser.add_argument('-d','--display',action='store_true')
         parser.add_argument('-r','--record',action='store_true')
+        parser.add_argument('--hourly',action='store_true')
+        parser.add_argument('--tenday',action='store_true')
+        parser.add_argument('--guided-url-gen',action='store_true')
+        parser.add_argument('--hourly-url')
+        parser.add_argument('--tenday-url')
+        parser.add_argument('--config')
         #add an argument to only get one forecast type; this should only work with display mode, if record is True, do not allow
         options=parser.parse_args()
         return options
 #add a class to generate the appropriate url's for each class that requires a url
+class webGen:
+    baseUrlTenday='https://weather.com/weather/tenday/l/{}+{}+{}'
+    baseUrlHourly='https://weather.com/weather/hourbyhour/l/{}+{}+{}'
+    location={'city/county':'','2LetterStateAbrev':'','zipcode':''}
+    def guidedUrlGen(self):
+        for i in self.location.keys():
+            self.location[i]=input('{}: '.format(i))
+        self.baseUrlTenday=self.baseUrlTenday.format(self.location['city/county'],self.location['2LetterStateAbrev'],self.location['zipcode'])
+        self.baseUrlHourly=self.baseUrlHourly.format(self.location['city/county'],self.location['2LetterStateAbrev'],self.location['zipcode'])
+        print(self.baseUrlTenday,self.baseUrlHourly,sep='\n')
 
 class master:
     #need a cmdline argument class as well
     Display=False
     Record=False
+    Hourly=False
+    TenDay=False
+    ALLFORECASTTRUE="all forecast modes must be active to record any data"
+    hourly_url=None
+    tenday_url=None
     def main(self):
         if self.Display == True:
             disp=display()
         
-        tenday=tenDayForecast()
-        tenday.setTable()
-        hourly=hourlyForecast()
-        hourly.setTable()
+        if self.TenDay == True:
+            tenday=tenDayForecast()
+            if self.tenday_url != None:
+                tenday.address=self.tenday_url
+            tenday.setTable()
         
-        if self.Record == True:
+        if self.Hourly == True:
+            hourly=hourlyForecast()
+            if self.hourly_url != None:
+                hourly.address=self.hourly_url
+            hourly.setTable()
+        
+        if self.Record == True and ((self.Hourly == True) and (self.TenDay == True)):
             record=recordTable()
             record.connect()
             record.mk10DayTable()
             record.table=tenday.table
-        
+        else:
+            if self.Record == True:
+                exit(self.ALLFORECASTTRUE)
+
         if self.Display == True:
-            disp.table=tenday.table
-            disp.printTable()
+            if self.TenDay == True:
+                disp.table=tenday.table
+                disp.printTable()
     
-        if self.Record == True:
+        if self.Record == True and ((self.Hourly == True) and (self.TenDay == True)):
             record.insert10DayData()
             record.mkHourlyTable()
             record.table=hourly.table
-    
+        else:
+            if self.Record == True:
+                exit(self.ALLFORECASTTRUE)   
+
         if self.Display == True:
-            disp.table=hourly.table
-            disp.printTable()
+            if self.Hourly == True:
+                disp.table=hourly.table
+                disp.printTable()
         
-        if self.Record == True:
+        if self.Record == True and ((self.Hourly == True) and (self.TenDay == True)):
             record.insertHourlyData()
             record.closeTable()
+        else:
+            if self.Record == True:
+                exit(self.ALLFORECASTTRUE)
 
-arg=cmdArgs()
-args=arg.cmdline()
-main=master()
-if args.display:
-    main.Display=args.display
-if args.record:
-    main.Record=args.record
-main.main()
+
+class config:
+    config='wu.xml'
+    CONF_NO_EXIST="configuration file '{}' does not exist"
+    addresses={}
+    def getConfig(self):
+        errorCount=0
+        if os.path.exists(self.config):
+            tree=ET.parse(self.config)
+            root=tree.getroot()
+            for node in root:
+                if errorCount < 2:
+                    if node.tag == "hourly_url":
+                        self.addresses[node.tag]=node.text
+                    if node.tag == "tenday_url":
+                        self.addresses[node.tag]=node.text
+                    errorCount+=1
+                else:
+                    break
+            return self.addresses
+        else:
+            exit(self.CONF_NO_EXIST.format(self.config))
+
+class Main:
+    def run(self):
+        arg=cmdArgs()
+        args=arg.cmdline()
+        main=master()
+        if not args.guided_url_gen:
+            if not args.config:
+                if args.hourly_url:
+                    main.hourly_url=args.hourly_url
+                if args.tenday_url:
+                    main.tenday_url=args.tenday_url
+            else:
+                conf=config()
+                conf.config=args.config
+                urls=conf.getConfig()
+                main.tenday_url=urls['tenday_url']
+                main.hourly_url=urls['hourly_url']
+        
+            if args.display:
+                main.Display=args.display
+            if args.record:
+                main.Record=args.record
+    
+            if args.hourly:
+                main.Hourly=args.hourly
+            elif args.tenday:
+                main.TenDay=args.tenday
+            else:
+                main.Hourly=True
+                main.TenDay=True
+            main.main()
+        else:
+            gen=webGen()
+            gen.guidedUrlGen()
+begin=Main()
+begin.run()

@@ -1,0 +1,4 @@
+<config>
+	<tenday_url>https://weather.com/weather/tenday/l/seaside+ca+93955</tenday_url>
+	<hourly_url>https://weather.com/weather/hourbyhour/l/seaside+ca+93955</hourly_url>
+</config>
