@@ -5,7 +5,7 @@
 import urllib.request
 from bs4 import BeautifulSoup as bs
 import sqlite3, pymysql, time
-import string
+import string, argparse
 
 #terminal colorization for table output
 class colors:
@@ -101,7 +101,7 @@ class display:
 class tenDayForecast:
     table=[]
     rowCast={}
-    address='https://weather.com/weather/tenday/l/Seaside+CA+93955:4:US'
+    address='https://weather.com/weather/tenday/l/Seaside+CA+93955'
     def webpage(self,url):
         url=urllib.request.urlopen(url)
         return url
@@ -202,40 +202,58 @@ class recordTable:
                 self.DB['cursor'].execute(sql)
                 self.DB['db'].commit()
 
-# the section below will be added to a class called master
-##recordOnly is for data gathering purposes
-#should have a logging capability added down the line
-#need a cmdline argument class as well
-recordOnly=True
 
-if recordOnly == False:
-    disp=display()
+class cmdArgs:
+    def cmdline(self):
+        parser=argparse.ArgumentParser()
+        parser.add_argument('-d','--display',action='store_true')
+        parser.add_argument('-r','--record',action='store_true')
+        #add an argument to only get one forecast type; this should only work with display mode, if record is True, do not allow
+        options=parser.parse_args()
+        return options
+#add a class to generate the appropriate url's for each class that requires a url
 
-tenday=tenDayForecast()
-tenday.setTable()
-hourly=hourlyForecast()
-hourly.setTable()
+class master:
+    #need a cmdline argument class as well
+    Display=False
+    Record=False
+    def main(self):
+        if self.Display == True:
+            disp=display()
+        
+        tenday=tenDayForecast()
+        tenday.setTable()
+        hourly=hourlyForecast()
+        hourly.setTable()
+        
+        if self.Record == True:
+            record=recordTable()
+            record.connect()
+            record.mk10DayTable()
+            record.table=tenday.table
+        
+        if self.Display == True:
+            disp.table=tenday.table
+            disp.printTable()
+    
+        if self.Record == True:
+            record.insert10DayData()
+            record.mkHourlyTable()
+            record.table=hourly.table
+    
+        if self.Display == True:
+            disp.table=hourly.table
+            disp.printTable()
+        
+        if self.Record == True:
+            record.insertHourlyData()
+            record.closeTable()
 
-record=recordTable()
-record.connect()
-
-record.mk10DayTable()
-record.table=tenday.table
-if recordOnly == False:
-    disp.table=tenday.table
-    disp.printTable()
-
-record.insert10DayData()
-
-record.mkHourlyTable()
-record.table=hourly.table
-
-if recordOnly == False:
-    disp.table=hourly.table
-    disp.printTable()
-
-record.insertHourlyData()
-
-record.closeTable()
-
-
+arg=cmdArgs()
+args=arg.cmdline()
+main=master()
+if args.display:
+    main.Display=args.display
+if args.record:
+    main.Record=args.record
+main.main()
