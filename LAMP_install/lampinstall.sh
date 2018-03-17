@@ -4,6 +4,16 @@
 apache_doc_root="/srv/samba"
 packages=("apache" "mysql" "php" "php-apache" "phpadmin" "php-sodium")
 systemctl_cmds=("start" "enable")
+deps=('pacman')
+function pacmanCheck(){
+	#check to see if pacman exists in the currently running system
+	for dep in ${deps[@]} ; do
+		if ! bash depCheck.sh "$dep"; then
+			exit 1
+		fi
+	done
+}
+
 function rootCheck(){
 	if test `whoami` != "root" ; then
 		printf "\e[1;33;40m%s\e[0;m\n" "you are not root/sudo!"
@@ -98,6 +108,7 @@ function blowFish(){
 }
 function main(){
 	rootCheck
+	pacmanCheck
 	installPackages
 	installApache
 	installMySQL
