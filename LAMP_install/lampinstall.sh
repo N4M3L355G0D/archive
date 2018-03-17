@@ -4,9 +4,14 @@
 apache_doc_root="/srv/samba"
 packages=("apache" "mysql" "php" "php-apache" "phpadmin" "php-sodium")
 systemctl_cmds=("start" "enable")
-
+function rootCheck(){
+	if test `whoami` != "root" ; then
+		printf "\e[1;33;40m%s\e[0;m\n" "you are not root/sudo!"
+		exit 1
+	fi
+}
 function installPackages(){
-	sudo pacman -S ${packages[@]}
+	pacman -S ${packages[@]}
 }
 
 function systemctlRun(){
@@ -92,6 +97,7 @@ function blowFish(){
 	sudo systemctl restart httpd
 }
 function main(){
+	rootCheck
 	installPackages
 	installApache
 	installMySQL
