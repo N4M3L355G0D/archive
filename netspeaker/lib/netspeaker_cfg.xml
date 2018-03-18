@@ -1,0 +1,17 @@
+<config>
+	<client num='1' host='comet'>
+		<address>172.16.0.21</address>
+		<port>9903</port>
+		<password>1S@vi0r2all</password>
+		<user>carl</user>
+		<sshport>22</sshport>
+	</client>
+	<client num='2' host='demi'>
+		<address>172.16.0.17</address>
+		<port>9904</port>
+		<password>avalon</password>
+		<user>carl</user>
+		<sshport>22</sshport>
+	</client>
+
+</config>

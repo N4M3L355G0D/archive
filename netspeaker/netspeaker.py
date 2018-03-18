@@ -10,7 +10,15 @@ import sys, argparse, os
 libdir='lib'
 if os.path.exists(libdir) and os.path.isdir(libdir):
     sys.path.insert(0,libdir)
-#get configuration from xmlfile, sqlite3 db,or prompt
+from getxmlcfg import xmlcnf
+class colors:
+    boldRed='\033[1;31;40m'
+    boldYellow='\033[1;33;40m'
+    boldGreen='\033[1;32;40m'
+    boldBlueBlink='\033[1;5;36;40m'
+    reset='\033[0;m'
+    
+color=colors()
 
 class netspeaker:
     clientlist=[]
@@ -31,52 +39,58 @@ class netspeaker:
         parser.add_argument('-P','--port',help='multiple ports separated by commas')
         parser.add_argument('-r','--rate',help='multiple rates separated by commas')
         parser.add_argument('-s','--sshport',help='multiple ports separated by commas')
+        parser.add_argument('--use-xml',action='store_true')
 
         options=parser.parse_args()
         if options.use_cmdline:
             #cmdline args for config
-            userLen=len(options.user.split(','))
+            if options.user:
+                userLen=len(options.user.split(','))
+            else:
+                exit(ALLOPT+":{} user {}".format(color.boldRed,color.reset))
+
             for i in range(userLen):
                 client['user']=options.user
                 if client['user']:
                     client['user']=client['user'].split(',')[i]
-                else:
-                    exit(ALLOPT+": user")
-
+                    
                 client['password']=options.password
                 if client['password']:
                     if len(client['password'].split(',')) != userLen:
-                        exit(MUSTEQ+': password')
+                        exit(MUSTEQ+':{} password {}'.format(color.boldRed,color.reset))
                     client['password']=client['password'].split(',')[i]
                 else:
-                    exit(ALLOPT+": password")
+                    exit(ALLOPT+":{} password {}".format(color.boldRed,color.reset))
 
                 client['address']=options.address
                 if client['address']:
                     if len(client['address'].split(',')) != userLen:
-                        exit(MUSTEQ+': address')
+                        exit(MUSTEQ+':{} address {}'.format(color.boldRed,color.reset))
                     client['address']=client['address'].split(',')[i]
                 else:
-                    exit(ALLOPT+": address")
+                    exit(ALLOPT+":{} address {}".format(color.boldRed,color.reset))
 
                 client['port']=options.port
                 if client['port']:
                     if len(client['port'].split(',')) != userLen:
-                        exit(MUSTEQ+': port')
+                        exit(MUSTEQ+':{} port {}'.format(color.boldRed,color.reset))
                     client['port']=client['port'].split(',')[i]
                 else:
-                    exit(ALLOPT+": port")
+                    exit(ALLOPT+":{} port {}".format(color.boldRed,color.reset))
 
                 client['sshport']=options.sshport
                 if client['sshport']:
                     if len(client['sshport'].split(',')) != userLen:
-                        exit(MUSTEQ+': sshport')
+                        exit(MUSTEQ+':{} sshport {}'.format(color.boldRed,color.reset))
                     client['sshport']=client['sshport'].split(',')[i]
                 else:
-                    exit(ALLOPT+": sshport")
+                    exit(ALLOPT+":{} sshport {}".format(color.boldRed,color.reset))
                 #need to keep in mind that classified dicts need to be re-initialized after each use
                 self.addNewClients(client)
                 client={}
+        elif options.use_xml:
+            cfg=xmlcnf()
+            self.clientlist=cfg.getcfg()
 
     def addNewClients(self,clientDict):
         self.clientlist.append(clientDict)
@@ -85,9 +99,14 @@ class netspeaker:
         for key in client.keys():
             if key not in self.forbiddenkeys:
                 if altword == None:
-                    print('{0}: {1}'.format(key,client[key]))
+                    print('{0}{1}{2}: {3}{4}{5}'.format(
+                    color.boldRed,key,color.reset,
+                    color.boldGreen,client[key],color.reset))
                 else:
-                    print('{0}: {1} {2}'.format(key,client[key],altword))
+                    print('{0}{1}{2}:{3}{4}{5} {6}{7}{8}'.format(
+                    color.boldGreen,key,color.reset,
+                    color.boldYellow,client[key],color.reset,
+                    color.boldRed,altword,color.reset))
 
     def main(self):
         #handle ctrl-c
@@ -117,9 +136,10 @@ class netspeaker:
             #an explicit 'y' must be given
             #ctrl-d is a eof, this deals with a user pressing ctrl-d
             if quit:
-                sys.stdout.write('quit: ')
+                sys.stdout.write('{0}quit: '.format(color.boldBlueBlink))
                 sys.stdout.flush()
                 quit=sys.stdin.readline()
+                sys.stdout.write(color.reset)
             else:
                 self.cleanup()
         self.cleanup()
@@ -138,5 +158,4 @@ class netspeaker:
 
 net=netspeaker()
 net.cmdline()
-#print(net.clientlist)
 net.main()
