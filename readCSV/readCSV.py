@@ -1,6 +1,4 @@
 import csv, os, string
-
-
 class findRowCSV:
     csvFile='xlsx.xlsx'
     filePath=''
