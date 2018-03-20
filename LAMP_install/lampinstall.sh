@@ -2,7 +2,7 @@
 #NoGuiLinux
 
 apache_doc_root="/srv/samba"
-packages=("apache" "mysql" "php" "php-apache" "phpadmin" "php-sodium")
+packages=("apache" "mysql" "php" "php-apache" "phpmyadmin" "php-sodium")
 systemctl_cmds=("start" "enable")
 deps=('pacman')
 function pacmanCheck(){
@@ -22,6 +22,9 @@ function rootCheck(){
 }
 function installPackages(){
 	pacman -S ${packages[@]}
+	if test $? != 0 ; then
+		exit 1
+	fi
 }
 
 function systemctlRun(){
@@ -49,7 +52,7 @@ EOF
 }
 
 function installMySQL(){
-	mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/myqsql
+	mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 	systemctlRun mysqld
 	mysql_secure_installation
 }
