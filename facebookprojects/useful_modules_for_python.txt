@@ -25,5 +25,6 @@ networking
 ----------
 netifaces
 paramiko
-
+scapy
+scrapy
 
