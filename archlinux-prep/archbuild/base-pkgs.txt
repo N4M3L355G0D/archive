@@ -895,3 +895,4 @@ zita-resampler
 zlib
 zstd
 zvbi
+lsscsi

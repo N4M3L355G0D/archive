@@ -1,0 +1,7 @@
+<config>
+	<version version='1'>
+		<basePkgFile>../archlinux-prep/archbuild/base-pkgs.txt</basePkgFile>
+		<pkgDetailsDir>pkgDetails</pkgDetailsDir>
+	</version>
+
+</config>
