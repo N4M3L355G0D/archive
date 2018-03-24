@@ -2,6 +2,7 @@
 	<version version='1'>
 		<basePkgFile>../archlinux-prep/archbuild/base-pkgs.txt</basePkgFile>
 		<pkgDetailsDir>pkgDetails</pkgDetailsDir>
+		<finalXML>master-packages.xml</finalXML>
 	</version>
 
 </config>
