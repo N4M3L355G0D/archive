@@ -5,10 +5,12 @@ import pyalpm, time, argparse
 from xml.etree.ElementTree import Element as element, SubElement as subElement, tostring
 
 class pac2xml:
-    top=element("pkg",name="vim")
+    top=''
     package=""
     def setup(self):
         pkg=self.package
+        self.top=element('pkg',name=pkg)
+
             
         databaseDir="/var/lib/pacman"
         handle=pyalpm.Handle('/',databaseDir)
