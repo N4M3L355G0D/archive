@@ -1,0 +1,296 @@
+<?xml version="1.0"?>
+<resume>
+  <contact>
+    <name>Carl Hirner</name>
+    <address>Seaside, CA 93955</address>
+    <email>k.j.hirner.wisdom@gmail.com</email>
+    <phone>8048544057</phone>
+  </contact>
+  <relocation>Willing to relocate: Anywhere</relocation>
+  <work_auth>Authorized to work in the US for any employer</work_auth>
+  <work_xp tag="Work Experience">
+    <employer name="sonic" num="1">
+      <title num="1">Crew Member</title>
+      <employer_region>Sonic - Gloucester, VA</employer_region>
+      <start2end>November 2017 to February 2018</start2end>
+      <duties>
+        Grill/Fry Cook
+        assembled products on a per-order basis
+        trained new crew members for the grill/fry cook
+        ensured kitchen was fully stocked and cleaned before and after each shift
+        ensured the accuracy and quality of each order as it was filled
+      </duties>
+    </employer>
+    <employer name="mcdonald" num="2">
+      <title num="1">Crew Member</title>
+      <employer_region>McDonald's - Gloucester, VA</employer_region>
+      <start2end>November 2017 to February 2018</start2end>
+      <duties>
+        Grill/Fry Cook
+        cooked and assembled products per order requirements
+        ensured the kitchen was fully stocked and cleaned
+        ensured all dishes were washed and put away
+      </duties>
+    </employer>
+    <employer name="production services support" num="3">
+      <title num="1">Reclaimer</title>
+      <employer_region>Production Services Support - Gloucester, VA</employer_region>
+      <start2end>January 2017 to October 2017</start2end>
+      <duties>
+        De-bag and un-box toner used cartridges
+          from inbound trucks
+        Ensure continuous production line operation
+          through constant observation of the
+          production line state
+        Package toner cartridges for shipment to
+          Canon clients
+        Identify 3rd party cartridges by ROM,
+          Drum, and cartridge Label and distribute
+          them to their appropriate storage, and
+          disposal, bins
+        Disassemble cartridges as they are provided
+          on the Disassembly line
+        general warehouse duties
+      </duties>
+    </employer>
+    <employer name="techzone" num="4">
+      <title num="1">IT Specialist</title>
+      <employer_region>Techzone - Gloucester, VA</employer_region>
+      <start2end>October 2016 to February 2017</start2end>
+      <duties>
+        Design/implement/administrate on-site LinuxServers
+        Design/implement/administrate new centralized IT Infrastructure
+        Manage on-site Windows/Linux systems.
+        Maintain On-site Samba Network file-share
+        Provide system user management
+        Develop Bash/Python/Shell Development
+        Provide Technical consultation/support
+        Provide network administration
+        Provide web development
+      </duties>
+    </employer>
+    <employer name="adams and garth" num="4">
+      <title num="1">Telemarketer</title>
+      <employer_region>Adams and Garth - Richmond, VA</employer_region>
+      <start2end>February 2016 to October 2016</start2end>
+      <duties>
+        calling individuals through the predictive
+        calling program, Vector to gather survey
+          research information.
+      </duties>
+    </employer>
+    <employer name="i64 hotel" num="6">
+      <title num="1">IT Administrator</title>
+      <employer_region>I64 Hotel - Richmond, VA</employer_region>
+      <start2end>January 2016 to October 2016</start2end>
+      <duties>
+        Provide IT infrastructure Consultation and Implementation
+        Manage Cisco equipment
+        perform system administration supporting various operating systems, including Windows 7/
+          XP/8/8.1/10, Ubuntu Linux 15.10, Debian Linux, Cent OS
+        Image and Upgrade server systems
+        Provide Python\Bash\Shell\Web Development
+        Manage Hotel Network and Security Systems
+        Manage Hotel IT Infrastructure Documentation
+        Provide Disaster Recovery Management
+        Provide Electronic Recycling and Re-Use Solutions
+        VOIP (Cisco,Asterix)
+      </duties>
+    </employer>
+    <employer name="addecco USA" num="7">
+      <title num="1">TechOps Assistant</title>
+      <title num="2">Warehouse Laborer</title>
+      <employer_region>Twitter through Addecco USA - Sandston, VA</employer_region>
+      <start2end>May 2015 to June 2015</start2end>
+      <duties>
+        Performed cabling for new server installations, which includes network and power cables
+        Provided installation of server hardware into server racks
+        Installed Juniper Switches, Triplite PSU's, and various servers into server racks. 
+        General Warehouse duties
+      </duties>
+    </employer>
+    <employer name="ecpi university" num="8">
+      <title num="1">Computer Technician</title>
+      <employer_region>ECPI University Federal Work Study Program - Glen Allen, VA</employer_region>
+      <start2end>September 2013 to May 2015</start2end>
+      <duties>
+        support the IT Department
+        Maintained Network connectivity and providing solutions to connection issues
+        Provided PC and iMac hardware upgrades, repair, and maintenance Software installations, upgrades,
+          and removal, Provides instruction and recommendations on the use of Linux
+        Dual boot support for Mac OSX and Windows 7
+        Imaged iMac hardware with Mac OSX Diskutility, and Apple Recovery Server
+        Imaged HP and Dell hardware with Norton Ghost
+        Provided Linux information to students looking towards Linux
+        Network Cable production, and running
+      </duties>
+    </employer>
+    <employer name="crosswalk community church" num="9">
+      <title num="1">Audio visual Technician</title>
+      <employer_region>Crosswalk Community Church - West Point, VA</employer_region>
+      <start2end>May 2013 to 2015</start2end>
+      <duties>
+        Audio and Video Management
+        Provide support for audio and video team members as well as for the Mac OSX Systems used
+        Ensure proper maintenance of church equipment
+        Responsible for ensuring that proper cable networks are run
+        Provides training for new volunteers to the Tech. teams and is responsible for maintaining a positive
+          atmosphere
+      </duties>
+    </employer>
+    <employer name="dominion va power" num="10">
+      <title num="1">Internship</title>
+      <employer_region>Dominion - Richmond VA</employer_region>
+      <start2end>May 2014 to August 2014</start2end>
+      <duties>
+        Software Development with HTML4 for Electro-Mechanical relay manuals with the assistance of
+          Microsoft Excel as a template generator.
+        Maintained Electro-Mechanical Relays
+      </duties>
+    </employer>
+    <employer name="dominion va power" num="11">
+      <title>Internship</title>
+      <employer_region>Crosswalk Community Church - Ricmond, VA</employer_region>
+      <start2end>July 2013 to August 2013</start2end>
+      <duties>
+        Performed HTML4 software development as a continuation of the previous year's project
+        Performed Rudimentary MS Batch File Scripting to rename/move 35,000 digital manuals,
+          Including the removal of duplicate manuals, which in total was 20,00 of the total 35,000.
+        Provided Pre-audit paperwork reviews
+        Provided Maintenance for inbound Electro-Mechanical Relays, as well as calibration for
+        Outbound Electro-Mechanical relays.
+      </duties>
+    </employer>
+  </work_xp>
+  <education>
+    <school num="1" type="college">
+      <degree>Bachelors in Electronics Engineering Technology</degree>
+      <school_region>ECPI University - Glen Allen, VA</school_region>
+      <start2end>April 2014 to Present</start2end>
+    </school>
+    <school num="1" type="high school">
+      <degree>High school or equivalent in High School Diploma</degree>
+      <school_region>King William High School - King William, VA</school_region>
+      <start2end>September 2009 to June 2013</start2end>
+    </school>
+  </education>
+  <skills tag="Skills">
+    <skill num="1">IT Administrator (3 years)</skill>
+    <skill num="2">Warehouse (1 year)</skill>
+  </skills>
+  <links tag="Links">
+    <link num="1">https://github.com/deskos-xp/archive</link>
+    <link num="2">https://github.com/deskos-xp/forecast</link>
+    <link num="3">https://github.com/deskos-xp/serverTreeM</link>
+    <link num="4">https://xposcubed.wixsite.com/rambler</link>
+  </links>
+  <certs tag="Certifications/Licenses">
+    <cert num="1">
+      <name>Fiber Optic Installer</name>
+      <start2end>May 2015 to May 2020</start2end>
+    </cert>
+    <cert num="2">
+      <name>ServSafe</name>
+      <start2end>March 2018 to March 2021</start2end>
+    </cert>
+  </certs>
+  <additional_info tag="Additional Information">
+    ProPresenter 5
+    Team Viewer/SSH/putty/telnet/ftp/sftp/NoMachine
+    Virtualization Technologies (VMWare,VirtualBox, Qemu/KVM)
+    Ghost Cast
+    Wireshark
+    GNU GCC/G++ Compiler
+    Linux Package managementsystems ( Apt, RPM, Pacman, Yast )
+    MicroSoft Office
+    LAMP/LAPP Stacks
+    Sqlite3
+    Systemd/Upstart
+    Cisco/Packet Tracer
+    IpTables
+    Skills
+    C++/C
+    HTML/PHP/CSS
+    Bash/SH/Python/Awk shell scripting
+    Operating System installation and management ( Linux/FreeBSD/Windows)
+    Linux System management
+    Installation of Various Servers ( Apache, NFS, SSH, NFS, Samba, FTP, SFTP, DHCP, Telnet, VNC,Mariadb, PostgreSQL, TGT (iSCSI target/server) etc.)
+    Remote System Management
+    Windows Server 2008/2012
+    pfSense ( as captive portal, router, NAT, firewall, traffic shaper)
+    MySQL/SQLite3/PostgreSQL
+  
+    Microsoft Windows ( Server and Desktop )
+    Mac OSX/Apple iOS
+    Ubuntu/Debian/Kali
+    Cent OS/Fedora/Red Hat/PC Linux OS/Mageia/OpenSuse
+    Manjaro/Arch Linux
+  </additional_info>
+  <schools>
+    <school name="king william high school" type="highschool">
+      <address>80 Cavalier Dr</address>
+      <county>king william county</county>
+      <state>VA</state>
+      <country>united states of america</country>
+      <zipcode>23086</zipcode>
+      <startdate>september 9, 2009</startdate>
+      <enddate>june 14,2013</enddate>
+      <graduated>yes</graduated>
+    </school>
+    <school name="ecpi university" type="some-college or /vocational/trechnical trade school">
+      <address>4035 Cox Rd</address>
+      <county>Glen Allen</county>
+      <state>VA</state>
+      <country>united states of america</country>
+      <zipcode>23060</zipcode>
+      <startdate>august 11, 2013</startdate>
+      <enddate>n/a</enddate>
+      <graduated>pending</graduated>
+    </school>
+  </schools>
+  <references>
+    <employer name="hotel i64">
+      <street_address>6531 W Broad St</street_address>
+      <city>Richmond</city>
+      <state>VA</state>
+      <zip>23230</zip>
+      <phone type="landline" owner="hotel i64">(804) 977-6440</phone>
+      <manager_supervisor num="1" title="general manager">Anil Patel</manager_supervisor>
+    </employer>
+    <employer name="techzone">
+      <street_address>6537 Market Dr</street_address>
+      <city>Gloucester</city>
+      <state>VA</state>
+      <zip>23061</zip>
+      <phone type="landline" owner="techzone">(804) 695-1825</phone>
+      <manager_supervisor num="1" title="manager">Steve Finch</manager_supervisor>
+    </employer>
+    <employer name="production services support">
+      <street_address>6000 Industrial Dr</street_address>
+      <city>Gloucester</city>
+      <state>VA</state>
+      <zip>23061</zip>
+      <phone type="landline" owner="production support services">(757) 599-5959</phone>
+      <manager_supervisor num="1" title="manager">Randy Troutman</manager_supervisor>
+    </employer>
+    <employer name="mcdonalds">
+      <street_address>7099 George Washington Memorial Hwy</street_address>
+      <city>Gloucester</city>
+      <state>VA</state>
+      <zip>23061</zip>
+      <phone type="landline" owner="mcdonalds">(804) 694-4810</phone>
+      <phone type="cell" owner="manager">(757) 525-6476</phone>
+      <manager_supervisor num="1" title="manager">Tina Evans</manager_supervisor>
+    </employer>
+    <employer name="sonic">
+      <street_address>7060 George Washington Memorial Hwy</street_address>
+      <city>Gloucester</city>
+      <state>VA</state>
+      <zip>23061</zip>
+      <phone type="landline" owner="sonic">(804) 694-4447</phone>
+      <phone type="cell" owner="shift manager">(804) 824-7920</phone>
+      <manager_supervisor num="1" title="general manager">Kevin White</manager_supervisor>
+      <manager_supervisor num="2" title="shift manager">Taylor Northrop</manager_supervisor>
+    </employer>
+  </references>
+</resume>

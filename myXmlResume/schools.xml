@@ -1,0 +1,22 @@
+<schools>
+	<school name="king william high school" type="highschool">
+		<address>80 Cavalier Dr</address>
+		<county>king william county</county>
+		<state>VA</state>
+		<country>united states of america</country>
+		<zipcode>23086</zipcode>
+		<startdate>september 9, 2009</startdate>
+		<enddate>june 14,2013</enddate>
+		<graduated>yes</graduated>
+	</school>
+	<school name="ecpi university" type="some-college or /vocational/trechnical trade school">
+		<address>4035 Cox Rd</address>
+		<county>Glen Allen</county>
+		<state>VA</state>
+		<country>united states of america</country>
+		<zipcode>23060</zipcode>
+		<startdate>august 11, 2013</startdate>
+		<enddate>n/a</enddate>
+		<graduated>pending</graduated>
+	</school>
+</schools>
