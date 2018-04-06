@@ -1,0 +1,30 @@
+operating on data
+-----------------
+openpyxl
+pandas
+numpy
+strings
+
+data management
+------------------------
+csv
+xml
+sqlite3
+pymysql
+
+crypto
+------
+pycrytodomex
+
+compression
+-----------
+tarfile
+gzip
+
+networking
+----------
+netifaces
+paramiko
+scapy
+scrapy
+
