@@ -1,42 +1,30 @@
 #! /usr/bin/env python3
-
+#NoGuiLinux
 orig=['2.0G','1.1G','56M','5.0G','211G','4.8G','13G','7.2G']
 
-def sortAlistBySize():
-        
-    origDict={str(index):{num[:len(num)-1]:num[-1].upper()} for index,num in enumerate(orig)}
-    newlist=[]
-    sortedList=[]
-    
-    for index in origDict.keys():
-        for size in origDict[index]:
-            engineering=origDict[index][size]
-            size=float(size)
-            if engineering == 'M':
-                size=size*(1024**2)
-            if engineering == 'G':
-                size=size*(1024**3)
-            newlist.append(size)
-    newlist=sorted(newlist)
-    for ele in newlist:
-        if  1024**2 < ele < 1024**3:
-            sortedList.append('{}{}'.format(ele/1024**2,'M'))
-        elif 1024**3 < ele < 1024**4:
-            sortedList.append('{}{}'.format(ele/1024**3,'G'))
-    print(sortedList)
-
-def sortAlistBySize2():
+def sortAlistBySize2(orig):
+    #this is my recommended method
     newlist=[]
     letters=[]
-    l=['K','M','G']
+    finalList=[]
+    counter=0
+    #engineering notation
+    l=['K','M','G','T','P','E']
     for i in orig:
         if i[-1].upper() not in letters:
             letters.append(i[-1].upper())
-
+    #set the newlist according to float values grouped by engineering values
     for size in l:
         if size in letters:
             newlist.extend([str(j)+size for j in sorted([float(i[:len(i)-1]) for i in orig if i[-1].upper() == size])])
-    return newlist
+    #now lets retrieve the equivalent values from the original list so that we keep the original values that were input
+    for size in newlist:
+        for num,ele in enumerate(orig):
+            ele=str(float(ele[:-1]))+ele[-1]
+            if ele == size:
+                finalList.append(orig[num])
+    return finalList
 
-a=sortAlistBySize2()
-print(a)
+print(orig)
+orig=sortAlistBySize2(orig)
+print(orig)
