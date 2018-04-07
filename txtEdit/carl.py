@@ -47,7 +47,8 @@ def alignIp2Size(unsortedSizes,ipsAndSizes):
     for size in sortedSizes:
         for row in ipsAndSizes:
             if size in row:
-                final.append(row)
+                if row not in final:
+                    final.append(row)
     return final
 
 def display():
