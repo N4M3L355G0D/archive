@@ -57,23 +57,28 @@ def alignIp2Size(unsortedSizes,ipsAndSizes):
                     final.append(row)
     return final
 
-def display():
+def display(noip=False):
     results=alignIp2Size(orig,xy)
     modded_results=[]
+    counter=0
     for row in results:
         size=row[0]
         ip=row[1]
         device=row[2]
 
-        #xAxisLabel
-        xAxis="{}({})".format(device,ip.replace(",","."))
+        if noip == False:
+            #xAxisLabel
+            xAxis="{}({})".format(counter,ip.replace(",","."))
+        else:
+            xAxis="{}".format(counter)
         #yAxis
         yAxis=size
         #this is a list with the unique x axis see the xaxis variable
         modded_results.append([xAxis,yAxis])
+        counter+=1
     return modded_results
 
-for x,y in display():
+for x,y in display(noip=True):
     print(x,y)
     plt.xticks(rotation=90)
     plt.bar(x,y ,label='Loaded From File')
