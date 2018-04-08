@@ -61,7 +61,7 @@ def display():
         device=row[2]
 
         #xAxisLabel
-        xAxis="{}:{}:{}".format(device,ip.replace(",","."),size)
+        xAxis="{}({})".format(device,ip.replace(",","."))
         #yAxis
         yAxis=size
         #this is a list with the unique x axis see the xaxis variable
