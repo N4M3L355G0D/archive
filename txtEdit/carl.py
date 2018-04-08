@@ -54,9 +54,19 @@ def alignIp2Size(unsortedSizes,ipsAndSizes):
 
 def display():
     results=alignIp2Size(orig,xy)
+    modded_results=[]
     for row in results:
         size=row[0]
         ip=row[1]
         device=row[2]
-        print(device,size,ip.replace(",","."))
-display()
+
+        #xAxisLabel
+        xAxis="{}:{}:{}".format(device,ip.replace(",","."),size)
+        #yAxis
+        yAxis=size
+        #this is a list with the unique x axis see the xaxis variable
+        modded_results.append([xAxis,yAxis])
+    return modded_results
+
+for x,y in display():
+    print(x,y)
