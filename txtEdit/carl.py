@@ -15,7 +15,7 @@ with open('test1111.csv','r') as csvfile:
     for row in plots:
         x.append(row[5])
         y.append(row[1])
-        xy.append([row[5],row[1]])
+        xy.append([row[5],row[1],row[2]])
         orig=x
 
 def sortAlistBySize2(origin):
@@ -44,7 +44,8 @@ def sortAlistBySize2(origin):
 def alignIp2Size(unsortedSizes,ipsAndSizes):
     final=[]
     sortedSizes=sortAlistBySize2(unsortedSizes)
-    for size in sortedSizes:
+    sortedLen=len(ipsAndSizes)
+    for size in sortedSizes: 
         for row in ipsAndSizes:
             if size in row:
                 if row not in final:
@@ -56,5 +57,6 @@ def display():
     for row in results:
         size=row[0]
         ip=row[1]
-        print(size,ip.replace(",","."))
+        device=row[2]
+        print(device,size,ip.replace(",","."))
 display()
