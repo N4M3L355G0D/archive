@@ -57,7 +57,7 @@ def alignIp2Size(unsortedSizes,ipsAndSizes):
                     final.append(row)
     return final
 
-def display(noip=False):
+def display(noip=False,counterip=False,devname=False):
     results=alignIp2Size(orig,xy)
     modded_results=[]
     counter=0
@@ -65,11 +65,14 @@ def display(noip=False):
         size=row[0]
         ip=row[1]
         device=row[2]
-
-        if noip == False:
-            #xAxisLabel
+        
+        if devname == True:
+            xAxis="{}({})".format(device,ip.replace(",","."))
+        elif counterip == True:
+            #xAxisLabel using ip and counter
             xAxis="{}({})".format(counter,ip.replace(",","."))
-        else:
+        elif noip == True:
+            #just use a counter for unique axis label
             xAxis="{}".format(counter)
         #yAxis
         yAxis=size
