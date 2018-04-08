@@ -15,9 +15,11 @@ except:
 x=[]
 y=[]
 xy=[]
+rows=0
 with open('test1111.csv','r') as csvfile:
     plots = csv.reader(csvfile, delimiter=',')
     for row in plots:
+        rows+=1
         x.append(row[5])
         y.append(row[1])
         xy.append([row[5],row[1],row[2]])
@@ -57,7 +59,7 @@ def alignIp2Size(unsortedSizes,ipsAndSizes):
                     final.append(row)
     return final
 
-def display(noip=False,counterip=False,devname=False):
+def display(custom=[],noip=False,counterip=False,devname=False):
     results=alignIp2Size(orig,xy)
     modded_results=[]
     counter=0
@@ -74,6 +76,9 @@ def display(noip=False,counterip=False,devname=False):
         elif noip == True:
             #just use a counter for unique axis label
             xAxis="{}".format(counter)
+        elif custom != []:
+            #make sure the custom list is the same size as the lines input from the csv
+            xAxis="{}".format(custom[counter])
         #yAxis
         yAxis=size
         #this is a list with the unique x axis see the xaxis variable
@@ -81,7 +86,15 @@ def display(noip=False,counterip=False,devname=False):
         counter+=1
     return modded_results
 
-for x,y in display(noip=True):
+#fake labels for x can be put in here, make sure it is as long as the data from the csv
+custom=[]
+#prefill the custom labels variable custom
+for i in range(0,rows):
+    custom.append(i)
+#store the data in data
+data=display(custom)
+#begin iteration run
+for x,y in data:
     print(x,y)
     plt.xticks(rotation=90)
     plt.bar(x,y ,label='Loaded From File')
