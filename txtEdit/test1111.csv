@@ -15,3 +15,4 @@
 04/04/18-14:40:19,"192,168.1.24",/dev/mapper/vg_dbarch-lv_dbarch,624G,449G,144G,76%,NOK
 04/04/18-14:40:19,"192,168.1.25",/dev/mapper/vg_dbarch-lv_dbarch2,624G,449G,144G,76%,NOK
 04/04/18-14:40:19,"192,168.1.25",/dev/mapper/vg_dbarch-lv_dbarch1,624G,449G,10G,76%,NOK
+04/04/18-14:40:19,"192,168.1.25",/dev/mapper/vg_dbarch-lv_dbarch3,624G,449G,1T,76%,NOK

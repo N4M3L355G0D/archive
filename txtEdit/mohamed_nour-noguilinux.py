@@ -16,6 +16,8 @@ x=[]
 y=[]
 xy=[]
 rows=0
+l=('K','M','G','T','P','E')
+
 with open('test1111.csv','r') as csvfile:
     plots = csv.reader(csvfile, delimiter=',')
     for row in plots:
@@ -32,7 +34,7 @@ def sortAlistBySize2(origin):
     finalList=[]
     counter=0
     #engineering notation
-    l=['K','M','G','T','P','E']
+    #l=['K','M','G','T','P','E']
     for i in origin:
         if i[-1].upper() not in letters:
             letters.append(i[-1].upper())
@@ -86,6 +88,8 @@ def display(custom=[],noip=False,counterip=False,devname=False):
         counter+=1
     return modded_results
 
+
+maxColor=4.0
 #fake labels for x can be put in here, make sure it is as long as the data from the csv
 custom=[]
 #prefill the custom labels variable custom
@@ -95,9 +99,20 @@ for i in range(0,rows):
 data=display(custom)
 #begin iteration run
 for x,y in data:
+    color='blue'
     print(x,y)
     plt.xticks(rotation=90)
-    plt.bar(x,y ,label='Loaded From File')
+    #anything below a GB is obviously going to be less than 4GB
+    if y[-1].upper() in ['K','M']:
+        color='red'
+    #now since we want anything below 4 in the G section to be red
+    elif float(y[:-1]) < maxColor and y[-1].upper() == 'G':
+        color='red'
+    #now since in engineering notation, T/P/E are above G we really do not need to worry about it
+    #the numbers are in y[:-1] which slices to to the end of the string minus one so '100T' becomes '100'
+    #the engineering notation are in y[-1] which takes the last character of the string
+    #so '100T' becomes 'T'
+    plt.bar(x,y,color=color ,label='Loaded From File')
 
 
 #plt.bar(x,y ,label='Loaded From File')
