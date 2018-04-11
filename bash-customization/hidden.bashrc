@@ -1,11 +1,11 @@
 #
 # ~/.bashrc
 #
-srv='/srv/samba/techzone/http'
-customer_forms='/srv/samba/techzone/http/Customer Forms'
-alias terminalscan='sudo /usr/local/bin/terminalscan'
-export customer_forms
-export srv
+#srv='/srv/samba/techzone/http'
+#customer_forms='/srv/samba/techzone/http/Customer Forms'
+#alias terminalscan='sudo /usr/local/bin/terminalscan'
+#export customer_forms
+##export srv
 
 build="/srv/samba/techzone/http/sdb/build"
 export build

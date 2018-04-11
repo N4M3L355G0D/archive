@@ -96,7 +96,7 @@ custom=[]
 for i in range(0,rows):
     custom.append(i)
 #store the data in data
-data=display(custom)
+data=display(devname=True)
 #begin iteration run
 for x,y in data:
     color='blue'
