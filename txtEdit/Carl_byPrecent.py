@@ -66,13 +66,13 @@ def display():
         size=row[0]
         ip=row[1]
         device=row[2]
-
+        percent=row[3]
         #xAxisLabel
         xAxis="{}({})".format(device,ip.replace(",","."))
         #yAxis
         yAxis=size
         #this is a list with the unique x axis see the xaxis variable
-        modded_results.append([xAxis,yAxis])
+        modded_results.append([xAxis,yAxis,percent])
     return modded_results
 
 
@@ -117,20 +117,11 @@ data=display()
 #the percent value as an integer to make red
 
 def disp1(new=0):
-    #get the 100% value
-    top=convertEng2Float(data[-1][1])
-    percent=top*float(new/100)
-    #get the desired % value of top to make the cut off for
-    #begin iteration run
-    # Trying to add z in a loop into the below one
-    print('100%:{} 80%:{}'.format(top,percent))
-    # you did not need for z in data
-    for x,y in data:
+    for x,y,z in data:
         color='blue'
-        check=convertEng2Float(y)
-        print('{:.4f}%'.format(float(check/top)*100))
-        if check < percent:
+        if float(z[:-1]) >= new:
             color='red'
+            print(x,y,z)
         #print (x)
         plt.xticks(rotation=90)
         #anything below a GB is obviously going to be less than 4GB
