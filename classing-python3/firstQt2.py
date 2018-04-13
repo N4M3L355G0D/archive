@@ -9,6 +9,8 @@ class orvil(QMainWindow):
     class actions:
         okMsg="Okay"
         qMsg="Quit"
+        #master will be populated with the object 'example'
+        master=None
         def okay(self,statusBar,msg=None):
             if msg == None:
                 print(self.okMsg)
@@ -31,9 +33,7 @@ class orvil(QMainWindow):
             if action.isChecked():
                 statusBar.show()
             else:
-                statusBar.hide()
-
-    act=actions()
+                statusBar.hide() 
 
     class example(QMainWindow):
         newBtn=None
@@ -47,9 +47,9 @@ class orvil(QMainWindow):
              
         def contextMenuEvent(self,event):
             cmenu = QMenu(self)
-            new=self.cm.contextMenuActNew(cmenu,self)
-            opn=self.cm.contextMenuActOpen(cmenu,self)
-            quit=self.cm.contextMenuActQuit(cmenu,self)
+            new=self.cm.contextMenuActNew(cmenu)
+            opn=self.cm.contextMenuActOpen(cmenu)
+            quit=self.cm.contextMenuActQuit(cmenu)
             action=cmenu.exec_(self.mapToGlobal(event.pos()))
         
         def initUi(self):
@@ -63,111 +63,124 @@ class orvil(QMainWindow):
     def initUI(self):
         #at this level, the var master found in other classes is self.Example
         self.Example=self.example()
-        nbt=self.nbt()
-        self.Example.newBtn=nbt
+
+        self.Example.newBtn=self.nbt()
+        self.Example.newBtn.master=self.Example
+        
         self.Example.cm=self.cm()
+        self.Example.cm.master=self.Example
+        
         self.Example.act=self.actions()
+        self.Example.act.master=self.Example
+
         self.Example.fm=self.fileMenu()
-        self.Example.fm.mkMenuBar(self.Example)
+        self.Example.fm.master=self.Example
+        self.Example.fm.mkMenuBar()
+
         self.Example.buttons=self.buttons()
-        self.Example.buttons.quitBtn(self.Example)
-        self.Example.buttons.okayBtn(self.Example)
+        self.Example.buttons.master=self.Example
+        self.Example.buttons.quitBtn()
+        self.Example.buttons.okayBtn()
+
         self.Example.initUi()
 
     class buttons(example):
+        master=None
         #gui buttons
-        def quitBtn(self,master):
-            button=QPushButton('Quit',master)
+        def quitBtn(self):
+            button=QPushButton('Quit',self.master)
             button.setToolTip('<b>Quit</b>!')
             button.resize(100,50)
             button.move(150,150)
             button.setStatusTip('Quit Button')
-            button.clicked.connect(lambda: master.act.quit(master.statusBar(),QApplication.instance()))
+            button.clicked.connect(lambda: self.master.act.quit(self.master.statusBar(),QApplication.instance()))
        
-        def okayBtn(self,master):
-            button=QPushButton('Okay',master)
+        def okayBtn(self):
+            button=QPushButton('Okay',self.master)
             button.setToolTip('<b>Okay</b>!')
             button.resize(100,50)
             button.move(50,150)
             button.setStatusTip('Okay Button')
-            button.clicked.connect(lambda: master.act.okay(master.statusBar()))
+            button.clicked.connect(lambda: self.master.act.okay(self.master.statusBar()))
 
     class fileMenu(example):
         #toolbar file menu
-        def exitAction(self,master):
-            exitAct=QAction(QIcon('exit.png'),'&Exit',master)
+        master=None
+        def exitAction(self):
+            exitAct=QAction(QIcon('exit.png'),'&Exit',self.master)
             exitAct.setShortcut('Ctrl+Q')
             exitAct.setStatusTip('Exit Application')
-            exitAct.triggered.connect(lambda: master.act.quit(self.statusBar(),qApp))
+            exitAct.triggered.connect(lambda: self.master.act.quit(self.statusBar(),qApp))
             return exitAct
 
-        def mkMenuBar(self,master):
-            menuBar=master.menuBar()
-            self.mkFileMenu(menuBar,master)
+        def mkMenuBar(self):
+            menuBar=self.master.menuBar()
+            self.mkFileMenu(menuBar)
 
-        def mkFileMenu(self,menuBar,master):
+        def mkFileMenu(self,menuBar):
             fileMenu=menuBar.addMenu('&File')
-            fileMenu.addAction(self.mkFileAction_New(master))
-            fileMenu.addMenu(self.mkFileMenuSub_Import(master))
-            fileMenu.addAction(self.exitAction(master))
-            fileMenu.addAction(self.mkFileAction_TogStat(master))
+            fileMenu.addAction(self.mkFileAction_New())
+            fileMenu.addMenu(self.mkFileMenuSub_Import())
+            fileMenu.addAction(self.exitAction())
+            fileMenu.addAction(self.mkFileAction_TogStat())
 
-        def mkFileMenuSub_ImportAct(self,master):
-            action=QAction('Import Data',master)
+        def mkFileMenuSub_ImportAct(self):
+            action=QAction('Import Data',self.master)
             action.setShortcut('Ctrl+I')
             action.setStatusTip('Import Data')
-            action.triggered.connect(lambda: master.act.quit(master.statusBar(),kill=None,msg='Import Data'))
+            action.triggered.connect(lambda: self.master.act.quit(self.master.statusBar(),kill=None,msg='Import Data'))
             return action
 
-        def mkFileMenuSub_Import(self,master):
-            menu=QMenu('Import',master)
-            menuAction=self.mkFileMenuSub_ImportAct(master)
+        def mkFileMenuSub_Import(self):
+            menu=QMenu('Import',self.master)
+            menuAction=self.mkFileMenuSub_ImportAct()
             menu.addAction(menuAction)
             return menu
     
-        def mkFileAction_New(self,master):
-            action=QAction('New',master)
+        def mkFileAction_New(self):
+            action=QAction('New',self.master)
             action.setStatusTip('New')
             action.setShortcut("Ctrl+N")
-            action.triggered.connect(lambda: master.newBtn.newBtnStatus(master))
+            action.triggered.connect(lambda: self.master.newBtn.newBtnStatus())
             return action
 
-        def mkFileAction_TogStat(self,master):
-            action=QAction('View Status Bar',master,checkable=True)
+        def mkFileAction_TogStat(self):
+            action=QAction('View Status Bar',self.master,checkable=True)
             action.setStatusTip('View Status Bar')
             action.setChecked(True)
-            action.triggered.connect(lambda: master.act.toggleStatBar(master.statusBar(),action))
+            action.triggered.connect(lambda: self.master.act.toggleStatBar(self.master.statusBar(),action))
             return action
 
     class cm(example):
         #context menu
-        def contextMenuActQuit(self,cmenu,master):
+        master=None
+        def contextMenuActQuit(self,cmenu):
             action=cmenu.addAction("Quit")
-            action.triggered.connect(lambda: master.act.quit(self.statusBar(),qApp))
+            action.triggered.connect(lambda: self.master.act.quit(self.statusBar(),qApp))
             return action
 
-        def contextMenuActOpen(self,cmenu,master):
+        def contextMenuActOpen(self,cmenu):
             action=cmenu.addAction("Open")
-            master.setStatusTip("Open")
+            self.master.setStatusTip("Open")
             return action
 
-        def contextMenuActNew(self,cmenu,master):
+        def contextMenuActNew(self,cmenu):
             action=cmenu.addAction("New")
             action.setShortcut("Ctrl+N")
             #need to pass self into newBtn to make it aware of the window to connect to 
-            action.triggered.connect(lambda: master.newBtn.newBtnStatus(master))
+            action.triggered.connect(lambda: self.master.newBtn.newBtnStatus(self.master))
             self.setStatusTip("New")
             return action
 
     class nbt(example):
             newBtnCreated=False
-    
+            master=None 
             def newBtnHide(self,button):
                 self.newBtnCreated=False
                 button.hide()
         
-            def newBtn(self,master):
-                button=QPushButton('New',master)
+            def newBtn(self):
+                button=QPushButton('New',self.master)
                 button.setToolTip('<b>It\'s a New button</b>!')
                 button.resize(100,50)
                 button.move(50,100)
@@ -176,9 +189,9 @@ class orvil(QMainWindow):
 
                 return button
     
-            def newBtnStatus(self,master):
+            def newBtnStatus(self):
                 if self.newBtnCreated == False:
-                    button=self.newBtn(master)
+                    button=self.newBtn()
                     button.show()    
                     self.newBtnCreated=True
                 print(self.newBtnCreated)
