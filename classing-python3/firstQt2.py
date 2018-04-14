@@ -82,6 +82,10 @@ class orvil(QMainWindow):
         self.Example.buttons.quitBtn()
         self.Example.buttons.okayBtn()
 
+        self.Example.toolbar=self.toolbar()
+        self.Example.toolbar.master=self.Example
+        self.Example.toolbar.mkToolBar()
+
         self.Example.initUi()
 
     class buttons(example):
@@ -168,7 +172,7 @@ class orvil(QMainWindow):
             action=cmenu.addAction("New")
             action.setShortcut("Ctrl+N")
             #need to pass self into newBtn to make it aware of the window to connect to 
-            action.triggered.connect(lambda: self.master.newBtn.newBtnStatus(self.master))
+            action.triggered.connect(lambda: self.master.newBtn.newBtnStatus())
             self.setStatusTip("New")
             return action
 
@@ -195,7 +199,12 @@ class orvil(QMainWindow):
                     button.show()    
                     self.newBtnCreated=True
                 print(self.newBtnCreated)
-
+    class toolbar(example):
+        master=None
+        def mkToolBar(self):
+            self.toolbar=self.master.addToolBar('exit')
+            action=self.master.fm.exitAction()
+            self.toolbar.addAction(action)
 
     def __init__(self):
         super().__init__()
