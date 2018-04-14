@@ -178,8 +178,8 @@ class orvil(QMainWindow):
         def initUi(self):
             QToolTip.setFont(QFont('SansSerif',11))
             self.setGeometry(300,300,400,200)
-            self.setWindowTitle('Icon')
-            self.setWindowIcon(QIcon('tays handscrub.png'))
+            self.setWindowTitle('Kohmet\'s Tail')
+            self.setWindowIcon(QIcon('icon.png'))
             self.show()
 
     def initUI(self):
