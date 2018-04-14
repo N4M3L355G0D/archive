@@ -49,8 +49,8 @@ class orvil(QMainWindow):
 
         def okay(self,statusBar,msg=None):
             if msg == None:
-                text=self.master.edits.text.text()
-                otextObj=self.master.edits.otext
+                text=self.master.editsZ.text.text()
+                otextObj=self.master.editsZ.otext
                 otext=otextObj.text()
                 if os.path.exists(text):
                     print(self.okMsg,text)
@@ -97,10 +97,11 @@ class orvil(QMainWindow):
                 statusBar.show()
             else:
                 statusBar.hide() 
-        def clear(self,statusBar):
-            self.master.edits.text.setText('')
-            self.master.edits.otext.setText('')
-            statusBar.showMessage("Cleared!")
+        def clear(self,statusBar,tab):
+            if tab == 'zip':
+                self.master.editsZ.text.setText('')
+                self.master.editsZ.otext.setText('')
+                statusBar.showMessage("Cleared!")
 
     class example(QMainWindow):
         newBtn=None
@@ -140,8 +141,11 @@ class orvil(QMainWindow):
         self.Example.buttons=self.buttons()
         self.Example.buttons.master=self.Example
 
-        self.Example.edits=self.edits()
-        self.Example.edits.master=self.Example
+        self.Example.editsZ=self.edits()
+        self.Example.editsZ.master=self.Example
+        
+        self.Example.editsU=self.edits()
+        self.Example.editsU.master=self.Example
 
         self.Example.act=self.actions()
         self.Example.act.master=self.Example
@@ -162,10 +166,22 @@ class orvil(QMainWindow):
         master=None
         def mkTabs(self):
             tabs=QTabWidget()
-            tabs.addTab(self.setLayoutZip(),"zip")
-            tabs.addTab(QWidget(),"Pending")
+            tabs.addTab(self.setLayoutZip(),"Zip")
+            tabs.addTab(self.setLayoutUnzip(),"UnZip")
             self.master.setCentralWidget(tabs)
-        
+
+        def setLayoutUnzip(self):
+            wid=QWidget(self.master)
+            self.master.setCentralWidget(wid)
+            grid=QGridLayout()
+            grid.setSpacing(10)
+            #add widgets
+            grid.addWidget(self.master.editsU.label,2,0,1,4)
+            grid.addWidget(self.master.editsU.text,2,1,1,4)
+            grid.addWidget(self.master.editsU.olabel,3,0,1,4)
+            grid.addWidget(self.master.editsU.otext,3,1,1,4)
+            wid.setLayout(grid)
+            return wid
 
         def setLayoutZip(self):
             wid=QWidget(self.master)
@@ -175,16 +191,17 @@ class orvil(QMainWindow):
             grid.addWidget(self.master.buttons.okayBtn(),1,0,1,3)
             grid.addWidget(self.master.buttons.quitBtn(),1,3,1,1)
             grid.addWidget(self.master.buttons.clearBtn(),1,4,1,1)
-            grid.addWidget(self.master.edits.label,2,0,1,4)
-            grid.addWidget(self.master.edits.text,2,1,1,4)
-            grid.addWidget(self.master.edits.olabel,3,0,1,4)
-            grid.addWidget(self.master.edits.otext,3,1,1,4)
+            grid.addWidget(self.master.editsZ.label,2,0,1,4)
+            grid.addWidget(self.master.editsZ.text,2,1,1,4)
+            grid.addWidget(self.master.editsZ.olabel,3,0,1,4)
+            grid.addWidget(self.master.editsZ.otext,3,1,1,4)
             wid.setLayout(grid)
             return wid
             
     class edits(example):
         master=None
         def __init__(self):
+            super().__init__()
             self.lineText()
             self.lineTextLabel()
             self.lineTextOut()
@@ -230,7 +247,7 @@ class orvil(QMainWindow):
             button.setToolTip("clear inpath")
             button.resize(50,50)
             button.setStatusTip('cleared inpath')
-            button.clicked.connect(lambda: self.master.act.clear(self.master.statusBar()))
+            button.clicked.connect(lambda: self.master.act.clear(self.master.statusBar(),'zip'))
             return button
 
     class fileMenu(example):
