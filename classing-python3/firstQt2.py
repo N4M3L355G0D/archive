@@ -8,6 +8,58 @@ from PyQt5.QtGui import QFont
 
 class orvil(QMainWindow):
     ext="zip"
+
+    class unzip:
+        master=None
+        def externalTasks(self,statusBar,msg,noclear=True):
+            statusBar.showMessage(msg)
+            if noclear == False:
+                self.master.act.clear(statusBar,"unzip")
+
+        def unzip(self,statusBar,fname,opath):
+            if os.path.exists(fname):
+                if os.path.isfile(fname):
+                    z=zipfile.ZipFile(fname,'r')
+                    z.extractall(path=opath)
+                    msg="'{}' : extracted!".format(fname)
+                    print(msg)
+                    self.externalTasks(statusBar,msg,noclear=False)
+                else:
+                    msg="'{}' : not a file!".format(fname)
+                    print(msg)
+                    self.externalTasks(statusBar,msg)    
+            else:
+                msg="'{}' : does not exist!".format(fname)
+                print(msg)
+                self.externalTasks(statusBar,msg)
+
+        def setPaths(self,statusBar):
+            noUZ=False
+            self.externalTasks(statusBar,"unzipping, please wait!")
+            path=self.master.editsU.text.text()
+            opathObj=self.master.editsU.otext
+            opath=opathObj.text()
+            if path == '':
+                msg="InPath cannot be blank!"
+                self.externalTasks(statusBar,msg)
+                print(msg)
+            else:
+                if opath == '':
+                    opath=os.path.splitext(path)[0]
+                if not os.path.exists(opath):
+                    if opath != os.path.splitext(path)[0]:
+                        msg="'{}' : output path does not exist!".format(opath)
+                        print(msg)
+                        self.externalTasks(statusBar,msg)
+                        noUZ=True
+                if noUZ == False:
+                    opathObj.setText(opath)
+                    msg="'{}' : unzipping".format(opath)
+                    print(msg)
+                    self.externalTasks(statusBar,msg)
+                    self.unzip(statusBar,path,opath)
+            print("'{}' : Done".format(path))
+
     class actions:
         okMsg="Okay"
         qMsg="Quit"
@@ -150,6 +202,9 @@ class orvil(QMainWindow):
         self.Example.buttonsU.clearType='unzip'
         self.Example.buttonsU.master=self.Example
 
+        self.Example.unzip=self.unzip()
+        self.Example.unzip.master=self.Example
+
         self.Example.editsZ=self.edits()
         self.Example.editsZ.master=self.Example
         
@@ -265,7 +320,7 @@ class orvil(QMainWindow):
         def unzipBtn(self):
             button=QPushButton('Un-Zip')
             button.setToolTip('Unzip a Zip-File')
-            #button.clicked.connect(lambda: self.master.act.unzip(self.master.statusBar()))
+            button.clicked.connect(lambda: self.master.unzip.setPaths(self.master.statusBar()))
             button.setStatusTip('Unzip a Zip-File')
             button.resize(50,50)
             return button
