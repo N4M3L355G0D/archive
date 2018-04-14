@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-import os,sys,argparse,zipfile
+import os,sys,zipfile
 
 path='/srv/samba/php'
 zipname='new.zip'
