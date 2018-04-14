@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication,QWidget,QToolTip,QPushButton,QApplication,QMainWindow,qApp,QAction,QMenu,QGridLayout,QLabel,QLineEdit,QTextEdit
+from PyQt5.QtWidgets import QApplication,QWidget,QToolTip,QPushButton,QApplication,QMainWindow,qApp,QAction,QMenu,QGridLayout,QLabel,QLineEdit,QTextEdit,QFormLayout,QTabWidget
 
 import os,zipfile
 from PyQt5.QtGui import QIcon
@@ -149,7 +149,8 @@ class orvil(QMainWindow):
 
         self.Example.layout=self.layout()
         self.Example.layout.master=self.Example
-        self.Example.layout.setLayout()
+        #self.Example.layout.setLayout()
+        self.Example.layout.mkTabs()
 
         self.Example.toolbar=self.toolbar()
         self.Example.toolbar.master=self.Example
@@ -159,19 +160,27 @@ class orvil(QMainWindow):
         self.Example.initUi()
     class layout(example):
         master=None
-        def setLayout(self):
-            self.wid=QWidget(self.master)
-            self.master.setCentralWidget(self.wid)
-            self.grid=QGridLayout()
-            self.grid.setSpacing(10)
-            self.grid.addWidget(self.master.buttons.okayBtn(),1,0,1,3)
-            self.grid.addWidget(self.master.buttons.quitBtn(),1,3,1,1)
-            self.grid.addWidget(self.master.buttons.clearBtn(),1,4,1,1)
-            self.grid.addWidget(self.master.edits.label,2,0,1,4)
-            self.grid.addWidget(self.master.edits.text,2,1,1,4)
-            self.grid.addWidget(self.master.edits.olabel,3,0,1,4)
-            self.grid.addWidget(self.master.edits.otext,3,1,1,4)
-            self.wid.setLayout(self.grid)
+        def mkTabs(self):
+            tabs=QTabWidget()
+            tabs.addTab(self.setLayoutZip(),"zip")
+            tabs.addTab(QWidget(),"Pending")
+            self.master.setCentralWidget(tabs)
+        
+
+        def setLayoutZip(self):
+            wid=QWidget(self.master)
+            self.master.setCentralWidget(wid)
+            grid=QGridLayout()
+            grid.setSpacing(10)
+            grid.addWidget(self.master.buttons.okayBtn(),1,0,1,3)
+            grid.addWidget(self.master.buttons.quitBtn(),1,3,1,1)
+            grid.addWidget(self.master.buttons.clearBtn(),1,4,1,1)
+            grid.addWidget(self.master.edits.label,2,0,1,4)
+            grid.addWidget(self.master.edits.text,2,1,1,4)
+            grid.addWidget(self.master.edits.olabel,3,0,1,4)
+            grid.addWidget(self.master.edits.otext,3,1,1,4)
+            wid.setLayout(grid)
+            return wid
             
     class edits(example):
         master=None
