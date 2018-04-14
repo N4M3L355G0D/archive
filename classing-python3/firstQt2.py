@@ -171,7 +171,7 @@ class orvil(QMainWindow):
              
         def contextMenuEvent(self,event):
             cmenu = QMenu(self)
-            opn=self.cm.contextMenuActOpen(cmenu)
+            #opn=self.cm.contextMenuActOpen(cmenu)
             quit=self.cm.contextMenuActQuit(cmenu)
             action=cmenu.exec_(self.mapToGlobal(event.pos()))
         
@@ -184,6 +184,7 @@ class orvil(QMainWindow):
 
     def initUI(self):
         #at this level, the var master found in other classes is self.Example
+        #this of this section as the assembler for the rest of the code
         self.Example=self.example()
         self.Example.ext=self.ext
 
@@ -342,10 +343,10 @@ class orvil(QMainWindow):
 
         def mkFileMenu(self,menuBar):
             fileMenu=menuBar.addMenu('&File')
-            fileMenu.addMenu(self.mkFileMenuSub_Import())
+            #fileMenu.addMenu(self.mkFileMenuSub_Import())
             fileMenu.addAction(self.exitAction())
             fileMenu.addAction(self.mkFileAction_TogStat())
-
+        '''
         def mkFileMenuSub_ImportAct(self):
             action=QAction('Import Data',self.master)
             action.setShortcut('Ctrl+I')
@@ -358,7 +359,7 @@ class orvil(QMainWindow):
             menuAction=self.mkFileMenuSub_ImportAct()
             menu.addAction(menuAction)
             return menu
-
+        '''
         def mkFileAction_TogStat(self):
             action=QAction('View Status Bar',self.master,checkable=True)
             action.setStatusTip('View Status Bar')
@@ -373,12 +374,12 @@ class orvil(QMainWindow):
             action=cmenu.addAction("Quit")
             action.triggered.connect(lambda: self.master.act.quit(self.statusBar(),qApp))
             return action
-
+        '''
         def contextMenuActOpen(self,cmenu):
             action=cmenu.addAction("Open")
             self.master.setStatusTip("Open")
             return action
-
+        '''
         def contextMenuActNew(self,cmenu):
             action=cmenu.addAction("New")
             #need to pass self into newBtn to make it aware of the window to connect to 
