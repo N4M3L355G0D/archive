@@ -101,7 +101,11 @@ class orvil(QMainWindow):
             if tab == 'zip':
                 self.master.editsZ.text.setText('')
                 self.master.editsZ.otext.setText('')
-                statusBar.showMessage("Cleared!")
+            elif tab == 'unzip':
+                self.master.editsU.text.setText('')
+                self.master.editsU.otext.setText('')
+            statusBar.showMessage("Cleared!")
+
 
     class example(QMainWindow):
         newBtn=None
@@ -139,7 +143,12 @@ class orvil(QMainWindow):
         self.Example.fm.mkMenuBar()
 
         self.Example.buttons=self.buttons()
+        self.Example.buttons.clearType='zip'
         self.Example.buttons.master=self.Example
+
+        self.Example.buttonsU=self.buttons()
+        self.Example.buttonsU.clearType='unzip'
+        self.Example.buttonsU.master=self.Example
 
         self.Example.editsZ=self.edits()
         self.Example.editsZ.master=self.Example
@@ -153,7 +162,6 @@ class orvil(QMainWindow):
 
         self.Example.layout=self.layout()
         self.Example.layout.master=self.Example
-        #self.Example.layout.setLayout()
         self.Example.layout.mkTabs()
 
         self.Example.toolbar=self.toolbar()
@@ -176,6 +184,9 @@ class orvil(QMainWindow):
             grid=QGridLayout()
             grid.setSpacing(10)
             #add widgets
+            grid.addWidget(self.master.buttonsU.unzipBtn(),1,0,1,3)
+            grid.addWidget(self.master.buttonsU.quitBtn(),1,3,1,1)
+            grid.addWidget(self.master.buttonsU.clearBtn(),1,4,1,1)
             grid.addWidget(self.master.editsU.label,2,0,1,4)
             grid.addWidget(self.master.editsU.text,2,1,1,4)
             grid.addWidget(self.master.editsU.olabel,3,0,1,4)
@@ -225,6 +236,7 @@ class orvil(QMainWindow):
 
     class buttons(example):
         master=None
+        clearType=''
         #gui buttons
         def quitBtn(self):
             button=QPushButton('Quit')
@@ -247,8 +259,17 @@ class orvil(QMainWindow):
             button.setToolTip("clear inpath")
             button.resize(50,50)
             button.setStatusTip('cleared inpath')
-            button.clicked.connect(lambda: self.master.act.clear(self.master.statusBar(),'zip'))
+            button.clicked.connect(lambda: self.master.act.clear(self.master.statusBar(),self.clearType))
             return button
+        
+        def unzipBtn(self):
+            button=QPushButton('Un-Zip')
+            button.setToolTip('Unzip a Zip-File')
+            #button.clicked.connect(lambda: self.master.act.unzip(self.master.statusBar()))
+            button.setStatusTip('Unzip a Zip-File')
+            button.resize(50,50)
+            return button
+
 
     class fileMenu(example):
         #toolbar file menu
