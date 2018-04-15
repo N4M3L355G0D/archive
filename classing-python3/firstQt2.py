@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication,QWidget,QToolTip,QPushButton,QApplication,QMainWindow,qApp,QAction,QMenu,QGridLayout,QLabel,QLineEdit,QTextEdit,QFormLayout,QTabWidget
+from PyQt5.QtWidgets import QApplication,QWidget,QToolTip,QPushButton,QApplication,QMainWindow,qApp,QAction,QMenu,QGridLayout,QLabel,QLineEdit,QTextEdit,QFormLayout,QTabWidget,QFileDialog
 
 import os,zipfile
 from PyQt5.QtGui import QIcon
@@ -158,7 +158,6 @@ class orvil(QMainWindow):
                 self.master.editsU.otext.setText('')
             statusBar.showMessage("Cleared!")
 
-
     class example(QMainWindow):
         newBtn=None
         cm=None
@@ -177,7 +176,7 @@ class orvil(QMainWindow):
         
         def initUi(self):
             QToolTip.setFont(QFont('SansSerif',11))
-            self.setGeometry(300,300,400,200)
+            self.setGeometry(300,300,500,200)
             self.setWindowTitle('Kohmet\'s Tail')
             self.setWindowIcon(QIcon('icon.png'))
             self.show()
@@ -194,6 +193,9 @@ class orvil(QMainWindow):
         self.Example.fm=self.fileMenu()
         self.Example.fm.master=self.Example
         self.Example.fm.mkMenuBar()
+
+        self.Example.dialogs=self.dialogs()
+        self.Example.dialogs.master=self.Example
 
         self.Example.buttons=self.buttons()
         self.Example.buttons.clearType='zip'
@@ -245,8 +247,10 @@ class orvil(QMainWindow):
             grid.addWidget(self.master.buttonsU.clearBtn(),1,4,1,1)
             grid.addWidget(self.master.editsU.label,2,0,1,4)
             grid.addWidget(self.master.editsU.text,2,1,1,4)
+            grid.addWidget(self.master.buttonsU.openFileBtn(),2,6,1,1)
             grid.addWidget(self.master.editsU.olabel,3,0,1,4)
             grid.addWidget(self.master.editsU.otext,3,1,1,4)
+            grid.addWidget(self.master.buttonsU.getDirBtnU(),3,6,1,1)
             wid.setLayout(grid)
             return wid
 
@@ -260,8 +264,10 @@ class orvil(QMainWindow):
             grid.addWidget(self.master.buttons.clearBtn(),1,4,1,1)
             grid.addWidget(self.master.editsZ.label,2,0,1,4)
             grid.addWidget(self.master.editsZ.text,2,1,1,4)
+            grid.addWidget(self.master.buttons.getDirBtn(),2,6,1,1)
             grid.addWidget(self.master.editsZ.olabel,3,0,1,4)
             grid.addWidget(self.master.editsZ.otext,3,1,1,4)
+            grid.addWidget(self.master.buttons.saveFileBtn(),3,6,1,1)
             wid.setLayout(grid)
             return wid
             
@@ -326,7 +332,62 @@ class orvil(QMainWindow):
             button.resize(50,50)
             return button
 
+        def getDirBtn(self):
+            button=QPushButton('Open')
+            button.setToolTip('location')
+            button.clicked.connect(lambda: self.master.dialogs.openDir(self.master.statusBar(),"zip"))
+            button.setStatusTip('location')
+            button.resize(50,50)
+            return button
+        
+        def saveFileBtn(self):
+            button=QPushButton('Open')
+            button.setToolTip('location')
+            button.clicked.connect(lambda: self.master.dialogs.saveFile(self.master.statusBar()))
+            button.setStatusTip('location')
+            button.resize(50,50)
+            return button
+        
+        def openFileBtn(self):
+            button=QPushButton('Open')
+            button.setToolTip('location')
+            button.clicked.connect(lambda: self.master.dialogs.openFile(self.master.statusBar()))
+            button.setStatusTip('location')
+            button.resize(50,50)
+            return button
 
+        def getDirBtnU(self):
+            button=QPushButton('Open')
+            button.setToolTip('location')
+            button.clicked.connect(lambda: self.master.dialogs.openDir(self.master.statusBar(),"unzip"))
+            button.setStatusTip('location')
+            button.resize(50,50)
+            return button
+        
+
+    class dialogs(example):
+        master=None
+        userHome=None
+        def __init__(self):
+            super().__init__()
+            self.userHome=os.path.expanduser('~')
+        def openDir(self,statusBar,mode):
+            if mode == "zip":
+                fname = QFileDialog.getExistingDirectory(self, 'Open Folder',self.userHome,QFileDialog.ShowDirsOnly)
+                self.master.editsZ.text.setText(fname)
+            elif mode == "unzip":
+                fname = QFileDialog.getExistingDirectory(self, 'Open Folder',self.userHome,QFileDialog.ShowDirsOnly)
+                self.master.editsU.otext.setText(fname)
+
+        def saveFile(self,statusBar):
+            fname = QFileDialog.getSaveFileName(self,'Save File',self.userHome)
+            if len(fname) > 0:
+                self.master.editsZ.otext.setText(fname[0])
+        def openFile(self,statusBar):
+            fname = QFileDialog.getOpenFileName(self,"Open File",self.userHome)
+            if len(fname) > 0:
+                self.master.editsU.text.setText(fname[0])
+            
     class fileMenu(example):
         #toolbar file menu
         master=None
