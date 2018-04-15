@@ -53,7 +53,7 @@ class sooper:
                     path=os.path.join(root,fname)
                     if os.path.exists(path):
                         lsize=os.stat(path).st_size 
-                        self.insertRow(base64.b64encode(fname).decode(),lsize)
+                        self.insertRow(base64.b64encode(path).decode(),lsize)
                         if ( counter % 10000 ) == 0:
                             self.db['db'].commit()
                         counter+=1
