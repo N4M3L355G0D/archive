@@ -1,0 +1,41 @@
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+shopt -s histappend
+shopt -s direxpand
+shopt -s checkwinsize
+
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
+
+grep='grep --color=auto'
+egrep='egrep --color=auto'
+fgrep='fgrep --color=auto'
+datecode(){
+        date +h%Hm%Ms%SM%mD%dY%Y
+}
+function whatIsMyIp() { 
+	card="$1"
+	if test "$1" != "" ; then
+		ip addr show "$card" | grep -w "inet" | sed s/'inet'/'#'/ | cut -f2 -d'#' | sed s/'scope'/'#'/ | cut -f1 -d'#' | sed s/^' '/''/ | cut -f1 -d' ' 
+	fi
+}
+#need to write a pythonic script utilizing netifaces to get network info without the cmd chaining
+function whatIsMyMac(){
+	card="$1"
+	if test "$card" != '' ; then
+		ip addr show "$card" | grep -w "link/ether" | sed s/'ether'/'#'/ | cut -f2 -d'#' | sed s/'brd'/'#'/ | sed s/' '//g | cut -f1 -d"#"
+	fi
+}
+function netstat-n(){
+	sudo netstat -tpFe
+}
