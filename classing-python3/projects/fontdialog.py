@@ -80,7 +80,22 @@ class tops(QMainWindow):
             qApp.quit()
    
     class fileMenu:
+        #file menu toolbar
         master=None
+        def mkMenuBar(self):
+            menubar=self.master.menuBar()
+            self.mkFileMenu(menubar)
+
+        def exitAction(self):
+            action=QAction(QIcon('exit.png'),'&Exit',self.master)
+            action.setShortcut('Ctrl+Q')
+            action.setStatusTip('Exit Application')
+            action.triggered.connect(self.master.actBtn.actionQuit)
+            return action
+
+        def mkFileMenu(self,menuBar):
+            fileMenu=menuBar.addMenu('&File')
+            fileMenu.addAction(self.exitAction())
 
     class contextMenu:
         master=None
@@ -126,6 +141,10 @@ class tops(QMainWindow):
         
         self.win.cm=self.contextMenu()
         self.win.cm.master=self.win
+        
+        self.win.fileMenu=self.fileMenu()
+        self.win.fileMenu.master=self.win
+        self.win.fileMenu.mkMenuBar()
 
         self.win.layout=self.layouts()
         self.win.layout.master=self.win
