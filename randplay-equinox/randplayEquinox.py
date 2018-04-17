@@ -1,28 +1,38 @@
 #! /usr/bin/env python3
 
 import os,sqlite3,random,base64,time,hashlib
+import subprocess as sp
 
 class Hyperion:
+    dir=None
+    cmd=None
     class void:
         master=None
         listExists=True
 
     def assembler(self):
-        self.wa=self.void()      
+        self.wa=self.void()
+        self.wa.dir=self.dir
+        self.wa.cmd=self.cmd
         while self.wa.listExists == True:
             self.wa.listExists=False
             self.wa.colors=self.colors()
 
             self.wa.dbManager=self.dbManager()
             self.wa.dbManager.master=self.wa
+            print('initializing',end='')
             self.wa.dbManager.dbCreate()
+            print('.',end='')
             self.wa.dbManager.mkTableNameRand()
+            print('.',end='')
             self.wa.dbManager.mkTable()
+            print('.')
             if self.wa.listExists == False: 
+                print('scanning')
                 self.wa.scan=self.scan()
                 self.wa.scan.master=self.wa
                 self.wa.scan.scan()
-    
+                print('generating random list')
                 self.wa.results=self.results()
                 self.wa.results.master=self.wa
                 self.wa.results.run()
@@ -135,17 +145,23 @@ class Hyperion:
         master=None
         rlist=[]
         playList=[]
+        stgMsg='stage {}'
         def run(self):
+            print(self.stgMsg.format(0))
             self.generateRandomList()
+            print(self.stgMsg.format(1))
             self.mkRandomList()
+            print(self.stgMsg.format(2))
             self.master.dbManager.deleteTable()
+            print(self.stgMsg.format(3))
             self.mkNewEntry()
+            print(self.stgMsg.format(4))
 
         def generateRandomList(self):
             rows=self.master.dbManager.getMaxRows()
             if rows != None:
                 while True:
-                    rnum=random.randint(1,42)
+                    rnum=random.randint(1,rows[0])
                     if rnum not in self.rlist:
                         self.rlist.append(rnum)
                     if len(self.rlist) >= rows[0]:
@@ -174,19 +190,23 @@ class Hyperion:
                     entry=self.master.dbManager.getEntry(num)
                     if entry != None:
                         entry=base64.b64decode(entry[0].encode())
+                        self.runCmd(entry)
                         print(entry)
             else:
                 print(rows)
 
         def runCmd(self,entry):
+            cmd=self.master.cmd
             #do a custom cmd for each entry
-            pass
+            exe=sp.Popen(cmd+b'"'+entry+b'"',shell=True,stdout=sp.PIPE)
+            stdout,stderr=exe.communicate()
+            print(stdout)
 
 
     class scan:
         master=None
         def scan(self):
-            for root,dir,fnames in os.walk(b'/srv/samba/php',topdown=True):
+            for root,dir,fnames in os.walk(self.master.dir,topdown=True):
                 for fname in fnames:
                     path=os.path.join(root,fname)
                     if os.path.isfile(path):
@@ -195,4 +215,6 @@ class Hyperion:
 
 
 h=Hyperion()
+h.dir='/home/carl/Downloads/American Dad! (2005) Season 1-14 S01-14 (Multi-Resolutions x265 HEVC 10bit AAC 5.1 ImE) [UTR]'.encode()
+h.cmd=b"vlc "
 h.assembler()
