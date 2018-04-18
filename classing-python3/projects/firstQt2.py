@@ -1,14 +1,17 @@
 import sys
-from PyQt5.QtWidgets import QApplication,QWidget,QToolTip,QPushButton,QApplication,QMainWindow,qApp,QAction,QMenu,QGridLayout,QLabel,QLineEdit,QTextEdit,QFormLayout,QTabWidget,QFileDialog
+from PyQt5.QtWidgets import * 
 
 import os,zipfile
-from PyQt5.QtGui import QIcon
-from PyQt5.QtGui import QFont
-#left off from context menus
+from PyQt5.QtGui import *
+from PyQt5.QtCore import Qt
+
+#insert plugins dir
+sys.path.insert(0,"lib")
+#import encryption plugin
+import capsule2
 
 class orvil(QMainWindow):
     ext="zip"
-
     class unzip:
         master=None
         def externalTasks(self,statusBar,msg,noclear=True):
@@ -56,9 +59,26 @@ class orvil(QMainWindow):
                     opathObj.setText(opath)
                     msg="'{}' : unzipping".format(opath)
                     print(msg)
-                    self.externalTasks(statusBar,msg)
-                    self.unzip(statusBar,path,opath)
-            print("'{}' : Done".format(path))
+                    result=self.master.crypto.decryption(statusBar)
+                    if result == True:
+                        self.externalTasks(statusBar,msg)
+                        self.unzip(statusBar,path,opath)
+                    else:
+                        noUZ=True
+            
+            if noUZ == False:
+                print("'{}' : Done".format(path))
+            else:
+                statusBar.showMessage('something failed; so nothing will be unzipped!')
+
+    class crypto:
+        master=None
+        def decryption(self,statusBar):
+            #decryption goes here
+            return True
+        def encryption(self,statusBar):
+            #decryption goes here
+            return True
 
     class actions:
         okMsg="Okay"
@@ -72,6 +92,7 @@ class orvil(QMainWindow):
             print("'{}' -> '{}'".format(ipath,opath))
             self.createZipCounter(ipath)
             self.createZip(opath,ipath)
+            self.master.crypto.encryption(self.master.statusBar)
 
         def createZipCounter(self,path):
             counter=0
@@ -90,6 +111,9 @@ class orvil(QMainWindow):
                 for fname in fnames:
                     if custom == '':
                         if FULLPATH == False:
+                            path=os.path.join(root,fname)
+                            self.master.statusBar().showMessage('working on: '+path)
+                            print(path)
                             z.write(os.path.join(root,fname),os.path.join(root.replace(arcpath,''),fname))
                         else:
                             z.write(os.path.join(root,fname),os.path.join(root,fname))
@@ -97,7 +121,6 @@ class orvil(QMainWindow):
                         z.write(os.path.join(root,fname),os.path.join(custom,fname))
                     self.master.statusBar().showMessage("{}/{}".format(counter,self.fcount))
                     counter+=1
-
 
         def okay(self,statusBar,msg=None):
             if msg == None:
@@ -170,7 +193,6 @@ class orvil(QMainWindow):
              
         def contextMenuEvent(self,event):
             cmenu = QMenu(self)
-            #opn=self.cm.contextMenuActOpen(cmenu)
             quit=self.cm.contextMenuActQuit(cmenu)
             action=cmenu.exec_(self.mapToGlobal(event.pos()))
         
@@ -183,7 +205,7 @@ class orvil(QMainWindow):
 
     def initUI(self):
         #at this level, the var master found in other classes is self.Example
-        #this of this section as the assembler for the rest of the code
+        #think of this section as the assembler for the rest of the code
         self.Example=self.example()
         self.Example.ext=self.ext
 
@@ -205,6 +227,9 @@ class orvil(QMainWindow):
         self.Example.buttonsU.clearType='unzip'
         self.Example.buttonsU.master=self.Example
 
+        self.Example.crypto=self.crypto()
+        self.Example.crypto.master=self.Example
+
         self.Example.unzip=self.unzip()
         self.Example.unzip.master=self.Example
 
@@ -217,6 +242,15 @@ class orvil(QMainWindow):
         self.Example.act=self.actions()
         self.Example.act.master=self.Example
 
+        self.Example.cbZ=self.checkboxes()
+        self.Example.cbZ.master=self.Example
+        self.Example.cbZ.encMode='enc'
+        self.Example.cbZ.run()
+
+        self.Example.cbU=self.checkboxes()
+        self.Example.cbU.master=self.Example
+        self.Example.cbU.encMode='dec'
+        self.Example.cbU.run()
 
         self.Example.layout=self.layout()
         self.Example.layout.master=self.Example
@@ -226,8 +260,8 @@ class orvil(QMainWindow):
         self.Example.toolbar.master=self.Example
         self.Example.toolbar.mkToolBar()
         
-
         self.Example.initUi()
+
     class layout(example):
         master=None
         def mkTabs(self):
@@ -251,6 +285,9 @@ class orvil(QMainWindow):
             grid.addWidget(self.master.editsU.olabel,3,0,1,4)
             grid.addWidget(self.master.editsU.otext,3,1,1,4)
             grid.addWidget(self.master.buttonsU.getDirBtnU(),3,6,1,1)
+            grid.addWidget(self.master.editsU.pwdlabel,4,1,1,1)
+            grid.addWidget(self.master.editsU.pwdtext,4,2,1,3)
+            grid.addWidget(self.master.cbU.enableEnc,4,0,1,1)
             wid.setLayout(grid)
             return wid
 
@@ -268,6 +305,9 @@ class orvil(QMainWindow):
             grid.addWidget(self.master.editsZ.olabel,3,0,1,4)
             grid.addWidget(self.master.editsZ.otext,3,1,1,4)
             grid.addWidget(self.master.buttons.saveFileBtn(),3,6,1,1)
+            grid.addWidget(self.master.editsZ.pwdlabel,4,1,1,1)
+            grid.addWidget(self.master.editsZ.pwdtext,4,2,1,3)
+            grid.addWidget(self.master.cbZ.enableEnc,4,0,1,1)
             wid.setLayout(grid)
             return wid
             
@@ -279,6 +319,8 @@ class orvil(QMainWindow):
             self.lineTextLabel()
             self.lineTextOut()
             self.lineTextOutLabel()
+            self.lineTextPwdEdit()
+            self.lineTextPwdLabel()
 
         def lineTextOut(self):
             text=QLineEdit()
@@ -295,6 +337,15 @@ class orvil(QMainWindow):
         def lineTextLabel(self):
             label=QLabel('InPath')
             self.label=label
+        
+        def lineTextPwdLabel(self):
+            label=QLabel('Password')
+            self.pwdlabel=label
+        
+        def lineTextPwdEdit(self):
+            text=QLineEdit()
+            text.setEchoMode(QLineEdit.Password)
+            self.pwdtext=text
 
     class buttons(example):
         master=None
@@ -309,10 +360,10 @@ class orvil(QMainWindow):
             return button
        
         def okayBtn(self):
-            button=QPushButton('Okay')
-            button.setToolTip('Okay!')
+            button=QPushButton('Zip')
+            button.setToolTip('Zip!')
             button.resize(50,50)
-            button.setStatusTip('Okay Button')
+            button.setStatusTip('Zip Button')
             button.clicked.connect(lambda: self.master.act.okay(self.master.statusBar()))
             return button
         
@@ -363,7 +414,33 @@ class orvil(QMainWindow):
             button.setStatusTip('location')
             button.resize(50,50)
             return button
-        
+
+    class checkboxes(example):
+        master=None
+        encMode=None
+        def run(self):
+            self.enableEncArch()
+            self.enableEncMode(Qt.Unchecked)
+        def enableEncMode(self,state):
+            if self.encMode == 'enc':
+                if state == Qt.Checked:
+                    self.master.editsZ.pwdtext.show()
+                    self.master.editsZ.pwdlabel.show()
+                else:
+                    self.master.editsZ.pwdtext.hide()
+                    self.master.editsZ.pwdlabel.hide()
+            elif self.encMode == 'dec':
+                if state == Qt.Checked:
+                    self.master.editsU.pwdtext.show()
+                    self.master.editsU.pwdlabel.show()
+                else:
+                    self.master.editsU.pwdtext.hide()
+                    self.master.editsU.pwdlabel.hide()
+
+        def enableEncArch(self):
+            checkBox=QCheckBox('Encryption',self)
+            checkBox.stateChanged.connect(self.enableEncMode)
+            self.enableEnc=checkBox
 
     class dialogs(example):
         master=None

@@ -3,13 +3,16 @@ import os,sqlite3,base64
 class sooper:
     limit=20
     directory='/home/carl'
-    def assembler(self):
-        self.sorter=self.sorting()
-        self.coloring=self.colors()
-        self.msgs=self.msgs()
+    class void:
+        master=None
 
-        self.sorter.master=self
-        self.sorter.run(self.directory,self.limit)
+    def assembler(self):
+        self.void.sorter=self.sorting()
+        self.void.coloring=self.colors()
+        self.void.msgs=self.msgs()
+
+        self.void.sorter.master=self.void
+        self.void.sorter.run(self.directory,self.limit)
 
     class colors:
         red="\033[1;31;40m"
