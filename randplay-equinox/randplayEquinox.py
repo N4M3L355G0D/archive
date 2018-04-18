@@ -6,6 +6,7 @@ import subprocess as sp
 class Hyperion:
     dir=None
     cmd=None
+    dbname=None
     class void:
         master=None
         listExists=True
@@ -14,6 +15,7 @@ class Hyperion:
         self.wa=self.void()
         self.wa.dir=self.dir
         self.wa.cmd=self.cmd
+        self.wa.dbname=self.dbname
         while self.wa.listExists == True:
             self.wa.listExists=False
             self.wa.colors=self.colors()
@@ -71,7 +73,7 @@ class Hyperion:
     
     class dbManager:
         master=None
-        dbname='list.db'
+        dbname=self.master.dbname
         def hashed(self,idata):
             sha=hashlib.sha512()
             sha.update(idata)
@@ -217,4 +219,5 @@ class Hyperion:
 h=Hyperion()
 h.dir='/home/carl/Downloads/American Dad! (2005) Season 1-14 S01-14 (Multi-Resolutions x265 HEVC 10bit AAC 5.1 ImE) [UTR]'.encode()
 h.cmd=b"vlc "
+h.dbname="list.db"
 h.assembler()
