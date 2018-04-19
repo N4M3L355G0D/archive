@@ -639,7 +639,7 @@ class orvil(QMainWindow):
         super().__init__()
         srcPath="./src"
         self.windowName=os.path.join(srcPath,"Kohmet's Trail Z/U")
-        self.windowIcon=os.path.join(srcPath,"icon.png")
+        self.windowIcon=os.path.join(srcPath,"windowIcon.png")
         self.exitIcon=os.path.join(srcPath,"exit.png")
         self.assembler()
 
