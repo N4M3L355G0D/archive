@@ -230,6 +230,7 @@ class orvil(QMainWindow):
             statusBar.showMessage("Cleared!")
 
     class example(QMainWindow):
+        master=None
         newBtn=None
         cm=None
         buttons=None
@@ -247,15 +248,86 @@ class orvil(QMainWindow):
         def initUi(self):
             QToolTip.setFont(QFont('SansSerif',11))
             self.setGeometry(300,300,500,200)
-            self.setWindowTitle('Kohmet\'s Trail')
-            self.setWindowIcon(QIcon('icon.png'))
+            self.setWindowTitle(self.master.windowName)
+            self.setWindowIcon(QIcon(self.master.windowIcon))
             self.show()
+    class workArea:
+        master=None
 
-    def initUI(self):
+    def assembler(self):
         #at this level, the var master found in other classes is self.Example
         #think of this section as the assembler for the rest of the code
+        self.wa=self.workArea()
+        self.wa.Example=self.example()
+        self.wa.ext=self.ext
+
+        self.wa.Example=self.example()
+        self.wa.Example.ext=self.ext
+        self.wa.Example.windowName=self.windowName
+        self.wa.Example.windowIcon=self.windowIcon
+        self.wa.Example.exitIcon=self.exitIcon
+        self.wa.Example.master=self.wa.Example
+
+        self.wa.Example.cm=self.cm()
+        self.wa.Example.cm.master=self.wa.Example
+
+        self.wa.Example.fm=self.fileMenu()
+        self.wa.Example.fm.master=self.wa.Example
+        self.wa.Example.fm.mkMenuBar()
+
+        self.wa.Example.dialogs=self.dialogs()
+        self.wa.Example.dialogs.master=self.wa.Example
+
+        self.wa.Example.buttons=self.buttons()
+        self.wa.Example.buttons.clearType='zip'
+        self.wa.Example.buttons.master=self.wa.Example
+
+        self.wa.Example.buttonsU=self.buttons()
+        self.wa.Example.buttonsU.clearType='unzip'
+        self.wa.Example.buttonsU.master=self.wa.Example
+
+        self.wa.Example.crypto=self.crypto()
+        self.wa.Example.crypto.master=self.wa.Example
+
+        self.wa.Example.unzip=self.unzip()
+        self.wa.Example.unzip.master=self.wa.Example
+
+        self.wa.Example.editsZ=self.edits()
+        self.wa.Example.editsZ.master=self.wa.Example
+        
+        self.wa.Example.editsU=self.edits()
+        self.wa.Example.editsU.master=self.wa.Example
+
+        self.wa.Example.act=self.actions()
+        self.wa.Example.act.master=self.wa.Example
+
+        self.wa.Example.cbZ=self.checkboxes()
+        self.wa.Example.cbZ.master=self.wa.Example
+        self.wa.Example.cbZ.encMode='enc'
+        self.wa.Example.cbZ.run()
+
+        self.wa.Example.cbU=self.checkboxes()
+        self.wa.Example.cbU.master=self.wa.Example
+        self.wa.Example.cbU.encMode='dec'
+        self.wa.Example.cbU.run()
+
+        self.wa.Example.layout=self.layout()
+        self.wa.Example.layout.master=self.wa.Example
+        self.wa.Example.layout.mkTabs()
+
+        self.wa.Example.toolbar=self.toolbar()
+        self.wa.Example.toolbar.master=self.wa.Example
+        self.wa.Example.toolbar.mkToolBar()
+        
+        self.wa.Example.initUi()
+
+        '''
         self.Example=self.example()
         self.Example.ext=self.ext
+        self.Example.windowName=self.windowName
+        self.Example.windowIcon=self.windowIcon
+        self.Example.exitIcon=self.exitIcon
+        self.Example.master=self.Example
 
         self.Example.cm=self.cm()
         self.Example.cm.master=self.Example
@@ -309,7 +381,7 @@ class orvil(QMainWindow):
         self.Example.toolbar.mkToolBar()
         
         self.Example.initUi()
-
+        '''
     class layout(example):
         master=None
         def mkTabs(self):
@@ -517,7 +589,7 @@ class orvil(QMainWindow):
         #toolbar file menu
         master=None
         def exitAction(self):
-            exitAct=QAction(QIcon('exit.png'),'&Exit',self.master)
+            exitAct=QAction(QIcon(self.master.exitIcon),'&Exit',self.master)
             exitAct.setShortcut('Ctrl+Q')
             exitAct.setStatusTip('Exit Application')
             exitAct.triggered.connect(lambda: self.master.act.quit(self.statusBar(),qApp))
@@ -565,7 +637,11 @@ class orvil(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.initUI()
+        srcPath="./src"
+        self.windowName=os.path.join(srcPath,"Kohmet's Trail Z/U")
+        self.windowIcon=os.path.join(srcPath,"icon.png")
+        self.exitIcon=os.path.join(srcPath,"exit.png")
+        self.assembler()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
