@@ -22,11 +22,15 @@ class orvil(QMainWindow):
         def unzip(self,statusBar,fname,opath):
             if os.path.exists(fname):
                 if os.path.isfile(fname):
-                    z=zipfile.ZipFile(fname,'r')
-                    z.extractall(path=opath)
-                    msg="'{}' : extracted!".format(fname)
-                    print(msg)
-                    self.externalTasks(statusBar,msg,noclear=False)
+                    try:
+                        z=zipfile.ZipFile(fname,'r')
+                        z.extractall(path=opath)
+                        msg="'{}' : extracted!".format(fname)
+                        print(msg)
+                        self.externalTasks(statusBar,msg,noclear=False)
+                    except OSError as err:
+                        statusBar.showMessage('look at terminal output! zip-file still exists, turn off encryption!')
+                        print(err)
                 else:
                     msg="'{}' : not a file!".format(fname)
                     print(msg)
@@ -38,6 +42,9 @@ class orvil(QMainWindow):
 
         def setPaths(self,statusBar):
             noUZ=False
+            result=self.master.crypto.decryption(statusBar)
+            if result == False:
+                noUZ=True
             self.externalTasks(statusBar,"unzipping, please wait!")
             path=self.master.editsU.text.text()
             opathObj=self.master.editsU.otext
@@ -59,7 +66,6 @@ class orvil(QMainWindow):
                     opathObj.setText(opath)
                     msg="'{}' : unzipping".format(opath)
                     print(msg)
-                    result=self.master.crypto.decryption(statusBar)
                     if result == True:
                         self.externalTasks(statusBar,msg)
                         self.unzip(statusBar,path,opath)
@@ -73,12 +79,52 @@ class orvil(QMainWindow):
 
     class crypto:
         master=None
+        def __init__(self):
+            self.capsule=capsule2.accessMethods()
         def decryption(self,statusBar):
             #decryption goes here
-            return True
+            if self.master.cbU.enableEnc.isChecked():
+                try:
+                    infile=self.master.editsU.text.text()
+                    if os.path.exists(infile):
+                        if os.path.exists(os.path.splitext(infile)[0]+".eke"):
+                            if os.path.splitext(infile)[1] == '.ap2':
+                                infile=os.path.splitext(infile)[0]
+                            userKey=self.master.editsU.pwdtext.text()
+                            self.capsule.mainLibAccess(infile,userKey,'d')
+                            self.master.editsU.text.setText(infile)
+                            return True
+                        else:
+                            msg='"{}: "keyfile is missing from the same folder as the datafile'.format(os.path.splitext(infile)[0]+".eke")
+                            self.master.statusBar().showMessage(msg)
+                            print(msg)
+                            return False
+                    else:
+                        msg='"{}" : data file does not exist!'.format(infile)
+                        self.master.statusBar().showMessage(msg)
+                        print(msg)
+                        return False
+                except:
+                    return False
+            else:
+                return True
         def encryption(self,statusBar):
-            #decryption goes here
-            return True
+            if self.master.cbZ.enableEnc.isChecked():
+                try:
+                    self.master.statusBar().showMessage('Encrypting! : Do not exit!')
+                    infile=self.master.editsU.text.text()
+                    if os.path.splitext(infile)[1] == '.ap2':
+                        infile=os.path.splitext(infile)[0]
+                    infile=self.master.editsZ.otext.text()
+                    userKey=self.master.editsZ.pwdtext.text()
+                    self.capsule.mainLibAccess(infile,userKey,'e')
+                    self.master.statusBar().showMessage('Encypting Done!')
+                    return True
+                except:
+                    return False
+            else:
+                #encryption goes here
+                return True
 
     class actions:
         okMsg="Okay"
@@ -119,10 +165,12 @@ class orvil(QMainWindow):
                             z.write(os.path.join(root,fname),os.path.join(root,fname))
                     else:
                         z.write(os.path.join(root,fname),os.path.join(custom,fname))
-                    self.master.statusBar().showMessage("{}/{}".format(counter,self.fcount))
                     counter+=1
+                    self.master.statusBar().showMessage("{}/{}".format(counter,self.fcount))
+            self.master.statusBar().showMessage('Zipping Done!')
 
         def okay(self,statusBar,msg=None):
+            presentDir=['','.']
             if msg == None:
                 text=self.master.editsZ.text.text()
                 otextObj=self.master.editsZ.otext
@@ -130,7 +178,7 @@ class orvil(QMainWindow):
                 if os.path.exists(text):
                     print(self.okMsg,text)
                     statusBar.showMessage("{}: '{}'".format(self.okMsg,text))
-                    if otext == '':
+                    if otext in presentDir:
                         bname=os.path.basename(text)
                         if bname == '':
                             text='rootFS'
