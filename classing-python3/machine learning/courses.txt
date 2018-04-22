@@ -1,0 +1,7 @@
+https://www.udacity.com/course/intro-to-statistics--st101
+https://www.udacity.com/course/intro-to-machine-learning--ud120
+https://community.modeanalytics.com/python/tutorial/pandas-dataframe/
+https://medium.freecodecamp.org/a-path-for-you-to-learn-analytics-and-data-skills-bd48ccde7325
+https://www.google.com/search?ei=qL_ZWrDoOcqE0wK1_6iIDQ&q=how+to+get+started+in+learning+data+analysis&oq=how+to+get+started+in++learning+data+ana&gs_l=psy-ab.3.0.33i22i29i30k1.5859.20130.0.22178.49.47.1.1.1.0.121.3776.43j3.46.0....0...1c.1.64.psy-ab..1.47.3696...0j0i67k1j0i20i263k1j0i22i30k1j33i21k1j33i160k1j35i39k1j0i131k1j0i131i20i264k1j0i20i264k1j0i20i263i264k1.0.UqiBmLRIPZw
+
+https://classroom.udacity.com/courses/ud359/lessons/684228741/concepts/6932485670923
