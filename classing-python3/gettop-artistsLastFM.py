@@ -49,8 +49,13 @@ class container:
                                 colors.lightBlue,country,colors.stop,
                                 colors.cyan,art['listeners'],colors.stop
                             )
-                        print(msg)
-                        db['cursor'].execute(sql)
+                        
+                        result=self.master.db.checkEntry(db,artName,country)
+                        if result == False:
+                            print(msg)
+                            db['cursor'].execute(sql)
+                        else:
+                            print(msg,"[skipped]")
                         counter+=1
                 else:
                     print("{}No more results{}".format(colors.red,colors.stop))
@@ -77,6 +82,24 @@ class container:
             sqlMkTbl='''create table if not exists topartists ( artist text, country text, listeners real, rowid INTEGER PRIMARY KEY AUTOINCREMENT);'''
             db['cursor'].execute(sqlMkTbl)
             db['db'].commit()
+
+        def checkEntry(self,db,artist,country):
+            sql='''
+            select artist,country
+            from topartists 
+            where 
+                artist = "{}" 
+                and 
+                country = "{}";
+            '''.format(artist,country)
+            db['cursor'].execute(sql)
+            result=db['cursor'].fetchone()
+            if result == None:
+                return False
+            else:
+                return True
+            db['db'].commit()
+
 
         def cleanupDb(self,db):
             db['db'].commit()
