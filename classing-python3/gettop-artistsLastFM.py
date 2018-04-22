@@ -62,6 +62,7 @@ class container:
         dbName=''
         skipRemoveOld=False
         def newDb(self,dbName):
+            print('skipping the removal of old db(regardless of existance): {}'.format(self.skipRemoveOld))
             if self.skipRemoveOld == False:
                 if os.path.exists(dbName) and os.path.isfile(dbName):
                     os.remove(dbName)
@@ -136,7 +137,7 @@ if __name__ == '__main__':
             elif sys.argv[3] == 'n':
                 c.skipRemoveOld=False
             else:
-                c.skipRemoveOld=True
+                c.skipRemoveOld=False
         c.assembler()
     else:
         exit("missing apikey/country... do you have one for LastFM {} [apikey] [country]".format(sys.argv[0]))
