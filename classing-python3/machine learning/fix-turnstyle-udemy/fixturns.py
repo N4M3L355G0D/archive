@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
-
-import csv,pandas
+#NoGuiLinux
+import datetime
+import csv,pandas as pd,numpy
 
 class container:
     master=None
@@ -50,6 +51,44 @@ class container:
                                 if not data:
                                     break
                                 master_file.write(data)
+        def loadData(self,masterfile):
+            data=pd.read_csv(masterfile)
+            data.fillna(1)
+            df=pd.DataFrame(data)
+            return df
+
+        def returnReg(self,df):
+            return df[df['DESCn'] == 'REGULAR']
+
+        def entriesHourly(self,df):
+            dfSeries=pd.Series(df['ENTRIESn'] - df['ENTRIESn'].shift(1))
+            df['ENTRIESn_hourly']=dfSeries.fillna(1)
+            return df
+
+        def exitsHourly(self,df):
+            dfSeries=pd.Series(df['EXITSn'] - df['EXITSn'].shift(1))
+            df['EXITSn_hourly']=dfSeries.fillna(1)
+            return df
+
+        def hoursCol(self,df):
+            dfSeries=df['TIMEn'].str.split(":",expand=False).apply(lambda x: int(x[0]))
+            df['HOURn']=dfSeries
+            return df
+
+        def datesFix(self,df,useDt=True):
+            #import datetime
+            #date=datetime.datetime.strptime('2-20-2005','%m-%d-%Y')
+            #print('-'.join([str(i) for i in [date.year,date.month,date.day]]))
+            #date_reformatted='-'.join([str(i) for i in [i for num,i in enumerate(datetime.datetime.strptime('2-20-2005','%m-%d-%Y').timetuple()) if num < 3]])
+            if useDt == True:
+                #i love some of my one liners, until they fail, of course.
+                #udacity drove to do allow for datetime or pandas options
+                dfSeries=df['DATEn'].apply(lambda x: '-'.join([str(i) for i in [ '0'*(2-len(str(i)))+str(i) for num,i in enumerate(datetime.datetime.strptime(x,'%m-%d-%y').timetuple()) if num < 3]]))
+            else:
+                dfSeries=pd.to_datetime(df['DATEn'],yearfirst=True,format='%m-%d-%y')
+            df['DATEn']=dfSeries
+            return df
+
     class void:
         master=None
 
@@ -60,6 +99,13 @@ class container:
 
             filenames=self.master.processing.fixCsv()
             self.master.processing.toMaster(masterFile,filenames)
+            df=self.master.processing.loadData(masterFile)
+            regOnly=self.master.processing.returnReg(df)
+            entriesHourly=self.master.processing.entriesHourly(regOnly)
+            exitsHourly=self.master.processing.exitsHourly(entriesHourly)
+            hoursCol=self.master.processing.hoursCol(exitsHourly)
+            date=self.master.processing.datesFix(hoursCol)
+            print(date)
 
     def assembler(self):
         wa=self.void()
