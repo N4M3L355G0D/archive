@@ -9,6 +9,7 @@ def dline(pic):
     img2=cv2.imread('m.jpg')
 
     #array
+    #using this here, requires numpy
     pts=numpy.array([[80,170],[100,163],[120,160],[140,163],[160,170]])
     #color
     color=[48,48,97]
@@ -26,11 +27,18 @@ def dline(pic):
     dst2=cv2.addWeighted(im,1.0,dst,0.5,0)
     return dst2
 
-#the orginal line was 
-#deline(sys.argv[1])
-#the function deline does not exist
-# thus the type error
-line=dline(sys.argv[1])
+
+#if you want a more intuitive way to handle no args to the script use this, or import argparse, and use argparse (argparse has better handling
+if len(sys.argv) >= 2:
+    #the orginal line was 
+    #deline(sys.argv[1])
+    #the function deline does not exist
+    # thus the type error
+    #to use sys.argv, you need to import sys
+    line=dline(sys.argv[1])
+else:
+    print("you need to provide a filename on the cmdline")
+    exit(1)
 
 cv2.imwrite("./line.jpg",line,[int(cv2.IMWRITE_PNG_COMPRESSION),0])
 
