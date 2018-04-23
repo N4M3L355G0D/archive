@@ -105,7 +105,7 @@ class container:
             exitsHourly=self.master.processing.exitsHourly(entriesHourly)
             hoursCol=self.master.processing.hoursCol(exitsHourly)
             date=self.master.processing.datesFix(hoursCol)
-            print(date)
+            date.to_csv(masterFile)
 
     def assembler(self):
         wa=self.void()
