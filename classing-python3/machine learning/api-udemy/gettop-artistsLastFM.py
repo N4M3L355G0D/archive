@@ -3,10 +3,11 @@
 #grab top artists from last fm from a country
 import urllib.request as urlRequest
 import sqlite3,os,sys,json,string,time
-
+import base64
 #add plugins folder
 sys.path.insert(0,"lib")
 from libArtistInfo import containerLib
+import random,time
 
 class container:
     skipRemoveOld=None 
@@ -17,6 +18,7 @@ class container:
         badchar=string.punctuation
 
         def getData(self,page,apikey,country,mode):
+            #time.sleep(random.random()+random.randint(0,2))
             if mode == "topartist":
                 url='http://ws.audioscrobbler.com/2.0/?method={}&api_key={}&country={}&format=json&page={}'.format('geo.gettopartists',apikey,country,page)
                 data=urlRequest.urlopen(url)
@@ -45,8 +47,8 @@ class container:
                 if len(artist) > 0:
                     for art in artist:
                         artName=self.cleanupArtist(art['name'])
-                        sql='''insert into topartists ( artist,country,listeners) values ("{}","{}",{}) 
-                        '''.format(artName,country,art['listeners'])
+                        sql='''insert into topartists ( artist,nameb64,country,listeners) values ("{}","{}","{}",{}) 
+                        '''.format(artName,base64.b64encode(art['name'].encode()).decode(),country,art['listeners'])
                         msg='''totalPages: {}{}{} page: {}{}{} artistNumber: {}{}{} artist: "{}{}{}" country: "{}{}{}" listeners: "{}{}{}"'''.format(
                                 colors.red,totalPages,colors.stop,
                                 colors.green,i,colors.stop,
@@ -55,7 +57,7 @@ class container:
                                 colors.lightBlue,country,colors.stop,
                                 colors.cyan,art['listeners'],colors.stop
                             )
-                        self.master.run.artistinfo(art['name'],db,apikey) 
+                        #self.master.run.artistinfo(art['name'],db,apikey) 
                         result=self.master.db.checkEntry(db,artName,country)
                         if result == False:
                             print(msg)
@@ -87,7 +89,7 @@ class container:
         def mkTable(self,db):
             sqlMkTbl='''
             create table if not exists topartists ( 
-            artist text, country text, listeners real, 
+            artist text, nameb64 text,country text, listeners real, 
             rowid INTEGER PRIMARY KEY AUTOINCREMENT);
             '''
             db['cursor'].execute(sqlMkTbl)
@@ -130,13 +132,8 @@ class container:
 
     class tasks:
         master=None
-        def artistinfo(self,artist,db,apikey):
-            data=self.master.artinfo.data.getData(artist,apikey)
-            artist=self.master.data.cleanupArtist(artist)
-            fields=self.master.artinfo.data.artistFields(data)
-            if fields != None:
-                self.master.artinfo.db.mkTable(db,artist,fields)
-                self.master.artinfo.db.insertEntry(db,artist,fields)
+        def artistinfo(self,db,apikey):
+           self.master.artinfo.data.getArtists(db,apikey) 
 
         def run(self):
             dbName=self.master.db.dbName
@@ -145,6 +142,7 @@ class container:
             self.master.db.mkTable(db)
             totalPages=self.master.data.getTotalPages()
             self.master.data.extractData(totalPages,db,self.master.data.apikey,self.master.data.country)
+            self.artistinfo(db,self.master.data.apikey)
             self.master.db.cleanupDb(db)
 
     def assembler(self):
