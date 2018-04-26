@@ -1,31 +1,41 @@
+#! /usr/bin/env python3
+#NoGuiLinux
 from pyzbar.pyzbar import *
 import cv2,os,sys
 
+class readBars:
+    master=None
 
-def checkExists(file):
-    if os.path.exists(file):
-        if os.path.isfile(file):
-            return file
+    def checkExists(self,file):
+        if os.path.exists(file):
+            if os.path.isfile(file):
+                return file
+            else:
+                return [None,'notfile']
         else:
-            return [None,'notfile']
-    else:
-        return [None,'notexist']
+            return [None,'notexist']
 
-def readbars(file):
-    print(file,end=':')
-    file=checkExists(file)
-    if type(file) != list:
-        img=cv2.imread(file)
-        data=decode(img)
-        if data != []:
-            print(data)
+    def readbars(self,file,mem=None):
+        print(file,end=':')
+        file=self.checkExists(file)
+        if type(file) != list or (mem != None):
+            if mem == None:
+                img=cv2.imread(file)
+            else:
+                img=file
+            data=decode(img)
+            if data != []:
+                print(data)
+                return data
+            else:
+                print("img did not contain a valid barcode")
+                return False
         else:
-            print("img did not contain a valid barcode")
-    else:
-        print(file[1])
-        exit(1)
+            print(file[1])
+            return False
 
-files=sorted([i for i in os.listdir('.') if os.path.splitext(i)[1] in ['.png','.jpg']])
-
-for file in files:
-    readbars(file)
+if __name__ == "__main__":
+    rEddit=readBars()
+    files=sorted([i for i in os.listdir('.') if os.path.splitext(i)[1] in ['.png','.jpg']])
+    for file in files:
+        rEddit.readbars(file)
