@@ -1,0 +1,8 @@
+need three tabs,
+capture tab
+data tab
+settings tab
+
+need quit button
+integrate readbars.py into gui.py 
+add lib folder - sys.path.insert(0,"lib")
