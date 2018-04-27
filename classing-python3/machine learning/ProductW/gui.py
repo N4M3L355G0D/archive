@@ -77,6 +77,14 @@ class container(QMainWindow):
         def snapper(self):
             self.snap=QPushButton('Snap')
             self.snap.clicked.connect(self.snapperAction)
+            self.snap.setIcon(QIcon(os.path.join(self.master.docRoot,'src/icons/snap.png')))
+
+        def quitBtn(self):
+            self.done=QPushButton("Quit")
+            self.done.clicked.connect(self.quitAction)
+            self.done.setIcon(QIcon(os.path.join(self.master.docRoot,'src/icons/exit.png')))
+        def quitAction(self):
+            qApp.quit()
             
     class layouts:
         master=None
@@ -97,6 +105,15 @@ class container(QMainWindow):
             widget.setLayout(grid)
             return widget
 
+        def layoutQuit(self):
+            widget=QWidget(self.master)
+            grid=QGridLayout()
+            grid.setSpacing(10)
+            #add widgets
+            grid.addWidget(self.master.buttons.done,0,1,1,5)
+            widget.setLayout(grid)
+            return widget
+
     class void(QMainWindow):
         master=None
 
@@ -105,12 +122,12 @@ class container(QMainWindow):
         def run(self):
             t=threading.Thread(target=self.master.camera.grab)
             t.start()
-            time.sleep(1.5)
             self.master.buttons.snapper()
+            self.master.buttons.quitBtn()
             self.master.img.display()
             self.master.labels.lbls()
             self.master.ti.timer()
-            self.master.layouts.tabs({'Capture':self.master.layouts.layout1()})
+            self.master.layouts.tabs({'Capture':self.master.layouts.layout1(),'Quit':self.master.layouts.layoutQuit()})
             self.master.win.initUi()
 
     def assembler(self):
@@ -118,7 +135,7 @@ class container(QMainWindow):
         wa.master=wa
         wa.win=self.win()
         wa.win.master=wa
-        
+        wa.docRoot="."
         wa.camera=self.camera()
         wa.camera.master=wa
         wa.img=self.img()
