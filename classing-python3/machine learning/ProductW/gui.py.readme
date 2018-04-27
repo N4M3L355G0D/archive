@@ -1,7 +1,21 @@
 need three tabs,
 capture tab
 data tab
+	-product code (lineedit,label)
 settings tab
+	-toggle button
+		-to enable/disable editing api-key
+		lineEditWid.setEnabled(False)
+	-label
+		-to id api key line edit
+	-lineEditWid (default)
+		-to add api-key
+	-scrollwindow containing checkboxes for old api keys to override default api-key, pulled from productW_conf.db api-key cache
+
+api-key will be stored in productW_conf.db - an sqlite3 db for configuration
+if new api-key is entered, insert new productW_conf.db api-key, issue a new rowid, and set date for new key addition
+default api key will be the last api key rowid
+		
 
 need quit button
 integrate readbars.py into gui.py 

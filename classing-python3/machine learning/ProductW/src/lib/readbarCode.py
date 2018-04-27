@@ -17,7 +17,8 @@ class readBars:
 
     def readbars(self,file,mem=None):
         print(file,end=':')
-        file=self.checkExists(file)
+        if mem == None:
+            file=self.checkExists(file)
         if type(file) != list or (mem != None):
             if mem == None:
                 img=cv2.imread(file)

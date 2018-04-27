@@ -8,6 +8,11 @@ from PyQt5.QtGui import *
 import os,sys,time,threading
 from PyQt5.QtMultimediaWidgets import *
 
+#add local libs path
+sys.path.insert(0,"src/lib")
+#import local libs
+import readbarCode
+
 class container(QMainWindow):
     class camera:
         running=True
@@ -27,12 +32,17 @@ class container(QMainWindow):
         def initUi(self):
             self.master.setGeometry(300,300,300,300)
             self.master.setWindowTitle('ProductW')
+            #self.master.setStyleSheet("border: 1px solid lightgray")
             self.master.show()
     class labels:
         master=None
 
         def lbls(self):
             self.ctrLbl=QLabel('ProductW',self.master)
+        def lblCode(self):
+            self.codeDataLbl=QLabel('Product Code:',self.master)
+        def lblCodeData(self):
+            self.codeDataData=QLabel('Nothing Scanned yet!',self.master)
 
     class img:
         master=None
@@ -67,11 +77,23 @@ class container(QMainWindow):
             timer=QTimer(self.master)
             timer.timeout.connect(self.timerAction)
             timer.start(0.01)
+
+    class lineEdits:
+        master=None
+        def codeData(self):
+            self.codeDataData=QLineEdit()
+            self.codeDataData.setReadOnly(True)
+
     class buttons:
         master=None
         def snapperAction(self):
             frame=self.master.camera.frame
             #the line below will be swapped later
+            result=self.master.reader.readbars(frame,mem=True)
+            if result != False:
+                result=result[0]
+                self.master.lineEdits.codeDataData.setText(result.data.decode())
+                self.master.layouts.tabs.setCurrentIndex(1)
             cv2.imwrite("snap.png",frame)
             self.master.statusBar().showMessage("img grabbed")
         def snapper(self):
@@ -89,10 +111,10 @@ class container(QMainWindow):
     class layouts:
         master=None
         def tabs(self,widgetDict):
-            tab=QTabWidget()
+            self.tabs=QTabWidget()
             for i in widgetDict.keys():
-                tab.addTab(widgetDict[i],i)
-            self.master.setCentralWidget(tab)
+                self.tabs.addTab(widgetDict[i],i)
+            self.master.setCentralWidget(self.tabs)
 
         def layout1(self):
             widget=QWidget(self.master)
@@ -100,8 +122,27 @@ class container(QMainWindow):
             grid.setSpacing(10)
             #add widgets
             grid.addWidget(self.master.labels.ctrLbl,0,0,1,1)
-            grid.addWidget(self.master.img.pix,0,1,1,1)
-            grid.addWidget(self.master.buttons.snap,1,0,1,2)
+            grid.addWidget(self.master.img.pix,1,0,1,1)
+            grid.addWidget(self.master.buttons.snap,2,0,1,1)
+            widget.setLayout(grid)
+            return widget
+        
+        def layoutData(self):
+            widget=QWidget(self.master)
+            grid=QGridLayout()
+            grid.setSpacing(10)
+            #widgets
+            grid.addWidget(self.master.labels.codeDataLbl,0,0,1,2)
+            grid.addWidget(self.master.lineEdits.codeDataData,0,3,1,4)
+            widget.setLayout(grid)
+            widget.setStyleSheet("border: 1px solid lightgray")
+            return widget
+        def layoutSettings(self):
+            widget=QWidget(self.master)
+            grid=QGridLayout()
+            grid.setSpacing(10)
+            #add settings widget
+
             widget.setLayout(grid)
             return widget
 
@@ -126,8 +167,18 @@ class container(QMainWindow):
             self.master.buttons.quitBtn()
             self.master.img.display()
             self.master.labels.lbls()
+            self.master.labels.lblCode()
+            self.master.labels.lblCodeData()
+            self.master.lineEdits.codeData()
             self.master.ti.timer()
-            self.master.layouts.tabs({'Capture':self.master.layouts.layout1(),'Quit':self.master.layouts.layoutQuit()})
+            self.master.layouts.tabs(
+            {
+                'Capture':self.master.layouts.layout1(),
+                'Data':self.master.layouts.layoutData(),
+                'Settings':self.master.layouts.layoutSettings(),
+                'Quit':self.master.layouts.layoutQuit(),
+            }
+            )
             self.master.win.initUi()
 
     def assembler(self):
@@ -136,12 +187,22 @@ class container(QMainWindow):
         wa.win=self.win()
         wa.win.master=wa
         wa.docRoot="."
+
+        wa.lineEdits=self.lineEdits()
+        wa.lineEdits.master=wa
+
+        wa.reader=readbarCode.readBars()
+        wa.reader.master=wa
+
         wa.camera=self.camera()
         wa.camera.master=wa
+
         wa.img=self.img()
         wa.img.master=wa
+        
         wa.buttons=self.buttons()
         wa.buttons.master=wa
+
 
         wa.ti=self.timer()
         wa.ti.master=wa
