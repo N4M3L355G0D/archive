@@ -12,7 +12,7 @@ settings tab
 		-to add api-key
 	-scrollwindow containing checkboxes for old api keys to override default api-key, pulled from productW_conf.db api-key cache
 
-api-key will be stored in productW_conf.db - an sqlite3 db for configuration
+api-key will be stored in settings.db - an sqlite3 db for configuration
 if new api-key is entered, insert new productW_conf.db api-key, issue a new rowid, and set date for new key addition
 default api key will be the last api key rowid
 
@@ -28,7 +28,10 @@ defaultsSettings (setting,value)
 	defaultCamera:0
 apikeys(apikey text,date text,row id integer primary key autoincrement)
 	
+need to make a method to get available cameras
+	and to associate them to their
+	names
 
-need quit button
-integrate readbars.py into gui.py 
-add lib folder - sys.path.insert(0,"lib")
+#need quit button
+#integrate readbars.py into gui.py 
+#add lib folder - sys.path.insert(0,"./src/lib")
