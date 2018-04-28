@@ -12,6 +12,7 @@ from PyQt5.QtMultimediaWidgets import *
 sys.path.insert(0,"src/lib")
 #import local libs
 import readbarCode
+import settings
 
 class container(QMainWindow):
     class camera:
@@ -31,14 +32,24 @@ class container(QMainWindow):
 
         def initUi(self):
             self.master.setGeometry(200,200,300,300)
+            screenCenter=QDesktopWidget().availableGeometry().center()
+            windowGeo=self.master.frameGeometry()
+            windowGeo.moveCenter(screenCenter)
+            self.master.move(windowGeo.topLeft())
             self.master.setWindowTitle('ProductW')
+            self.master.statusBar()
             imgP=os.path.abspath(os.path.join(self.master.docRoot,"src/icons/windowIcon.png"))
             imgP=QIcon(imgP)
             self.master.setWindowIcon(imgP)
-            #self.master.setStyleSheet("border: 1px solid lightgray")
             self.master.show()
+
     class labels:
         master=None
+        def run(self):
+            self.lbls()
+            self.lblCode()
+            self.lblCodeData()
+            self.lblApiKey()
 
         def lbls(self):
             self.ctrLbl=QLabel('ProductW',self.master)
@@ -46,6 +57,8 @@ class container(QMainWindow):
             self.codeDataLbl=QLabel('Product Code:',self.master)
         def lblCodeData(self):
             self.codeDataData=QLabel('Nothing Scanned yet!',self.master)
+        def lblApiKey(self):
+            self.apiKey=QLabel("API Key:",self.master)
 
     class img:
         master=None
@@ -73,7 +86,6 @@ class container(QMainWindow):
         master=None
         def timerAction(self):
             self.master.labels.ctrLbl.setText(time.ctime())
-            print(self.master.camera.frame)
             self.master.img.pix.setPixmap(self.master.img.framy())
 
         def timer(self):
@@ -87,8 +99,35 @@ class container(QMainWindow):
             self.codeDataData=QLineEdit()
             self.codeDataData.setReadOnly(True)
 
+        def apiKey(self):
+            self.apikey=QLineEdit()
+            self.apikey.setText(self.master.apikey)
+            self.apikey.setEnabled(False)
+
+    class checkboxes:
+        master=None
+        def run(self):
+            self.newKey()
+        
+        def newKeyAction(self):
+            if self.newkey.isChecked():
+                self.master.buttons.addKey.setEnabled(True)
+                self.master.lineEdits.apikey.setEnabled(True)
+            else:
+                self.master.buttons.addKey.setEnabled(False)
+                self.master.lineEdits.apikey.setEnabled(False)
+
+        def newKey(self):
+            self.newkey=QCheckBox('Add New API Key',self.master)
+            self.newkey.stateChanged.connect(self.newKeyAction)
+
     class buttons:
         master=None
+        def run(self):
+            self.snapper()
+            self.quitBtn()
+            self.addKeyBtn()
+
         def snapperAction(self):
             frame=self.master.camera.frame
             #the line below will be swapped later
@@ -110,7 +149,22 @@ class container(QMainWindow):
             self.done.setIcon(QIcon(os.path.join(self.master.docRoot,'src/icons/exit.png')))
         def quitAction(self):
             qApp.quit()
-            
+
+        def addKeyAction(self):
+            apikey=self.master.lineEdits.apikey.text()
+            db=self.master.db
+            if apikey != self.master.apikey:
+                self.master.settings.insertNewDefault(db,'apikey',apikey)
+                self.master.statusBar().showMessage('API Key added!')
+            else:
+                self.master.statusBar().showMessage('API Key is already set!')
+
+        def addKeyBtn(self):
+            self.addKey=QPushButton('Add Key')
+            self.addKey.clicked.connect(self.addKeyAction)
+            self.addKey.setIcon(QIcon(os.path.join(self.master.docRoot,'src/icons/key.png')))
+            self.addKey.setEnabled(False)
+
     class layouts:
         master=None
         def tabs(self,widgetDict):
@@ -140,12 +194,16 @@ class container(QMainWindow):
             widget.setLayout(grid)
             widget.setStyleSheet("border: 1px solid lightgray")
             return widget
+
         def layoutSettings(self):
             widget=QWidget(self.master)
             grid=QGridLayout()
-            grid.setSpacing(10)
+            grid.setSpacing(5)
             #add settings widget
-
+            grid.addWidget(self.master.labels.apiKey,0,0,1,1)
+            grid.addWidget(self.master.lineEdits.apikey,0,1,1,3)
+            grid.addWidget(self.master.buttons.addKey,0,4,1,1)
+            grid.addWidget(self.master.checkboxes.newkey,1,0,1,1)
             widget.setLayout(grid)
             return widget
 
@@ -164,15 +222,16 @@ class container(QMainWindow):
     class tasks:
         master=None
         def run(self):
+            self.master.db=self.master.settings.initSettings()
+            self.master.settings.getSettings(self.master.db)
             t=threading.Thread(target=self.master.camera.grab)
             t.start()
-            self.master.buttons.snapper()
-            self.master.buttons.quitBtn()
+            self.master.checkboxes.run()
+            self.master.buttons.run()
             self.master.img.display()
-            self.master.labels.lbls()
-            self.master.labels.lblCode()
-            self.master.labels.lblCodeData()
+            self.master.labels.run()
             self.master.lineEdits.codeData()
+            self.master.lineEdits.apiKey()
             self.master.ti.timer()
             self.master.layouts.tabs(
             {
@@ -190,6 +249,12 @@ class container(QMainWindow):
         wa.win=self.win()
         wa.win.master=wa
         wa.docRoot="."
+        
+        wa.checkboxes=self.checkboxes()
+        wa.checkboxes.master=wa
+
+        wa.settings=settings.settings()
+        wa.settings.master=wa
 
         wa.lineEdits=self.lineEdits()
         wa.lineEdits.master=wa
@@ -219,6 +284,7 @@ class container(QMainWindow):
         wa.tasks=self.tasks()
         wa.tasks.master=wa
         wa.tasks.run()
+        self.closingAccess=wa
 
 ap=QApplication(sys.argv)
 if __name__ == "__main__":
@@ -226,4 +292,5 @@ if __name__ == "__main__":
     app.assembler()
     result=ap.exec_()
     app.camera.running=False
+    app.closingAccess.settings.closeDb()
     sys.exit(result)

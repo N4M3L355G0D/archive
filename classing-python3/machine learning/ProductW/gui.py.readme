@@ -1,8 +1,16 @@
 need three tabs,
 capture tab
+[todos]
+	-need to make, or get a opensource camera icon
+		-include licensing with camera icon
 data tab
+[done]
 	-product code (lineedit,label)
-settings tab
+[todos]
+	-add other product info widgets
+
+settings tab 
+[Done]
 	-toggle button
 		-to enable/disable editing api-key
 		lineEditWid.setEnabled(False)
@@ -10,24 +18,21 @@ settings tab
 		-to id api key line edit
 	-lineEditWid (default)
 		-to add api-key
-	-scrollwindow containing checkboxes for old api keys to override default api-key, pulled from productW_conf.db api-key cache
 
+	
 api-key will be stored in settings.db - an sqlite3 db for configuration
 if new api-key is entered, insert new productW_conf.db api-key, issue a new rowid, and set date for new key addition
 default api key will be the last api key rowid
 
 settings.db - a sqlite3 db called productW_conf.db
-	if default api key is not set, use latest, else exit 1
-	have a table for api keys
 	have a table for default settings
 		defalt api key will be set here
 
 defaultsSettings (setting,value)
-	srcRoot:'./src/'
-	apikey:"rowid value from apikeys"
-	defaultCamera:0
-apikeys(apikey text,date text,row id integer primary key autoincrement)
+	-[done] apikey:"rowid value from apikeys"
+	-more settings will be created later
 	
+[pending]
 need to make a method to get available cameras
 	and to associate them to their
 	names
