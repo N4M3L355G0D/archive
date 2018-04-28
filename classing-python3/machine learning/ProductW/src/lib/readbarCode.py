@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 #NoGuiLinux
 from pyzbar.pyzbar import *
+from pyzbar.pyzbar import ZBarSymbol
 import cv2,os,sys
 
 class readBars:
@@ -24,7 +25,12 @@ class readBars:
                 img=cv2.imread(file)
             else:
                 img=file
-            data=decode(img)
+            try:
+                data=decode(img)
+            except OSError as e:
+                print(e)
+                data=[]
+
             if data != []:
                 print(data)
                 return data

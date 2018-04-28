@@ -19,6 +19,11 @@ settings tab
 	-lineEditWid (default)
 		-to add api-key
 
+[new]
+create a class to access walmart api using api key stored in settings.db 
+	-class will display retrieved to to the data tab
+	-tab will have a pixmap box containing the snapped barcode next the barcode data read from the barcode
+		-this will be above the data retrieved from the walmart api
 	
 api-key will be stored in settings.db - an sqlite3 db for configuration
 if new api-key is entered, insert new productW_conf.db api-key, issue a new rowid, and set date for new key addition

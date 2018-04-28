@@ -31,6 +31,7 @@ class container(QMainWindow):
             super().__init__()
 
         def initUi(self):
+            self.master.setStyleSheet('font: 14pt Sans Serif')
             self.master.setGeometry(200,200,300,300)
             screenCenter=QDesktopWidget().availableGeometry().center()
             windowGeo=self.master.frameGeometry()
@@ -58,7 +59,7 @@ class container(QMainWindow):
         def lblCodeData(self):
             self.codeDataData=QLabel('Nothing Scanned yet!',self.master)
         def lblApiKey(self):
-            self.apiKey=QLabel("API Key:",self.master)
+            self.apiKey=QLabel("API Key",self.master)
 
     class img:
         master=None
@@ -91,7 +92,7 @@ class container(QMainWindow):
         def timer(self):
             timer=QTimer(self.master)
             timer.timeout.connect(self.timerAction)
-            timer.start(0.01)
+            timer.start(0.001)
 
     class lineEdits:
         master=None
@@ -102,6 +103,7 @@ class container(QMainWindow):
         def apiKey(self):
             self.apikey=QLineEdit()
             self.apikey.setText(self.master.apikey)
+            self.apikey.setStyleSheet('font: 10pt Sans Serif')
             self.apikey.setEnabled(False)
 
     class checkboxes:
@@ -136,17 +138,20 @@ class container(QMainWindow):
                 result=result[0]
                 self.master.lineEdits.codeDataData.setText(result.data.decode())
                 self.master.layouts.tabs.setCurrentIndex(1)
-            cv2.imwrite("snap.png",frame)
+            cv2.imwrite(os.path.join(self.master.docRoot,"src/tmp/snap.png"),frame)
             self.master.statusBar().showMessage("img grabbed")
         def snapper(self):
             self.snap=QPushButton('Snap')
             self.snap.clicked.connect(self.snapperAction)
-            self.snap.setIcon(QIcon(os.path.join(self.master.docRoot,'src/icons/snap.png')))
-
+            self.snap.setIcon(QIcon(os.path.join(self.master.docRoot,'src/icons/camera.png')))
+            self.snap.setIconSize(QSize(40,40))
+            self.snap.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
         def quitBtn(self):
-            self.done=QPushButton("Quit")
+            self.done=QPushButton("  Quit")
             self.done.clicked.connect(self.quitAction)
             self.done.setIcon(QIcon(os.path.join(self.master.docRoot,'src/icons/exit.png')))
+            self.done.setIconSize(QSize(80,80))
+            self.done.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
         def quitAction(self):
             qApp.quit()
 
@@ -160,9 +165,11 @@ class container(QMainWindow):
                 self.master.statusBar().showMessage('API Key is already set!')
 
         def addKeyBtn(self):
-            self.addKey=QPushButton('Add Key')
+            self.addKey=QPushButton(' Add Key')
             self.addKey.clicked.connect(self.addKeyAction)
             self.addKey.setIcon(QIcon(os.path.join(self.master.docRoot,'src/icons/key.png')))
+            self.addKey.setIconSize(QSize(40,40))
+            self.addKey.setStyleSheet('font: 10pt Sans Serif')
             self.addKey.setEnabled(False)
 
     class layouts:
@@ -180,7 +187,7 @@ class container(QMainWindow):
             #add widgets
             grid.addWidget(self.master.labels.ctrLbl,0,0,1,1)
             grid.addWidget(self.master.img.pix,1,0,1,1)
-            grid.addWidget(self.master.buttons.snap,2,0,1,1)
+            grid.addWidget(self.master.buttons.snap,2,0,3,1)
             widget.setLayout(grid)
             return widget
         
@@ -200,10 +207,33 @@ class container(QMainWindow):
             grid=QGridLayout()
             grid.setSpacing(5)
             #add settings widget
-            grid.addWidget(self.master.labels.apiKey,0,0,1,1)
-            grid.addWidget(self.master.lineEdits.apikey,0,1,1,3)
-            grid.addWidget(self.master.buttons.addKey,0,4,1,1)
-            grid.addWidget(self.master.checkboxes.newkey,1,0,1,1)
+            div1=QWidget(self.master)
+            grid1=QGridLayout()
+            grid1.setSpacing(5)
+            #add widgets here
+            grid1.addWidget(self.master.labels.apiKey,0,0,1,1)
+            grid1.addWidget(self.master.lineEdits.apikey,0,1,1,3)
+            grid1.addWidget(self.master.buttons.addKey,0,4,1,1)
+            grid1.addWidget(self.master.checkboxes.newkey,1,4,1,1)
+            div1.setLayout(grid1)
+
+            div2=QWidget(self.master)
+            grid2=QGridLayout()
+            grid2.setSpacing(5)
+            #add widgets here
+            div2.setLayout(grid2)
+
+            div3=QWidget(self.master)
+            grid3=QGridLayout()
+            grid3.setSpacing(5)
+            #add widgets here
+            div3.setLayout(grid3)
+
+            
+            grid.addWidget(div1,0,0,1,1)
+            grid.addWidget(div2,1,0,1,1)
+            grid.addWidget(div3,2,0,1,1)
+
             widget.setLayout(grid)
             return widget
 
@@ -211,8 +241,74 @@ class container(QMainWindow):
             widget=QWidget(self.master)
             grid=QGridLayout()
             grid.setSpacing(10)
+
+            div1=QWidget(self.master)
+            grid1=QGridLayout()
+            grid1.setSpacing(5)
+            #add widgets here
+            div1.setLayout(grid1)
+
+            div2=QWidget(self.master)
+            grid2=QGridLayout()
+            grid2.setSpacing(5)
+            #add widgets here
+            div2.setLayout(grid2)
+
+            div3=QWidget(self.master)
+            grid3=QGridLayout()
+            grid3.setSpacing(5)
+            #add widgets here
+            div3.setLayout(grid3)
+
+            div4=QWidget(self.master)
+            grid4=QGridLayout()
+            grid4.setSpacing(5)
+            #add widgets here
+            div4.setLayout(grid4)
+
+            div5=QWidget(self.master)
+            grid5=QGridLayout()
+            grid5.setSpacing(5)
+            grid5.addWidget(self.master.buttons.done,0,0,3,2) 
+            #add widgets here
+            div5.setLayout(grid5)
+
+            div6=QWidget(self.master)
+            grid6=QGridLayout()
+            grid6.setSpacing(5)
+            #add widgets here
+            div6.setLayout(grid6)
+
+            div7=QWidget(self.master)
+            grid7=QGridLayout()
+            grid7.setSpacing(5)
+            #add widgets here
+            div7.setLayout(grid7)
+
+            div8=QWidget(self.master)
+            grid8=QGridLayout()
+            grid8.setSpacing(5)
+            #add widgets here
+            div8.setLayout(grid8)
+
+            div9=QWidget(self.master)
+            grid9=QGridLayout()
+            grid9.setSpacing(5)
+            #add widgets here
+            div9.setLayout(grid9)
+
             #add widgets
-            grid.addWidget(self.master.buttons.done,0,1,1,5)
+            grid.addWidget(div1,0,0,1,1)
+            grid.addWidget(div2,0,1,1,1)
+            grid.addWidget(div3,0,2,1,1)
+
+            grid.addWidget(div4,1,0,1,1)
+            grid.addWidget(div5,1,1,1,1)
+            grid.addWidget(div6,1,2,1,1)
+
+            grid.addWidget(div7,2,0,1,1)
+            grid.addWidget(div8,2,1,1,1)
+            grid.addWidget(div9,2,2,1,1)
             widget.setLayout(grid)
             return widget
 
@@ -222,6 +318,8 @@ class container(QMainWindow):
     class tasks:
         master=None
         def run(self):
+            if not os.path.exists(os.path.realpath(os.path.join(self.master.docRoot,'src/tmp'))):
+                os.mkdir(os.path.realpath(os.path.join(self.master.docRoot,'src/tmp')))
             self.master.db=self.master.settings.initSettings()
             self.master.settings.getSettings(self.master.db)
             t=threading.Thread(target=self.master.camera.grab)
