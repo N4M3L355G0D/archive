@@ -30,8 +30,11 @@ class container(QMainWindow):
             super().__init__()
 
         def initUi(self):
-            self.master.setGeometry(300,300,300,300)
+            self.master.setGeometry(200,200,300,300)
             self.master.setWindowTitle('ProductW')
+            imgP=os.path.abspath(os.path.join(self.master.docRoot,"src/icons/windowIcon.png"))
+            imgP=QIcon(imgP)
+            self.master.setWindowIcon(imgP)
             #self.master.setStyleSheet("border: 1px solid lightgray")
             self.master.show()
     class labels:
