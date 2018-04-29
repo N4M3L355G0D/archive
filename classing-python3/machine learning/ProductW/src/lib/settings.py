@@ -5,7 +5,7 @@ import sqlite3,os,base64,sys,time
 class settings:
     master=None
     dbName='settings.db'
-
+    autosnap=False
     def mkDb(self):
         db={}
         db['db']=sqlite3.connect(self.dbName)
@@ -60,6 +60,7 @@ class settings:
     def initSettings(self):
         db=self.mkDb()
         self.mkTables(db)
+
         return db
 
     def getSettings(self,db):
@@ -68,3 +69,19 @@ class settings:
             apikey='No Api key available, please type one in and click "Add Key"'
         self.master.apikey=apikey
 
+        autosnap=self.getDefaultSetting(db,'autosnap')
+        if autosnap == None:
+            self.insertNewDefault(db,'autosnap','False')
+        else:
+            print(autosnap,'settings')
+            if autosnap == "True":
+                self.autosnap=True
+            else:
+                self.autosnap=False
+
+    def updateSettings(self,db,setting,val):
+        sql='''
+        update defaultSetting set val='{}' where setting='{}'
+        '''.format(val,setting)
+        db['cursor'].execute(sql)
+        db['db'].commit()

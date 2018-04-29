@@ -88,6 +88,8 @@ class container(QMainWindow):
         def timerAction(self):
             self.master.labels.ctrLbl.setText(time.ctime())
             self.master.img.pix.setPixmap(self.master.img.framy())
+            if self.master.settings.autosnap == True:
+                self.master.buttons.snapperAction()
 
         def timer(self):
             timer=QTimer(self.master)
@@ -110,6 +112,7 @@ class container(QMainWindow):
         master=None
         def run(self):
             self.newKey()
+            self.autoSnap()
         
         def newKeyAction(self):
             if self.newkey.isChecked():
@@ -123,6 +126,24 @@ class container(QMainWindow):
             self.newkey=QCheckBox('Add New API Key',self.master)
             self.newkey.stateChanged.connect(self.newKeyAction)
 
+        def autoSnap(self):
+            self.autosnap=QCheckBox('Auto Snap',self.master)
+            if self.master.settings.autosnap == False:
+                self.autosnap.setChecked(False)
+            else:
+                self.autosnap.setChecked(True)
+            self.autosnap.stateChanged.connect(self.autoSnapAction)
+
+        def autoSnapAction(self):
+            if self.autosnap.isChecked():
+                self.master.buttons.snap.setEnabled(False)
+                self.master.settings.autosnap=True
+                self.master.settings.updateSettings(self.master.db,'autosnap','True')
+            else:
+                self.master.buttons.snap.setEnabled(True)
+                self.master.settings.autosnap=False
+                self.master.settings.updateSettings(self.master.db,'autosnap','False')
+
     class buttons:
         master=None
         def run(self):
@@ -132,7 +153,6 @@ class container(QMainWindow):
 
         def snapperAction(self):
             frame=self.master.camera.frame
-            #the line below will be swapped later
             result=self.master.reader.readbars(frame,mem=True)
             if result != False:
                 result=result[0]
@@ -146,6 +166,11 @@ class container(QMainWindow):
             self.snap.setIcon(QIcon(os.path.join(self.master.docRoot,'src/icons/camera.png')))
             self.snap.setIconSize(QSize(40,40))
             self.snap.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
+            if self.master.settings.autosnap == True:
+                self.snap.setEnabled(False)
+            else:
+                self.snap.setEnabled(True)
+
         def quitBtn(self):
             self.done=QPushButton("  Quit")
             self.done.clicked.connect(self.quitAction)
@@ -215,6 +240,7 @@ class container(QMainWindow):
             grid1.addWidget(self.master.lineEdits.apikey,0,1,1,3)
             grid1.addWidget(self.master.buttons.addKey,0,4,1,1)
             grid1.addWidget(self.master.checkboxes.newkey,1,4,1,1)
+            grid1.addWidget(self.master.checkboxes.autosnap,1,3,1,1)
             div1.setLayout(grid1)
 
             div2=QWidget(self.master)

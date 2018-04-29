@@ -2,7 +2,7 @@
 #NoGuiLinux
 from pyzbar.pyzbar import *
 from pyzbar.pyzbar import ZBarSymbol
-import cv2,os,sys
+import cv2,os,sys,time
 
 class readBars:
     master=None
@@ -17,7 +17,7 @@ class readBars:
             return [None,'notexist']
 
     def readbars(self,file,mem=None):
-        print(file,end=':')
+        #print(file,end=':')
         if mem == None:
             file=self.checkExists(file)
         if type(file) != list or (mem != None):
@@ -28,17 +28,17 @@ class readBars:
             try:
                 data=decode(img)
             except OSError as e:
-                print(e)
+                #print(e)
                 data=[]
 
             if data != []:
-                print(data)
+                #print(data)
                 return data
             else:
-                print("img did not contain a valid barcode")
+                print("img did not contain a valid barcode: {}".format(time.ctime()))
                 return False
         else:
-            print(file[1])
+            #print(file[1])
             return False
 
 if __name__ == "__main__":
