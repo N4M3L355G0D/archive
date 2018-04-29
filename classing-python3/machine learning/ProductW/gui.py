@@ -64,11 +64,26 @@ class container(QMainWindow):
     class img:
         master=None
         pix=None
-        def framy(self):
-            frame=self.master.camera.frame
+        write=False
+        def lastBarcode(self):
+            self.lastbar=QLabel(self.master)
+
+        def lastBarcodeUpdate(self,frame):
+            qimg=self.framy(frame)
+            qimg=QPixmap(qimg)
+            qimg=qimg.scaled(50,50,Qt.KeepAspectRatio,Qt.FastTransformation)
+            self.lastbar.setPixmap(qimg)
+            self.lastbar.setStyleSheet("border: 0px solid black")
+
+        def framy(self,frame=None):
+            if type(frame) == None:
+                frame=self.master.camera.frame
+            if self.write == True:
+                cv2.imwrite(os.path.join(self.master.docRoot,"src/tmp/snap.png"),frame)
+                self.write=False
             while type(frame) != numpy.ndarray:
                 frame=self.master.camera.frame
-                print(type(frame))
+                #print(type(frame))
             h=frame.shape[0]
             w=frame.shape[1]
             bpl=w*3
@@ -158,8 +173,10 @@ class container(QMainWindow):
                 result=result[0]
                 self.master.lineEdits.codeDataData.setText(result.data.decode())
                 self.master.layouts.tabs.setCurrentIndex(1)
-            cv2.imwrite(os.path.join(self.master.docRoot,"src/tmp/snap.png"),frame)
+                self.master.img.write=True
+                self.master.img.lastBarcodeUpdate(frame)
             self.master.statusBar().showMessage("img grabbed")
+
         def snapper(self):
             self.snap=QPushButton('Snap')
             self.snap.clicked.connect(self.snapperAction)
@@ -221,8 +238,10 @@ class container(QMainWindow):
             grid=QGridLayout()
             grid.setSpacing(10)
             #widgets
-            grid.addWidget(self.master.labels.codeDataLbl,0,0,1,2)
-            grid.addWidget(self.master.lineEdits.codeDataData,0,3,1,4)
+            grid.addWidget(self.master.labels.codeDataLbl,0,1,1,2)
+            grid.addWidget(self.master.lineEdits.codeDataData,0,4,1,4)
+            grid.addWidget(self.master.img.lastbar,0,0,1,1)
+
             widget.setLayout(grid)
             widget.setStyleSheet("border: 1px solid lightgray")
             return widget
@@ -353,6 +372,7 @@ class container(QMainWindow):
             self.master.checkboxes.run()
             self.master.buttons.run()
             self.master.img.display()
+            self.master.img.lastBarcode()
             self.master.labels.run()
             self.master.lineEdits.codeData()
             self.master.lineEdits.apiKey()
