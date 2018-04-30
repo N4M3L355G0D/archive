@@ -13,6 +13,7 @@ sys.path.insert(0,"src/lib")
 #import local libs
 import readbarCode
 import settings
+import dataTab,getproduct
 
 class container(QMainWindow):
     class camera:
@@ -100,12 +101,13 @@ class container(QMainWindow):
 
     class timer:
         master=None
+        reset=True
         def timerAction(self):
             self.master.labels.ctrLbl.setText(time.ctime())
             self.master.img.pix.setPixmap(self.master.img.framy())
             if self.master.settings.autosnap == True:
                 self.master.buttons.snapperAction()
-
+        
         def timer(self):
             timer=QTimer(self.master)
             timer.timeout.connect(self.timerAction)
@@ -114,7 +116,7 @@ class container(QMainWindow):
     class lineEdits:
         master=None
         def codeData(self):
-            self.codeDataData=QLineEdit()
+            self.codeDataData=QTextEdit()
             self.codeDataData.setReadOnly(True)
 
         def apiKey(self):
@@ -171,11 +173,19 @@ class container(QMainWindow):
             result=self.master.reader.readbars(frame,mem=True)
             if result != False:
                 result=result[0]
-                self.master.lineEdits.codeDataData.setText(result.data.decode())
-                self.master.layouts.tabs.setCurrentIndex(1)
-                self.master.img.write=True
-                self.master.img.lastBarcodeUpdate(frame)
-            self.master.statusBar().showMessage("img grabbed")
+                res=result.data.decode()
+                if type(res) == str:
+                    if len(res) > 0:
+                        if res[0] == '0':
+                            res=res[1:]
+                self.master.lineEdits.codeDataData.setText(res)
+                if self.master.layouts.tabs.currentIndex() < 1:
+                    self.master.img.write=True
+                    self.master.img.lastBarcodeUpdate(frame)
+                    data=self.master.getproduct.flattenData(res)
+                    self.master.datTab.labelsUpdate(data)
+                    self.master.layouts.tabs.setCurrentIndex(1)
+                    self.master.statusBar().showMessage("Done!")
 
         def snapper(self):
             self.snap=QPushButton('Snap')
@@ -238,13 +248,24 @@ class container(QMainWindow):
             grid=QGridLayout()
             grid.setSpacing(10)
             #widgets
-            grid.addWidget(self.master.labels.codeDataLbl,0,1,1,2)
-            grid.addWidget(self.master.lineEdits.codeDataData,0,4,1,4)
-            grid.addWidget(self.master.img.lastbar,0,0,1,1)
+            
+            grid.addWidget(self.master.labels.codeDataLbl,0,0,1,1)
+            grid.addWidget(self.master.lineEdits.codeDataData,0,1,1,1)
+            grid.addWidget(self.master.img.lastbar,0,5,1,1)
+            for num,lbl in enumerate(self.master.datTab.lbls.keys()):
+                grid.addWidget(self.master.datTab.lbls[lbl],1+num,0,1,1)
+            for num,lbl in enumerate(self.master.datTab.edits.keys()):
+                grid.addWidget(self.master.datTab.edits[lbl],1+num,1,1,1)
 
             widget.setLayout(grid)
             widget.setStyleSheet("border: 1px solid lightgray")
-            return widget
+            
+            scroll=QScrollArea()
+            scroll.setWidget(widget)
+            scroll.setWidgetResizable(True)
+            scroll.setStyleSheet("""border: 1px solid black;
+                                    font-size: 12px;""")
+            return scroll
 
         def layoutSettings(self):
             widget=QWidget(self.master)
@@ -369,6 +390,9 @@ class container(QMainWindow):
             self.master.settings.getSettings(self.master.db)
             t=threading.Thread(target=self.master.camera.grab)
             t.start()
+            self.master.getproduct.apikey=self.master.apikey
+            data=self.master.getproduct.initFields()
+            self.master.datTab.labels(data)
             self.master.checkboxes.run()
             self.master.buttons.run()
             self.master.img.display()
@@ -394,12 +418,18 @@ class container(QMainWindow):
         wa.win.master=wa
         wa.docRoot="."
         
+        wa.getproduct=getproduct.getproducts()
+        wa.getproduct.master=wa
+
         wa.checkboxes=self.checkboxes()
         wa.checkboxes.master=wa
 
         wa.settings=settings.settings()
         wa.settings.master=wa
 
+        wa.datTab=dataTab.dataTab()
+        wa.datTab.master=wa
+        
         wa.lineEdits=self.lineEdits()
         wa.lineEdits.master=wa
 
