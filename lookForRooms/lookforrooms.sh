@@ -8,6 +8,6 @@ ZIPCODE='93933'
 
 URL="https://monterey.craigslist.org/search/roo?sort=""$SORT""&availabilityMode=""$AVAILABILITY_MODE""&min_price=""$MIN_COST""&postal=""$ZIPCODE"
 
-CMD="firefox $URL"
+CMD="curl $URL"
 
 $CMD 
