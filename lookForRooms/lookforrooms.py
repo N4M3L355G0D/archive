@@ -3,7 +3,9 @@
 import urllib.request
 import urllib.error
 import urllib.parse
+import gzip,os,sys
 from bs4 import BeautifulSoup as bs
+import time,base64,sqlite3
 sort='priceasc'
 availability='0'
 #mode 0 - immediately
@@ -26,10 +28,11 @@ class container:
                     )
             return url
         def getUrl2(self,url):
+            info={'attrs':'','desc':''}
             try:
                 con=urllib.request.urlopen(url)
                 data=con.read()
-                soup=bs(data)
+                soup=bs(data,'html.parser')
                 attrs=[]
                 desc=[]
                 for target in soup.find_all('section',{'class':'userbody'}):
@@ -37,20 +40,21 @@ class container:
                         for span in attr.find_all('span'):
                             attrs.append(span.text)
                     for section in target.find_all('section',{'id':'postingbody'}):
-                        desc.append(section.text)
+                        desc.append(section.text) 
                 attrs=','.join(attrs)
                 desc=','.join(desc)
                 desc=[i for i in desc.split('\n') if i != '']
                 desc=' '.join(desc[1:])
-                return {'attrs':attrs,'desc':desc}
+                info={'attrs':attrs,'desc':desc}
+                return info
             except urllib.error.HTTPError as e:
                 err=str(e)
                 print(err)
-                return None
+                return info
             except OSError as e:
                 err=str(e)
                 print(err)
-                return None
+                return info
 
         def gatherGen(self,url):
             try:
@@ -62,22 +66,25 @@ class container:
                     if results != None:
                         for link in results.find_all('a',{'class':'result-title hdrlnk'}):
                             resolution['href']=link.get('href')
-                            self.getUrl2(resolution['href'])
+                            info=self.getUrl2(resolution['href'])
+                            resolution['attrs']=info['attrs']
+                            resolution['desc']=info['desc']
                             #integrate results from getUrl2 into resolution next
                         for meta in results.find_all('span',{'class':'result-meta'}):
                             for price in meta.find_all('span',{'class':'result-price'}):
-                                resolution['price']=price.text
+                                resolution['price']=float(price.text.replace('$',''))
                         for hood in meta.find_all('span',{'class':'result-hood'}):
                                 resolution['hood']=hood.text
                     yield resolution
-                    exit()
             except urllib.error.HTTPError as e:
                 print(str(e))
                 return None
             except OSError as e:
                 print(str(e))
                 return None
+
     class dbManager:
+        termSize=20
         master=None
         db={}
         dbname='roomResults-cache.db'
@@ -85,8 +92,53 @@ class container:
             self.db['db']=sqlite3.connect(self.dbname)
             self.db['cursor']=self.db['db'].cursor()
 
-        #create insert entry
+        #create insert entry [done]
         #create query entry
+        #create table creation function [done]
+        def mkTable(self,db):
+            sql='''create table if not exists ad(
+            price real,
+            attrs text,
+            hood text,
+            href text,
+            desc text,
+            date text,
+            rowid INTEGER PRIMARY KEY AUTOINCREMENT);
+            '''
+            db['cursor'].execute(sql)
+            db['db'].commit()
+
+        def insertEntry(self,db,results):
+            date=time.ctime()
+            
+            price=results['price']
+            attrs=results['attrs']
+            href=results['href']
+            desc=results['desc']
+
+            sql='''
+            insert into ad(price,attrs,hood,desc,date) values
+            ({},"{}","{}","{}","{}");'''.format(price,attrs,href,base64.b64encode(gzip.compress(desc.encode())).decode(),date);
+            db['cursor'].execute(sql)
+            db['db'].commit()
+        def displayQuery(self,results):
+            for i in results:
+                print(self.termSize*'=')
+                for num,x in enumerate(i):
+                    if num == 4:
+                        print(gzip.decompress(base64.b64decode(x.encode())).decode())
+                    else:
+                        print(num,x)
+
+        def queryEntry(self,db,params):
+            sql='''select * from ad {};'''.format(params)
+            db['cursor'].execute(sql)
+            results=db['cursor'].fetchall()
+            if results != None:
+                self.displayQuery(results)
+            else:
+                print("there were no results")
+            db['db'].commit()
 
         def cleanup(self,db):
             db['db'].commit()
@@ -105,15 +157,19 @@ class container:
 
             url=self.master.web.genUrl(sort,availability,minCost,zipcode)
             results=self.master.web.gatherGen(url)
+            self.master.dbm.dbCon()
+            db=self.master.dbm.db
+            self.master.dbm.mkTable(db)
             for result in results:
-                print(result)
+                self.master.dbm.insertEntry(db,result)
+            self.master.dbm.queryEntry(db,'where price < 1000')
 
     def assembler(self):
         self.sort='priceasc'
         self.availability='0'
         self.minCost='600'
         self.zipcode='93933'
-
+                
         self.wa=self.void()
         self.wa.master=self.wa
         #give access of lower classes to top level class container
@@ -122,6 +178,9 @@ class container:
         self.wa.web=self.web()
         self.wa.master=self.wa
         
+        self.wa.dbm=self.dbManager()
+        self.wa.dbm.master=self.wa
+
         self.wa.run=self.run()
         self.wa.run.master=self.wa
         self.wa.run.run()
