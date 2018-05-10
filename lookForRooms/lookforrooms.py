@@ -25,6 +25,32 @@ class container:
                     urllib.parse.quote(zipcode)
                     )
             return url
+        def getUrl2(self,url):
+            try:
+                con=urllib.request.urlopen(url)
+                data=con.read()
+                soup=bs(data)
+                attrs=[]
+                desc=[]
+                for target in soup.find_all('section',{'class':'userbody'}):
+                    for attr in target.find_all('p',{'class':'attrgroup'}):
+                        for span in attr.find_all('span'):
+                            attrs.append(span.text)
+                    for section in target.find_all('section',{'id':'postingbody'}):
+                        desc.append(section.text)
+                attrs=','.join(attrs)
+                desc=','.join(desc)
+                desc=[i for i in desc.split('\n') if i != '']
+                desc=' '.join(desc[1:])
+                return {'attrs':attrs,'desc':desc}
+            except urllib.error.HTTPError as e:
+                err=str(e)
+                print(err)
+                return None
+            except OSError as e:
+                err=str(e)
+                print(err)
+                return None
 
         def gatherGen(self,url):
             try:
@@ -36,12 +62,15 @@ class container:
                     if results != None:
                         for link in results.find_all('a',{'class':'result-title hdrlnk'}):
                             resolution['href']=link.get('href')
+                            self.getUrl2(resolution['href'])
+                            #integrate results from getUrl2 into resolution next
                         for meta in results.find_all('span',{'class':'result-meta'}):
                             for price in meta.find_all('span',{'class':'result-price'}):
                                 resolution['price']=price.text
                         for hood in meta.find_all('span',{'class':'result-hood'}):
                                 resolution['hood']=hood.text
                     yield resolution
+                    exit()
             except urllib.error.HTTPError as e:
                 print(str(e))
                 return None
