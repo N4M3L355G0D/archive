@@ -85,9 +85,11 @@ class container:
 
     class dbManager:
         termSize=20
+        invTblChar=['-',':',' ']
         master=None
         db={}
         dbname='roomResults-cache.db'
+        currentTable=''
         def dbCon(self):
             self.db['db']=sqlite3.connect(self.dbname)
             self.db['cursor']=self.db['db'].cursor()
@@ -96,7 +98,12 @@ class container:
         #create query entry
         #create table creation function [done]
         def mkTable(self,db):
-            sql='''create table if not exists ad(
+            currentDate=self.currentDate()
+            for char in self.invTblChar:
+                if char in currentDate:
+                    currentDate=currentDate.replace(char,'_')
+            self.currentTable='ad_{}'.format(currentDate)
+            sql='''create table if not exists {}(
             price real,
             attrs text,
             hood text,
@@ -105,13 +112,15 @@ class container:
             currentDate text,
             postDate text,
             rowid INTEGER PRIMARY KEY AUTOINCREMENT);
-            '''
+            '''.format(self.currentTable)
             db['cursor'].execute(sql)
             db['db'].commit()
+        def currentDate(self):
+            currentDate=time.strftime('%d-%m-%Y %H:%M:%S',time.localtime())
+            return currentDate
 
         def insertEntry(self,db,results):
-            currentDate=time.strftime('%d-%m-%Y %H:%M:%S',time.localtime())
-            
+            currentDate=self.currentDate()
             postDate=''
             price=results['price']
             attrs=results['attrs']
@@ -119,8 +128,8 @@ class container:
             desc=results['desc']
 
             sql='''
-            insert into ad(price,attrs,hood,desc,currentDate,postDate) values
-            ({},"{}","{}","{}","{}","{}");'''.format(price,attrs,href,base64.b64encode(gzip.compress(desc.encode())).decode(),currentDate,postDate);
+            insert into {}(price,attrs,hood,desc,currentDate,postDate) values
+            ({},"{}","{}","{}","{}","{}");'''.format(self.currentTable,price,attrs,href,base64.b64encode(gzip.compress(desc.encode())).decode(),currentDate,postDate);
             db['cursor'].execute(sql)
             db['db'].commit()
     
@@ -137,7 +146,7 @@ class container:
                             print("Result: {}".format(x))
 
         def queryEntry(self,db,params):
-            sql='''select * from ad {};'''.format(params)
+            sql='''select * from {} {};'''.format(self.currentTable,params)
             db['cursor'].execute(sql)
             results=db['cursor'].fetchall()
             if results != None:
