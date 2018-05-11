@@ -102,25 +102,28 @@ class container:
             hood text,
             href text,
             desc text,
-            date text,
+            currentDate text,
+            postDate text,
             rowid INTEGER PRIMARY KEY AUTOINCREMENT);
             '''
             db['cursor'].execute(sql)
             db['db'].commit()
 
         def insertEntry(self,db,results):
-            date=time.ctime()
+            currentDate=time.strftime('%d-%m-%Y %H:%M:%S',time.localtime())
             
+            postDate=''
             price=results['price']
             attrs=results['attrs']
             href=results['href']
             desc=results['desc']
 
             sql='''
-            insert into ad(price,attrs,hood,desc,date) values
-            ({},"{}","{}","{}","{}");'''.format(price,attrs,href,base64.b64encode(gzip.compress(desc.encode())).decode(),date);
+            insert into ad(price,attrs,hood,desc,currentDate,postDate) values
+            ({},"{}","{}","{}","{}","{}");'''.format(price,attrs,href,base64.b64encode(gzip.compress(desc.encode())).decode(),currentDate,postDate);
             db['cursor'].execute(sql)
             db['db'].commit()
+    
         def displayQuery(self,results):
             for i in results:
                 print(self.termSize*'=')
@@ -128,7 +131,10 @@ class container:
                     if num == 4:
                         print(gzip.decompress(base64.b64decode(x.encode())).decode())
                     else:
-                        print(num,x)
+                        if num < len(i)-1:
+                            print(num,x)
+                        else:
+                            print("Result: {}".format(x))
 
         def queryEntry(self,db,params):
             sql='''select * from ad {};'''.format(params)
