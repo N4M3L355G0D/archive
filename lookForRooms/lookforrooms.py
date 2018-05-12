@@ -13,12 +13,30 @@ availability='0'
 #mode 2 - available beyond 30 days
 minCost='600'
 zipcode='93933'
+#bug found -- duplicate data entries are deing displayed, i think it has problems in the scraper returning the data
+#will fix soon
+
 class container:
     class web:
         master=None
         #need to create a function to look at each result url, get the page, parse the page and scrape information pertaining
         #to the room for rent from the page
         #save the result into appropriate table rows
+        #tString='2018-4-30 5:20pm'
+        def fixTime(self,tString):
+            dString=' '.join([i for i in tString.split(' ') if i != ''])
+            date=dString.split(' ')[0]
+            dTime=dString.split(' ')[1]
+            if dTime[-2] == 'a':
+                dTime=dTime[:-2]
+            else:
+                dTime=dTime.split(':')
+                dTime=str(int(dTime[0])+12)+":"+dTime[1][:-2]    
+            dString=date+" "+dTime
+            dString=time.strptime(dString,'%Y-%m-%d %H:%M')
+            dString=time.strftime('%d-%m-%Y %H:%M:%S',dString)
+            return dString
+
         def genUrl(self,sort,availability,minCost,zipcode):
             url='''https://monterey.craigslist.org/search/roo?sort={}&availabilityMode={}&min_price={}&postal={}'''.format(
                     urllib.parse.quote(sort),
@@ -28,7 +46,8 @@ class container:
                     )
             return url
         def getUrl2(self,url):
-            info={'attrs':'','desc':''}
+            dTime=''
+            info={'attrs':'','desc':'','postDate':''}
             try:
                 con=urllib.request.urlopen(url)
                 data=con.read()
@@ -41,11 +60,13 @@ class container:
                             attrs.append(span.text)
                     for section in target.find_all('section',{'id':'postingbody'}):
                         desc.append(section.text) 
+                    for section in target.find_all('time',{'class':'date timeago'}):
+                        dTime=self.fixTime(section.text)
                 attrs=','.join(attrs)
                 desc=','.join(desc)
                 desc=[i for i in desc.split('\n') if i != '']
                 desc=' '.join(desc[1:])
-                info={'attrs':attrs,'desc':desc}
+                info={'attrs':attrs,'desc':desc,'postDate':dTime}
                 return info
             except urllib.error.HTTPError as e:
                 err=str(e)
@@ -69,6 +90,7 @@ class container:
                             info=self.getUrl2(resolution['href'])
                             resolution['attrs']=info['attrs']
                             resolution['desc']=info['desc']
+                            resolution['postDate']=info['postDate']
                             #integrate results from getUrl2 into resolution next
                         for meta in results.find_all('span',{'class':'result-meta'}):
                             for price in meta.find_all('span',{'class':'result-price'}):
@@ -121,7 +143,7 @@ class container:
 
         def insertEntry(self,db,results):
             currentDate=self.currentDate()
-            postDate=''
+            postDate=results['postDate']
             price=results['price']
             attrs=results['attrs']
             href=results['href']
@@ -138,13 +160,24 @@ class container:
                 print(self.termSize*'=')
                 for num,x in enumerate(i):
                     if num == 4:
-                        print(gzip.decompress(base64.b64decode(x.encode())).decode())
+                        print('Description: {}'.format(gzip.decompress(base64.b64decode(x.encode())).decode()))
                     else:
-                        if num < len(i)-1:
-                            print(num,x)
-                        else:
+                        if num == 0:
+                            print("Price: {}".format(x))
+                        elif num == 1:
+                            print("attributes: {}".format(x))
+                        elif num == 2:
+                            print("Link: {}".format(x))
+                        elif num == 3:
+                            print("Hood: {}".format(x))
+                        elif num == 5:
+                            print("Current_Date: {}".format(x))
+                        elif num == 7:
                             print("Result: {}".format(x))
-
+                        elif num == 6:
+                            print("Post_Date: {}".format(x))
+                        else:
+                            print(num,x)
         def queryEntry(self,db,params):
             sql='''select * from {} {};'''.format(self.currentTable,params)
             db['cursor'].execute(sql)
