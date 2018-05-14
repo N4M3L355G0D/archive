@@ -6,6 +6,8 @@ import urllib.parse
 import gzip,os,sys
 from bs4 import BeautifulSoup as bs
 import time,base64,sqlite3
+import argparse
+
 sort='priceasc'
 availability='0'
 #mode 0 - immediately
@@ -195,24 +197,63 @@ class container:
     class void:
         master=None
 
+    class cmdline:
+        master=None
+        def args(self):
+            parser=argparse.ArgumentParser()
+            parser.add_argument('-s','--sql',help='sql where')
+            parser.add_argument('-S','--Sort',help='newest,oldest,priceasc,pricedesc')
+            parser.add_argument('-a','--availability-mode',help='0 - {}, 1 - {}, 2 - {}'.format('ASAP','within 30 days','after 30 days'))
+            parser.add_argument('-m','--mincost')
+            parser.add_argument('-M','--maxcost',help='not implement yet, but coming soon!')
+            parser.add_argument('-z','--zipcode')
+
+            options,unknown=parser.parse_known_args()
+            return options
+
     class run:
         master=None
         def run(self):
-            sort=self.master.external.sort
-            availability=self.master.external.availability
-            minCost=self.master.external.minCost
-            zipcode=self.master.external.zipcode
+            args=self.master.cmdline.args()
+
+            if args.Sort:
+                sort=args.Sort
+            else:
+                sort=self.master.external.sort
+
+            if args.availability_mode:
+                availability=args.availability_mode
+            else:
+                availability=self.master.external.availability
+
+            if args.mincost:
+                minCost=args.mincost
+            else:
+                minCost=self.master.external.minCost
+    
+            if args.zipcode:
+                zipcode=args.zipcode
+            else:
+                zipcode=self.master.external.zipcode
+
 
             url=self.master.web.genUrl(sort,availability,minCost,zipcode)
             results=self.master.web.gatherGen(url)
             self.master.dbm.dbCon()
             db=self.master.dbm.db
             self.master.dbm.mkTable(db)
+            
             for result in results:
                 self.master.dbm.insertEntry(db,result)
-            self.master.dbm.queryEntry(db,'where price < 1000')
+    
+            if args.sql:
+                sql=args.sql
+            else:
+                sql=''
+            self.master.dbm.queryEntry(db,sql)
 
     def assembler(self):
+        
         self.sort='priceasc'
         self.availability='0'
         self.minCost='600'
@@ -222,6 +263,9 @@ class container:
         self.wa.master=self.wa
         #give access of lower classes to top level class container
         self.wa.external=self
+        
+        self.wa.cmdline=self.cmdline()
+        self.wa.master=self.wa
 
         self.wa.web=self.web()
         self.wa.master=self.wa
