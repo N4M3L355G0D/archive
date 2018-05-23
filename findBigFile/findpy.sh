@@ -2,39 +2,41 @@
 #NoGuiLinux
 
 TYPE="*.py"
+SIZE="+512M"
 
-function findStr(){	
+function findStr(){
 #actions here are performed on each line printed by find
-cat << EOF
 
-printf '<unit name="{}">\n' ; 
+cat << EOF
+file="{}" ;
+printf '<unit name="$1">\n' ; 
 
 printf '\t<ls>\n' ; 
-ls -hlQ '{}' | sed s/'^'/'\t\t\t'/g ; 
+ls -hlQ '$1' | sed s/'^'/'\t\t\t'/g ; 
 printf '\t</ls>\n' ;
 
 printf '\t<grep>\n' ;
-grep '#\!' '{}' | sed s/'^'/'\t\t\t'/g ; 
+grep '#\!' '$1' | sed s/'^'/'\t\t\t'/g ; 
 printf '\t</grep>\n' ;
 
 printf '\t<stat>\n' ;
-stat '{}' | sed s/'^'/'\t\t\t'/g ; 
+stat '$1' | sed s/'^'/'\t\t\t'/g ; 
 printf '\t</stat>\n' ;
 
 printf '\t<file>\n' ;
-file ~/.bashrc --mime-encoding --mime-type '{}' | sed s/'^'/'\t\t\t'/g ;
+file ~/.bashrc --mime-encoding --mime-type '$1' | sed s/'^'/'\t\t\t'/g ;
 printf '\t</file>\n' ;
 
 printf '\t<sha512>\n' ;
-sha512sum '{}' | sed s/'^'/'\t\t\t'/g | cut -f1 -d' ' ;
+sha512sum '$1' | sed s/'^'/'\t\t\t'/g | cut -f1 -d' ' ;
 printf '\t</sha512>\n' ;
 
 printf '\t<sha256>\n' ;
-sha256sum '{}' | sed s/'^'/'\t\t\t'/g | cut -f1 -d' ' ;
+sha256sum '$1' | sed s/'^'/'\t\t\t'/g | cut -f1 -d' ' ;
 printf '\t</sha256>\n' ;
 
 printf '\t<md5sum>\n' ;
-md5sum '{}' | sed s/'^'/'\t\t\t'/g | cut -f1 -d' ' ;
+md5sum '$1' | sed s/'^'/'\t\t\t'/g | cut -f1 -d' ' ;
 printf '\t</md5sum>\n' ;
 
 printf '</unit>\n' ;
@@ -45,10 +47,19 @@ EOF
 function findPy2(){
 echo "<results type=""$TYPE"">"
 
-find /home/carl -iname "$TYPE" -exec bash -c "`findStr`" \; | sed s/'^'/'\t'/g
+find /home/carl -iname "$TYPE" -exec bash -c "`findStr {}`" \; | sed s/'^'/'\t'/g
 
 echo '</results>'
 }
 
+function findBigFile(){
 
-findPy2
+echo "<results size=""'$SIZE'"">"
+
+find /home/carl -size "$SIZE" -exec bash -c "`findStr {}`" \; 2> /dev/null | sed s/'^'/'\t'/g
+
+echo "</results>"
+
+}
+
+findBigFile
