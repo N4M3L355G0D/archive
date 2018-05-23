@@ -3,7 +3,7 @@
 import os,sys,sqlite3
 import argparse
 #find xml import code
-desDir=sys.argv[1]
+#desDir=sys.argv[1]
 
 #create cmdline class
 ##get desiredDir to scan -d
@@ -15,6 +15,15 @@ desDir=sys.argv[1]
 
 class container:
     external=None
+    class cmdline:
+        master=None
+        def args(self):
+            parser=argparse.ArgumentParser()
+            parser.add_argument('-d','--scan-dir',help='directory to scan for big files',required='yes')
+            parser.add_argument('-s','--select',help='sqlite select statements')    
+            options,unknown=parser.parse_known_args()
+            return options
+
     class gather:
         def int2Str(self,size,string):
             return '{}{}'.format(str(size),string)
@@ -43,9 +52,10 @@ class container:
             else:
                 return size
 
-        def scanFS(self):
+        def scanFS(self,desDir):
             counter=0
             sys.stdout.flush()
+            sys.stdout.write('Progress:\t')
             for root,dir,fnames in os.walk(desDir,topdown=True):
                 for fname in fnames:
                     path=os.path.abspath(os.path.realpath(os.path.join(root,fname)))
@@ -117,8 +127,9 @@ class container:
     class run:
         master=None
         def run(self):
+            options=self.master.cmdline.args()
             self.master.db.init()
-            self.master.gather.scanFS()
+            self.master.gather.scanFS(options.scan_dir)
             results=self.master.db.queryEntry()
             self.master.db.displayQuery(results)
             self.master.db.cleanup()
@@ -127,6 +138,9 @@ class container:
         self.wa=self.void()
         self.wa.master=None
         
+        self.wa.cmdline=self.cmdline()
+        self.wa.cmdline.master=self.wa
+
         self.wa.db=self.dbManager()
         self.wa.db.master=self.wa
 
