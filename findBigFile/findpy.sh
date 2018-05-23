@@ -15,9 +15,11 @@ printf '\t<ls>\n' ;
 ls -hlQ '$1' | sed s/'^'/'\t\t\t'/g ; 
 printf '\t</ls>\n' ;
 
-printf '\t<grep>\n' ;
-grep '#\!' '$1' | sed s/'^'/'\t\t\t'/g ; 
-printf '\t</grep>\n' ;
+if test "$SIZE" == "" ; then
+	printf '\t<grep>\n' ;
+	grep '#\!' '$1' | sed s/'^'/'\t\t\t'/g ; 
+	printf '\t</grep>\n' ;
+fi
 
 printf '\t<stat>\n' ;
 stat '$1' | sed s/'^'/'\t\t\t'/g ; 
