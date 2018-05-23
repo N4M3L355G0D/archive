@@ -9,12 +9,35 @@ cat << EOF
 
 printf '<unit name="{}">\n' ; 
 
-ls -hlQ '{}' | sed s/'^'/'\t\t'/g ; 
-grep '#\!' '{}' | sed s/'^'/'\t\t'/g ; 
-stat '{}' | sed s/'^'/'\t\t'/g ; 
-file ~/.bashrc --mime-encoding --mime-type '{}' | sed s/'^'/'\t\t'/g ;
+printf '\t<ls>\n' ; 
+ls -hlQ '{}' | sed s/'^'/'\t\t\t'/g ; 
+printf '\t</ls>\n' ;
 
-printf '\n</unit>\n' ;
+printf '\t<grep>\n' ;
+grep '#\!' '{}' | sed s/'^'/'\t\t\t'/g ; 
+printf '\t</grep>\n' ;
+
+printf '\t<stat>\n' ;
+stat '{}' | sed s/'^'/'\t\t\t'/g ; 
+printf '\t</stat>\n' ;
+
+printf '\t<file>\n' ;
+file ~/.bashrc --mime-encoding --mime-type '{}' | sed s/'^'/'\t\t\t'/g ;
+printf '\t</file>\n' ;
+
+printf '\t<sha512>\n' ;
+sha512sum '{}' | sed s/'^'/'\t\t\t'/g | cut -f1 -d' ' ;
+printf '\t</sha512>\n' ;
+
+printf '\t<sha256>\n' ;
+sha256sum '{}' | sed s/'^'/'\t\t\t'/g | cut -f1 -d' ' ;
+printf '\t</sha256>\n' ;
+
+printf '\t<md5sum>\n' ;
+md5sum '{}' | sed s/'^'/'\t\t\t'/g | cut -f1 -d' ' ;
+printf '\t</md5sum>\n' ;
+
+printf '</unit>\n' ;
 
 EOF
 }
