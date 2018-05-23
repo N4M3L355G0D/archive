@@ -4,8 +4,8 @@
 ##Generate a list of files that exist on system that are over a certain size
 
 #adjustable vars
-LOC=('/home/carl')
-SZ='+127M'
+LOC=('/home/carl' '/srv/samba')
+SZ='+1G'
 cDelim=','
 
 function calculate(){
