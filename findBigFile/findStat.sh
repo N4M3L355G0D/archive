@@ -2,7 +2,7 @@
 #NoGuiLinux
 
 TYPE="*.py"
-SIZE="+512M"
+SIZE=""
 LOC="$HOME"
 
 function findStr(){
