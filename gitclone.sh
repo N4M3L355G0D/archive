@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 #NoGuiLinux
 GITHUB_USER="deskos-xp"
-repos=("forecast" "NvidiaCardSpecs" "serverTree" "autistic-resume")
+repos=("forecast" "NvidiaCardSpecs" "serverTree" "autistic-resume" 'productW')
 baseURL="https://github.com/$GITHUB_USER/"
 function clone(){
 	if test ! -d ".git" ; then
