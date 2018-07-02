@@ -34,7 +34,13 @@ class container:
             else:
                 dTime=dTime.split(':')
                 dTime=str(int(dTime[0])+12)+":"+dTime[1][:-2]    
+            if dTime.split(':')[0] == '24':
+                dTime='00:'+dTime.split(':')[1]
             dString=date+" "+dTime
+            #have been having some incorrect time from craigslist, so trouble shooting can be done from here
+            #currently, craigslist issues a 24 hour format, with a 24:45, which should be 00:45
+            #this is an error on their part, i think
+            #print(dString.encode())
             dString=time.strptime(dString,'%Y-%m-%d %H:%M')
             dString=time.strftime('%d-%m-%Y %H:%M:%S',dString)
             return dString
