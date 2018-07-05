@@ -13,8 +13,11 @@ if test `whoami` == "root" ; then
 
 	cp aur.txt yaourt-install.sh install-aur.sh container/root/
 
+
+	genfstab container >>> container/etc/fstab
 	#boot container
-	systemd-nspawn -b -D container
+	#systemd-nspawn -b -D container
+	arch-chroot containter
 	#log in to root
 	#run rootlogin.sh
 	##run containerlogin.sh
