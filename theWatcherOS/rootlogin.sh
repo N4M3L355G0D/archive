@@ -5,7 +5,7 @@
 
 adduser -m container
 #enable sudo group visudo
-
+echo '%sudo ALL=(ALL) ALL' >> /etc/sudoers
 #visudo is one way
 #but if the user is not aware of visudo then manual is not the way
 groupadd sudo
