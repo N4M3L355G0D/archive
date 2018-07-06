@@ -6,8 +6,8 @@ if test `whoami` == "root" ; then
 	grep "OFFICIAL" installed.txt | cut -f1 -d: > official.txt
 
 	#make container
-	mkdir container
-	pacstrap --config ./pacman.conf -i /mnt base base-devel $(cat official.txt)
+	#mkdir
+	pacstrap -C ./pacman.conf -i /mnt base base-devel $(cat official.txt)
 	
 	grep "AUR" installed.txt | cut -f1 -d: > aur.txt
 
