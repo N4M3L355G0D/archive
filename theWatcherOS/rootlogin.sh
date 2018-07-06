@@ -1,9 +1,9 @@
 
 #run arch-linux configuruations from arch-linux-config.sh
-#bash arch-linux-config.sh
+bash /root/arch-linux-config.sh
 #make run once
 
-adduser -m container
+useradd -m container
 #enable sudo group visudo
 echo '%sudo ALL=(ALL) ALL' >> /etc/sudoers
 #visudo is one way
@@ -11,7 +11,18 @@ echo '%sudo ALL=(ALL) ALL' >> /etc/sudoers
 groupadd sudo
 usermod -a -G sudo container
 printf "container:container\n" | chpasswd
-cp /root/{yaourt-install.sh,aur.txt.install-aur.sh,containterlogin.sh} /home/container
+cp /root/{yaourt-install.sh,aur.txt,install-aur.sh,containerlogin.sh} /home/container
 #run container login script
 cd /home/container
-su -c /home/containerlogin.sh container <<< container  #need to get passwd from stdin
+#issues here
+#su -c /home/container/containerlogin.sh container <<< container  #need to get passwd from stdin
+#login to container user
+su - container
+
+
+#create a enable services.sh containing lines like below
+#systemctl enable NetworkManager
+#systemctl enable lightdm
+
+#others to enable later
+#httpd,smbd,nmbd,mysqld

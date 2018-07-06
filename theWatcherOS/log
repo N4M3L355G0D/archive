@@ -1,0 +1,191 @@
+mkdir: cannot create directory ‘container’: File exists
+warning: option --root is deprecated; use --sysroot instead
+warning: config file ./pacman.conf, line 20: directive 'SyncFirst' in section 'options' not recognized.
+
+Enter a selection (default=all): 
+Enter a selection (default=all): warning: skipping target: file
+warning: skipping target: findutils
+warning: skipping target: gawk
+warning: skipping target: gettext
+warning: skipping target: grep
+warning: skipping target: gzip
+warning: skipping target: pacman
+warning: skipping target: sed
+warning: skipping target: texinfo
+warning: skipping target: util-linux
+warning: skipping target: which
+warning: skipping target: autoconf
+warning: skipping target: automake
+warning: skipping target: bash
+error: target not found: bashrc-manjaro
+warning: skipping target: binutils
+warning: skipping target: bison
+error: target not found: breath-wallpaper
+warning: skipping target: bzip2
+error: target not found: calamares
+error: target not found: ckbcomp
+error: target not found: conky-i3
+warning: skipping target: coreutils
+error: target not found: cower
+warning: skipping target: cryptsetup
+warning: skipping target: device-mapper
+warning: skipping target: dhcpcd
+warning: skipping target: diffutils
+error: target not found: downgrade
+error: target not found: dunstify
+warning: skipping target: e2fsprogs
+error: target not found: engrampa-thunar-plugin
+error: target not found: faenza-green-icon-theme
+warning: skipping target: fakeroot
+warning: skipping target: file
+warning: skipping target: filesystem
+warning: skipping target: findutils
+warning: skipping target: flex
+warning: skipping target: gawk
+warning: skipping target: gcc
+warning: skipping target: gcc-libs
+warning: skipping target: gettext
+warning: skipping target: glibc
+error: target not found: gnutls28
+warning: skipping target: grep
+warning: skipping target: groff
+error: target not found: guayadeque
+warning: skipping target: gzip
+error: target not found: i-nex
+error: target not found: ido
+warning: skipping target: inetutils
+error: target not found: inxi
+warning: skipping target: iproute2
+warning: skipping target: iputils
+warning: skipping target: jfsutils
+warning: skipping target: less
+error: target not found: libcpuid
+warning: skipping target: libtool
+error: target not found: libxfont
+warning: skipping target: licenses
+error: target not found: linux316
+error: target not found: linux316-headers
+error: target not found: linux41
+error: target not found: linux41-nvidia
+error: target not found: linux41-virtualbox-host-modules
+error: target not found: linux415
+error: target not found: linux415-acpi_call
+error: target not found: linux415-headers
+error: target not found: linux415-ndiswrapper
+error: target not found: linux415-nvidia
+error: target not found: linux415-r8168
+error: target not found: linux415-spl
+error: target not found: linux415-vhba-module
+error: target not found: linux415-virtualbox-host-modules
+error: target not found: linux415-zfs
+error: target not found: linux44
+error: target not found: linux44-headers
+error: target not found: linux44-ndiswrapper
+error: target not found: linux44-nvidia
+error: target not found: linux44-r8168
+error: target not found: linux44-vhba-module
+error: target not found: linux44-virtualbox-host-modules
+error: target not found: linux49
+error: target not found: linux49-acpi_call
+error: target not found: linux49-headers
+error: target not found: linux49-ndiswrapper
+error: target not found: linux49-nvidia
+error: target not found: linux49-r8168
+error: target not found: linux49-vhba-module
+error: target not found: linux49-virtualbox-host-modules
+warning: skipping target: logrotate
+warning: skipping target: lvm2
+warning: skipping target: m4
+error: target not found: maia-wallpaper
+warning: skipping target: make
+warning: skipping target: man-db
+warning: skipping target: man-pages
+error: target not found: manjaro-alsa
+error: target not found: manjaro-artwork
+error: target not found: manjaro-artwork-extra
+error: target not found: manjaro-backgrounds
+error: target not found: manjaro-base-skel
+error: target not found: manjaro-browser-settings
+error: target not found: manjaro-documentation-en
+error: target not found: manjaro-firmware
+error: target not found: manjaro-hello
+error: target not found: manjaro-hotfixes
+error: target not found: manjaro-icons
+error: target not found: manjaro-keyring
+error: target not found: manjaro-printer
+error: target not found: manjaro-pulse
+error: target not found: manjaro-release
+error: target not found: manjaro-settings-manager
+error: target not found: manjaro-settings-manager-notifier
+error: target not found: manjaro-system
+error: target not found: manjaro-xfce-settings
+warning: skipping target: mdadm
+error: target not found: menulibre
+error: target not found: mhwd
+error: target not found: mhwd-amdgpu
+error: target not found: mhwd-ati
+error: target not found: mhwd-catalyst
+error: target not found: mhwd-db
+error: target not found: mhwd-nvidia
+error: target not found: mhwd-nvidia-304xx
+error: target not found: mhwd-nvidia-340xx
+error: target not found: mhwd-nvidia-390xx
+error: target not found: mhwd-tui
+error: target not found: mkinitcpio-openswap
+error: target not found: mugshot
+warning: skipping target: nano
+error: target not found: ndiswrapper-utils
+warning: skipping target: netctl
+error: target not found: open-fuse-iso
+error: target not found: pa-applet
+error: target not found: pacaur
+error: target not found: package-query
+warning: skipping target: pacman
+error: target not found: pacman-mirrors
+error: target not found: pamac
+error: target not found: pamac-tray-appindicator
+warning: skipping target: patch
+error: target not found: pcaudiolib
+warning: skipping target: pciutils
+warning: skipping target: perl
+warning: skipping target: pkgconf
+error: target not found: plymouth-theme-manjaro-elegant
+warning: skipping target: procps-ng
+warning: skipping target: psmisc
+error: target not found: pulseaudio-ctl
+error: target not found: pulseaudio-equalizer-ladspa
+error: target not found: python-npyscreen
+error: target not found: pythonqt
+warning: skipping target: reiserfsprogs
+warning: skipping target: s-nail
+warning: skipping target: sed
+warning: skipping target: shadow
+error: target not found: spl-utils
+error: target not found: srandrd
+warning: skipping target: sudo
+warning: skipping target: sysfsutils
+warning: skipping target: systemd
+warning: skipping target: systemd-sysvcompat
+warning: skipping target: tar
+warning: skipping target: texinfo
+error: target not found: update-notifier
+warning: skipping target: usbutils
+warning: skipping target: util-linux
+error: target not found: v86d
+error: target not found: vertex-maia-icon-theme
+error: target not found: vertex-maia-themes
+warning: skipping target: vi
+warning: skipping target: which
+error: target not found: wpa_supplicant_gui
+error: target not found: xcursor-breeze
+error: target not found: xcursor-maia
+error: target not found: xcursor-menda
+error: target not found: xdg-su
+error: target not found: xfce-theme-greenbird
+error: target not found: xfce4-weather-plugin-menda-circle-icons
+warning: skipping target: xfsprogs
+error: target not found: yaourt
+error: target not found: zfs-utils
+==> ERROR: Failed to install packages to new root
+cp: target '/mnt/root/' is not a directory
+chroot: failed to run command ‘/bin/bash’: No such file or directory

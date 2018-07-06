@@ -11,7 +11,7 @@ if test `whoami` == "root" ; then
 	
 	grep "AUR" installed.txt | cut -f1 -d: > aur.txt
 
-	cp aur.txt yaourt-install.sh install-aur.sh /mnt/root/
+	cp arch-linux-config.sh aur.txt yaourt-install.sh install-aur.sh containerlogin.sh rootlogin.sh /mnt/root/
 
 
 	genfstab /mnt > /mnt/etc/fstab

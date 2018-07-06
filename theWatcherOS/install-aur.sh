@@ -19,7 +19,7 @@ function manualBuild(){
         fi
 }
 
-for i in `cat l1.aur` ; do 
+for i in `cat aur.txt` ; do 
         installed=`pacman -Qq $i`
         if test "$i" != "$installed" ; then
 		inLog="`fgrep -w "$i" fail.txt`"
