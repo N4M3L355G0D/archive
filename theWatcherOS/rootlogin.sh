@@ -8,8 +8,15 @@ useradd -m container
 echo '%sudo ALL=(ALL) ALL' >> /etc/sudoers
 #visudo is one way
 #but if the user is not aware of visudo then manual is not the way
-groupadd sudo
-usermod -a -G sudo container
+
+GROUPS=('sudo' 'disk' 'lp' 'http' 'network' 'video' 'optical' 'storage' 'scanner' 'power' 'users' 'vboxusers' 'wireshark' 'transmission' 'voice' 'sdkusers')
+for GROUP in ${GROUPS[@]} ; do
+	groupadd $GROUP
+	usermod -a -G $GROUP container
+done
+
+
+#usermod -a -G sudo container
 printf "container:container\n" | chpasswd
 cp /root/{yaourt-install.sh,aur.txt,install-aur.sh,containerlogin.sh} /home/container
 #run container login script
