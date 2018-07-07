@@ -18,11 +18,14 @@ cd /home/container
 #su -c /home/container/containerlogin.sh container <<< container  #need to get passwd from stdin
 #login to container user
 su - container
-
+printf "root:root\n" | chpasswd
 
 #create a enable services.sh containing lines like below
-#systemctl enable NetworkManager
-#systemctl enable lightdm
+systemctl enable NetworkManager
+systemctl enable sshd
+systemctl enable lightdm
+
+#create a function to configure httpd and enable httpd
 
 #others to enable later
 #httpd,smbd,nmbd,mysqld

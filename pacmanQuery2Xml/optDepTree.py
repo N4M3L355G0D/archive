@@ -5,9 +5,10 @@ import pyalpm
 
 class optDepTree:
     pkg='vlc'
+    pkgs=[]
     top=element('pkg',pname=pkg)
     counter=0
-    def main(self,pk=''):
+    def main(self,pk='',mode='opt',oType='xml'):
         h=pyalpm.Handle('/','/var/lib/pacman')
         dbs='core:community:extra'
         dbs=dbs.split(":")
@@ -18,12 +19,30 @@ class optDepTree:
             if fail < 3:
                 pkg=db[i].get_pkg(pk)
                 if pkg != None:
-                    for x in pkg.optdepends:
-                        x=x.split(":")[0]
-                        optDep=subelement(self.top,'optional_dependency',num=str(self.counter))
-                        optDep.text=x
-                        self.counter+=1
-                        self.main(x)
+                    if mode == 'opt':
+                        for x in pkg.optdepends:
+                            if x not in self.pkgs:
+                                x=x.split(":")[0]
+                                if oType == 'xml':
+                                    optDep=subelement(self.top,'optional_dependency',num=str(self.counter))
+                                    optDep.text=x
+                                elif oType == 'text':
+                                    self.pkgs.append(x)
+                                print(x)
+                                self.counter+=1
+                                self.main(x,mode=mode,oType=oType)
+                    elif mode == 'req':
+                        for x in pkg.depends:
+                            if x not in self.pkgs:
+                                x=x.split(":")[0]
+                                if oType == 'xml':
+                                    optDep=subelement(self.top,'optional_dependency',num=str(self.counter))
+                                    optDep.text=x
+                                elif oType == 'text':
+                                    self.pkgs.append(x)
+                                print(x)
+                                self.counter+=1
+                                self.main(x,mode=mode,oType=oType)
                 else:
                     fail+=1
             else:
@@ -31,5 +50,5 @@ class optDepTree:
 
 a=optDepTree()
 a.pkg='vlc'
-a.main(a.pkg)
+a.main(a.pkg,mode='req',oType='text')
 print(tostring(a.top).decode())
