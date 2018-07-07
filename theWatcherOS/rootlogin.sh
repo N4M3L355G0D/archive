@@ -9,10 +9,10 @@ echo '%sudo ALL=(ALL) ALL' >> /etc/sudoers
 #visudo is one way
 #but if the user is not aware of visudo then manual is not the way
 
-GROUPS=('sudo' 'disk' 'lp' 'http' 'network' 'video' 'optical' 'storage' 'scanner' 'power' 'users' 'vboxusers' 'wireshark' 'transmission' 'voice' 'sdkusers')
-for GROUP in ${GROUPS[@]} ; do
-	groupadd $GROUP
-	usermod -a -G $GROUP container
+Gs=('sudo' 'disk' 'lp' 'http' 'network' 'video' 'optical' 'storage' 'scanner' 'power' 'users' 'vboxusers' 'wireshark' 'transmission' 'voice' 'sdkusers')
+for g in ${Gs[@]} ; do
+	groupadd $g
+	usermod -a -G $g container
 done
 
 
@@ -31,7 +31,7 @@ printf "root:root\n" | chpasswd
 systemctl enable NetworkManager
 systemctl enable sshd
 systemctl enable lightdm
-
+systemctl enable org.cups.cupsd.service
 #create a function to configure httpd and enable httpd
 
 #others to enable later

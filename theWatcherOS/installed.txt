@@ -1406,3 +1406,4 @@ zvbi:OFFICIAL
 zziplib:OFFICIAL
 wireshark-gtk:OFFICIAL
 transmission-gtk:OFFICIAL
+python-cryptography:OFFICIAL

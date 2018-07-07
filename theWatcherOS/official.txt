@@ -1353,3 +1353,6 @@ zlib
 zstd
 zvbi
 zziplib
+wireshark-gtk
+transmission-gtk
+python-cryptography
