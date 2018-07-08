@@ -7,12 +7,12 @@ if test `whoami` == "root" ; then
 
 	#make container
 	#mkdir
-	pacstrap -C ./pacman.conf -i /mnt base base-devel $(cat official.txt)
+	pacstrap -C ./etc/pacman.conf -i /mnt base base-devel $(cat official.txt)
 	
 	grep "AUR" installed.txt | cut -f1 -d: > aur.txt
 
 	cp arch-linux-config.sh aur.txt yaourt-install.sh install-aur.sh containerlogin.sh rootlogin.sh /mnt/root/
-	cp smb.conf /mnt/etc/samba/
+	cp etc/* /mnt/etc
 
 	genfstab /mnt > /mnt/etc/fstab
 	#boot container
