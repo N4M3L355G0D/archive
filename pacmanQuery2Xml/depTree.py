@@ -91,7 +91,12 @@ class container:
             desc='''
             utilize the alpm library to gather depency 
             information on a pkg, and only display the 
-            dependencies not installed.
+            dependencies not installed. This script was
+            create as a result of pacmans dependency/
+            optional depency listing including trailing
+            newline characters muddying my dependency
+            list results, resulting in needing to do
+            more processing than necessary.
             '''.replace('\t','')
             return desc
 
