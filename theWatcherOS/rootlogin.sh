@@ -28,10 +28,15 @@ su - container
 printf "root:root\n" | chpasswd
 
 #create a enable services.sh containing lines like below
-systemctl enable NetworkManager
-systemctl enable sshd
-systemctl enable lightdm
-systemctl enable org.cups.cupsd.service
+
+services=('NetworkManager' 'sshd' 'lightdm' 'org.cups.cupsd' 'smb' 'nmb' 'httpd')
+for serv in ${services[@]} ; do
+	systemctl enable $serv
+
+#systemctl enable NetworkManager
+#systemctl enable sshd
+#systemctl enable lightdm
+#systemctl enable org.cups.cupsd.service
 #create a function to configure httpd and enable httpd
 
 #others to enable later
