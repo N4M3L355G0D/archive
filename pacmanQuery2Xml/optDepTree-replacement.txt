@@ -4,6 +4,10 @@
 
 pkgs=['vlc']
 
+def getDeps(pkg):
+
+
+
 for pkg in pkgs:
 	deps=getDeps(pkg)
 	if deps:
