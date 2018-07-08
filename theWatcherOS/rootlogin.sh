@@ -33,6 +33,7 @@ services=('NetworkManager' 'sshd' 'lightdm' 'org.cups.cupsd' 'smb' 'nmb' 'httpd'
 for serv in ${services[@]} ; do
 	systemctl enable $serv
 
+printf 'container\ncontainer\n' | pdbedit -a -u container
 #systemctl enable NetworkManager
 #systemctl enable sshd
 #systemctl enable lightdm
