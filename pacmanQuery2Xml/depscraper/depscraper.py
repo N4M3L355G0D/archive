@@ -20,11 +20,17 @@ class container:
             except urllib.error.URLError as err:
                 exit(str(err))
 
+        
+        def jsonParseNames(self,J=b''):
+            load=json.load(J)
+            return [i['Name'] for i in load['results']]
+
         def jsonParsePkgs(self,J=b''):
             load=json.load(J)
             result=load['results'][0]
             
             pkgs={
+                    'name':result['Name'],
                     'depends':result['Depends'],
                     'makeDepends':result['MakeDepends'],
                     'optDepends':result['OptDepends'],
@@ -33,21 +39,69 @@ class container:
             }
             return pkgs
 
+    class HiLvl:
+        master=None
+        def depends(self,pk):
+            result=self.master.web.connect(pkg=pk)
+            pkgs=self.master.web.jsonParsePkgs(result)
+            return pkgs
+        
+        def similarPkgs(self,pk):
+            result=self.master.web.connect(pkg=pk,t='search')
+            pkgs=self.master.web.jsonParseNames(result)
+            return pkgs
+
+    class display:
+        master=None
+        def displayXML(self,data):
+            pass
+
+        def displayPlain(self,data):
+            for i in data:
+                formString=':'.join(['{}' for i in range(len(i))]).format(*i)
+                print(formString)
+
+        def displayProcess(self,data,mode):
+            result=[]
+            if type(data) == type(list()):
+                for pkg in data:
+                    result.append([mode,pkg])
+            elif type(data) == type(dict()):
+                for lisT in data.keys():
+                    if lisT != 'name':
+                        for pkg in data[lisT]:
+                            result.append([mode,data['name'],lisT,pkg])
+            else:
+                result.append(data)
+            #at this point decide if to print xml data or plain ascii
+            ##right now assume plain
+            self.displayPlain(result)    
+    class cmdline:
+        master=None
+
     class void:
         master=None
 
     def run(self,wa):
-        result=wa.web.connect(pkg='vlc-nox')
-        res=wa.web.jsonParsePkgs(result)
-        print(res)
+        wa.display.displayProcess(wa.HiLvl.depends('vlc-nox'),'info')
+        wa.display.displayProcess(wa.HiLvl.similarPkgs('vlc'),'search')
 
     def assemble(self):
         wa=self.void()
         wa.master=self
 
+        wa.cmdline=self.cmdline()
+        wa.cmdline.master=wa
+
         wa.web=self.web()
         wa.web.master=wa
+        
+        wa.HiLvl=self.HiLvl()
+        wa.HiLvl.master=wa
 
+        wa.display=self.display()
+        wa.display.master=wa
+        
         self.run(wa)
 
 run=container()
