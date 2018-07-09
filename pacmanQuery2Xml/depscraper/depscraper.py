@@ -2,8 +2,8 @@
 #NoGuiLinux
 
 import urllib.request,urllib.error
-from bs4 import BeautifulSoup as bs
-import json
+import json, argparse
+from xml.etree.ElementTree import Element as element,SubElement as subElement, tostring as ts
 
 class container:
     master=None
@@ -14,7 +14,7 @@ class container:
         def connect(self,t='info',pkg=''):
             try:
                 conn=urllib.request.urlopen(self.rpcUrl.format(t,pkg))
-                return conn
+                return [conn,pkg]
             except urllib.error.HTTPError as err:
                 exit(str(err))
             except urllib.error.URLError as err:
@@ -22,22 +22,28 @@ class container:
 
         
         def jsonParseNames(self,J=b''):
-            load=json.load(J)
-            return [i['Name'] for i in load['results']]
+            load=json.load(J[0])
+            return [i['Name'] for i in load['results']],J[1]
 
         def jsonParsePkgs(self,J=b''):
-            load=json.load(J)
-            result=load['results'][0]
-            
-            pkgs={
-                    'name':result['Name'],
-                    'depends':result['Depends'],
-                    'makeDepends':result['MakeDepends'],
-                    'optDepends':result['OptDepends'],
-                    'conflicts':result['Conflicts'],
-                    'replaces':result['Replaces']
-            }
-            return pkgs
+            load=json.load(J[0])
+            result=load['results']
+            if result != []:
+                result=result[0]
+                pkgs={}
+                for pk in ['Name','Depends','OptDepends','Conflicts','Replaces']:
+                    try:
+                        pkgs[pk.lower()]=result[pk]
+                    except:
+                        pass
+                
+                return pkgs
+            else:
+                result=load['resultcount']
+                return {
+                        'name':self.master.cmdline.options.package,
+                        'error':['RESULT_{}'.format(result)],
+                        }
 
     class HiLvl:
         master=None
@@ -61,11 +67,13 @@ class container:
                 formString=':'.join(['{}' for i in range(len(i))]).format(*i)
                 print(formString)
 
+        #def displayXml(self,data,mode):
+
         def displayProcess(self,data,mode):
             result=[]
-            if type(data) == type(list()):
-                for pkg in data:
-                    result.append([mode,pkg])
+            if type(data) == type(list()) or type(data) == type(tuple()):
+                for pkg in data[0]:
+                    result.append([data[1],mode,pkg])
             elif type(data) == type(dict()):
                 for lisT in data.keys():
                     if lisT != 'name':
@@ -78,14 +86,41 @@ class container:
             self.displayPlain(result)    
     class cmdline:
         master=None
+        cmdArgs={
+                    'package':['-p','--package','package to look for','yes'],
+                    'search':['-s','--search','mode search','store_true'],
+                    'info':['-i','--info','mode info','store_true']
+                }
+        options=None
+        def args(self):
+            parser=argparse.ArgumentParser(description='',epilog='')
+            for arg in self.cmdArgs.keys():
+                if arg == 'package':
+                    parser.add_argument(
+                            self.cmdArgs[arg][0],
+                            self.cmdArgs[arg][1],
+                            help=self.cmdArgs[arg][2],
+                            required=self.cmdArgs[arg][3]
+                            )
+                elif arg in ['search','info']:
+                    parser.add_argument(
+                            self.cmdArgs[arg][0],
+                            self.cmdArgs[arg][1],
+                            help=self.cmdArgs[arg][2],
+                            action=self.cmdArgs[arg][3]
+                            )
+            self.options=parser.parse_args()
+
 
     class void:
         master=None
 
     def run(self,wa):
-        wa.display.displayProcess(wa.HiLvl.depends('vlc-nox'),'info')
-        wa.display.displayProcess(wa.HiLvl.similarPkgs('vlc'),'search')
-
+        wa.cmdline.args()
+        if wa.cmdline.options.info:
+            wa.display.displayProcess(wa.HiLvl.depends(wa.cmdline.options.package),'info')
+        elif wa.cmdline.options.search:
+            wa.display.displayProcess(wa.HiLvl.similarPkgs(wa.cmdline.options.package),'search')
     def assemble(self):
         wa=self.void()
         wa.master=self
