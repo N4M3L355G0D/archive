@@ -37,7 +37,7 @@ class app:
             if len(sys.argv) >= 4:
                 self.ifname=sys.argv[1]
                 self.password=sys.argv[2]
-                self.ofname=self.ifname+".lgz"
+                self.ofname=self.ifname+".lagZ"
                 self.mode=sys.argv[3]
                 if self.mode not in ['enc','dec']:
                     exit('incorrect mode. needs to be one of <enc|dec>!')
