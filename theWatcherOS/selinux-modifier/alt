@@ -1,0 +1,7 @@
+yaourt -S dbus-selinux
+yaourt -S selinux-alpm-hook
+yaourt -S linux-selinux
+yaourt -S selinux-refpolicy-arch
+
+
+
