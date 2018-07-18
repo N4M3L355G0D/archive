@@ -1,4 +1,6 @@
-PKGS='packages.txt'
+#! /usr/bin/env bash
+#get system ready for selinux
+PKGS='configs/packages.txt'
 
 for pkg in `cat ./$PKGS` ; do
 	if test "`pacman -Qq $pkg`" == '' ; then
@@ -43,7 +45,9 @@ rm -rf util-linux-selinux
 yaourt -S systemd-selinux
 yaourt -S dbus-selinux
 yaourt -S selinux-alpm-hook
+
 yaourt -S linux-selinux
+yaourt -S linux-hardened
 yaourt -S selinux-refpolicy-arch
 
 grub_cmd='GRUB_CMDLINE_LINUX_DEFAULT="quiet"'
@@ -54,7 +58,5 @@ sudo sed -i s/"$grub_cmd"/"$grub_cmd_new"/g /etc/default/grub
 
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
-#su -c "cd /etc/selinux/refpolicy-arch/policy ; make bare ; make conf ; sudo make install ; sudo make load" root
-
-sudo cp selinux-config /etc/selinux/config
+sudo cp configs/selinux-config /etc/selinux/config
 
