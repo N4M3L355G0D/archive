@@ -42,3 +42,5 @@ printf 'container\ncontainer\n' | pdbedit -a -u container
 
 #others to enable later
 #httpd,smbd,nmbd,mysqld
+
+cp -r etc/xdg/xfce4/xfconf/xfce-perchannel-xml/* /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
