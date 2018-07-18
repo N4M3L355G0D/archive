@@ -6,4 +6,5 @@ semodule -i trash/requiredmod.pp
 
 systemctl enable restorecond
 rm -r trash
-
+printf 'GRUB_DEFAULT=saved\nGRUB_SAVEDEFAULT="true\n' >> /etc/default/grub
+grub-mkconfig -o /boot/grub/grub.cfg
