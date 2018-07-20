@@ -32,6 +32,7 @@ printf "root:root\n" | chpasswd
 services=('NetworkManager' 'sshd' 'lightdm' 'org.cups.cupsd' 'smb' 'nmb' 'httpd')
 for serv in ${services[@]} ; do
 	systemctl enable $serv
+done
 
 printf 'container\ncontainer\n' | pdbedit -a -u container
 #systemctl enable NetworkManager
@@ -39,8 +40,10 @@ printf 'container\ncontainer\n' | pdbedit -a -u container
 #systemctl enable lightdm
 #systemctl enable org.cups.cupsd.service
 #create a function to configure httpd and enable httpd
-
 #others to enable later
 #httpd,smbd,nmbd,mysqld
-
-cp -r etc/xdg/xfce4/xfconf/xfce-perchannel-xml/* /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
+cd ~/xfce4-migrate
+bash install.sh
+cp -r /etc/skel/.config /home/container/
+chown -R container:container /home/container/.config
+cp -r /etc/skel/.config /root/
