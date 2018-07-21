@@ -1,3 +1,12 @@
+torbrowser-launcher-git:AUR
+python-idna:OFFICIAL
+python-pyasn1:OFFICIAL
+python-h2:OFFICIAL
+python-priority:OFFICIAL
+python-pyserial:OFFICIAL
+python-service-identity:OFFICIAL
+python-pyopenssl:OFFICIAL
+torsocks:OFFICIAL
 a52dec:OFFICIAL
 aalib:OFFICIAL
 acl:OFFICIAL
