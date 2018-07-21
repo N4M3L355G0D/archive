@@ -6,6 +6,8 @@ python-priority:OFFICIAL
 python-pyserial:OFFICIAL
 python-service-identity:OFFICIAL
 python-pyopenssl:OFFICIAL
+python2-gpgme:OFFICIAL
+python-gpgme:OFFICIAL
 torsocks:OFFICIAL
 a52dec:OFFICIAL
 aalib:OFFICIAL
