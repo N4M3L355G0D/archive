@@ -270,6 +270,7 @@ gvfs:OFFICIAL
 gvfs-mtp:OFFICIAL
 gzip:OFFICIAL
 harfbuzz:OFFICIAL
+pavucontrol:OFFICIAL
 harfbuzz-icu:OFFICIAL
 hdf5:OFFICIAL
 hicolor-icon-theme:OFFICIAL
