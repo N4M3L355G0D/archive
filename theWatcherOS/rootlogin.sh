@@ -9,14 +9,15 @@ echo '%sudo ALL=(ALL) ALL' >> /etc/sudoers
 #visudo is one way
 #but if the user is not aware of visudo then manual is not the way
 
-Gs=('sudo' 'disk' 'lp' 'http' 'network' 'video' 'optical' 'storage' 'scanner' 'power' 'users' 'vboxusers' 'wireshark' 'transmission' 'voice' 'sdkusers')
+Gs=('sudo' 'disk' 'lp' 'http' 'network' 'video' 'optical' 'storage' 'scanner' 'power' 'users' 'vboxusers' 'wireshark' 'transmission' 'voice' 'sdkusers' 'audio')
 for g in ${Gs[@]} ; do
 	groupadd $g
 	usermod -a -G $g container
 done
 
 
-#usermod -a -G sudo container
+usermod -a -G sudo container
+usermod -a -G audio container
 printf "container:container\n" | chpasswd
 cp /root/{yaourt-install.sh,aur.txt,install-aur.sh,containerlogin.sh} /home/container
 #run container login script
