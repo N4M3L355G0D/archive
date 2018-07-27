@@ -1,14 +1,3 @@
-torbrowser-launcher-git:AUR
-python-idna:OFFICIAL
-python-pyasn1:OFFICIAL
-python-h2:OFFICIAL
-python-priority:OFFICIAL
-python-pyserial:OFFICIAL
-python-service-identity:OFFICIAL
-python-pyopenssl:OFFICIAL
-python2-gpgme:OFFICIAL
-python-gpgme:OFFICIAL
-torsocks:OFFICIAL
 a52dec:OFFICIAL
 aalib:OFFICIAL
 acl:OFFICIAL
@@ -48,6 +37,7 @@ autoconf-archive:OFFICIAL
 automake:OFFICIAL
 avahi:OFFICIAL
 babl:OFFICIAL
+bamf:OFFICIAL
 barcode:OFFICIAL
 bash:OFFICIAL
 bash-completion:OFFICIAL
@@ -74,6 +64,8 @@ ca-certificates-mozilla:OFFICIAL
 ca-certificates-utils:OFFICIAL
 cabextract:OFFICIAL
 cairo:OFFICIAL
+cairo-dock:OFFICIAL
+cairo-dock-plug-ins:OFFICIAL
 cairo-perl:OFFICIAL
 cairomm:OFFICIAL
 cantarell-fonts:OFFICIAL
@@ -108,6 +100,8 @@ curl:OFFICIAL
 db:OFFICIAL
 dbus:OFFICIAL
 dbus-glib:OFFICIAL
+dbus-sharp:OFFICIAL
+dbus-sharp-glib:OFFICIAL
 dconf:OFFICIAL
 deluge:OFFICIAL
 desktop-file-utils:OFFICIAL
@@ -210,6 +204,7 @@ gnome-desktop:OFFICIAL
 gnome-icon-theme:OFFICIAL
 gnome-icon-theme-symbolic:OFFICIAL
 gnome-keyring:OFFICIAL
+gnome-menus:OFFICIAL
 gnome-mime-data:AUR
 gnome-online-accounts:OFFICIAL
 gnome-perl:AUR
@@ -236,7 +231,6 @@ gptfdisk:OFFICIAL
 graphene:OFFICIAL
 graphite:OFFICIAL
 graphviz:OFFICIAL
-plank:OFFICIAL
 grep:OFFICIAL
 grilo:OFFICIAL
 grilo-plugins:OFFICIAL
@@ -254,6 +248,7 @@ gst-plugins-good:OFFICIAL
 gst-plugins-ugly:OFFICIAL
 gstreamer:OFFICIAL
 gtk-doc:OFFICIAL
+gtk-sharp-3:OFFICIAL
 gtk-update-icon-cache:OFFICIAL
 gtk-xfce-engine:OFFICIAL
 gtk2:OFFICIAL
@@ -262,6 +257,7 @@ gtk3:OFFICIAL
 gtkglext:OFFICIAL
 gtkimageview:OFFICIAL
 gtkmm:OFFICIAL
+gtkmm3:OFFICIAL
 gtksourceview3:OFFICIAL
 gtkspell:OFFICIAL
 gts:OFFICIAL
@@ -271,7 +267,6 @@ gvfs:OFFICIAL
 gvfs-mtp:OFFICIAL
 gzip:OFFICIAL
 harfbuzz:OFFICIAL
-pavucontrol:OFFICIAL
 harfbuzz-icu:OFFICIAL
 hdf5:OFFICIAL
 hicolor-icon-theme:OFFICIAL
@@ -283,6 +278,8 @@ hunspell-en_US:OFFICIAL
 hwids:OFFICIAL
 hwinfo:OFFICIAL
 hyphen:OFFICIAL
+i8krellm:AUR
+i8kutils:AUR
 iana-etc:OFFICIAL
 icu:OFFICIAL
 iio-sensor-proxy:AUR
@@ -386,6 +383,7 @@ libburn:OFFICIAL
 libbytesize:OFFICIAL
 libcaca:OFFICIAL
 libcanberra:OFFICIAL
+libcanberra-pulse:OFFICIAL
 libcap:OFFICIAL
 libcap-ng:OFFICIAL
 libcddb:OFFICIAL
@@ -420,6 +418,7 @@ libelf:OFFICIAL
 libepoxy:OFFICIAL
 libepubgen:OFFICIAL
 libetonyek:OFFICIAL
+libetpan:OFFICIAL
 libevdev:OFFICIAL
 libevent:OFFICIAL
 libexif:OFFICIAL
@@ -431,6 +430,7 @@ libfreehand:OFFICIAL
 libftdi:OFFICIAL
 libgcrypt:OFFICIAL
 libgdata:OFFICIAL
+libgdiplus:OFFICIAL
 libgee:OFFICIAL
 libgexiv2:OFFICIAL
 libglade:OFFICIAL
@@ -446,6 +446,7 @@ libgoom2:OFFICIAL
 libgpg-error:OFFICIAL
 libgphoto2:OFFICIAL
 libgpod:OFFICIAL
+libgtop:OFFICIAL
 libgudev:OFFICIAL
 libgusb:OFFICIAL
 libgxps:OFFICIAL
@@ -689,6 +690,7 @@ mjpegtools:OFFICIAL
 mkinitcpio:OFFICIAL
 mkinitcpio-busybox:OFFICIAL
 modemmanager:OFFICIAL
+mono:OFFICIAL
 mousepad:OFFICIAL
 mozilla-common:OFFICIAL
 mpfr:OFFICIAL
@@ -759,6 +761,7 @@ pangomm:OFFICIAL
 pangox-compat:OFFICIAL
 parted:OFFICIAL
 patch:OFFICIAL
+pavucontrol:OFFICIAL
 pciutils:OFFICIAL
 pcmciautils:AUR
 pcre:OFFICIAL
@@ -925,6 +928,7 @@ pinentry:OFFICIAL
 pioneer:AUR
 pixman:OFFICIAL
 pkgconf:OFFICIAL
+plank:OFFICIAL
 polkit:OFFICIAL
 polkit-gnome:OFFICIAL
 polkit-qt4:OFFICIAL
@@ -954,10 +958,12 @@ pygobject2-devel:OFFICIAL
 pygtk:OFFICIAL
 pyqt4-common:OFFICIAL
 pyqt5-common:OFFICIAL
+pyside2:OFFICIAL
 python:OFFICIAL
 python-anytree:OFFICIAL
 python-appdirs:OFFICIAL
 python-atspi:OFFICIAL
+python-aur:AUR
 python-beaker:OFFICIAL
 python-beautifulsoup4:OFFICIAL
 python-blosc:OFFICIAL
@@ -977,6 +983,7 @@ python-et-xmlfile:OFFICIAL
 python-gobject:OFFICIAL
 python-html5lib:OFFICIAL
 python-idna:OFFICIAL
+python-inflection:AUR
 python-jdcal:OFFICIAL
 python-jinja:OFFICIAL
 python-kiwisolver:OFFICIAL
@@ -1018,7 +1025,9 @@ python-retrying:OFFICIAL
 python-scipy:OFFICIAL
 python-setuptools:OFFICIAL
 python-shiboken:OFFICIAL
+python-shiboken2:OFFICIAL
 python-sip:OFFICIAL
+python-sip-pyqt5:OFFICIAL
 python-six:OFFICIAL
 python-sqlalchemy:OFFICIAL
 python-urllib3:OFFICIAL
@@ -1056,6 +1065,7 @@ python2-hyperframe:OFFICIAL
 python2-hyperlink:OFFICIAL
 python2-idna:OFFICIAL
 python2-incremental:OFFICIAL
+python2-inflection:AUR
 python2-ipaddress:OFFICIAL
 python2-lockfile:OFFICIAL
 python2-m2crypto:OFFICIAL
@@ -1064,6 +1074,7 @@ python2-markupsafe:OFFICIAL
 python2-msgpack:OFFICIAL
 python2-notify:OFFICIAL
 python2-packaging:OFFICIAL
+python2-pillow:OFFICIAL
 python2-pip:OFFICIAL
 python2-ply:OFFICIAL
 python2-priority:OFFICIAL
@@ -1073,12 +1084,17 @@ python2-pyasn1-modules:OFFICIAL
 python2-pycparser:OFFICIAL
 python2-pyopenssl:OFFICIAL
 python2-pyparsing:OFFICIAL
+python2-pyqt5:OFFICIAL
 python2-pyserial:OFFICIAL
+python2-pyside:OFFICIAL
 python2-pytoml:OFFICIAL
+python2-reportlab:OFFICIAL
 python2-requests:OFFICIAL
 python2-retrying:OFFICIAL
 python2-service-identity:OFFICIAL
 python2-setuptools:OFFICIAL
+python2-shiboken:OFFICIAL
+python2-sip-pyqt5:OFFICIAL
 python2-six:OFFICIAL
 python2-soappy:OFFICIAL
 python2-twisted:OFFICIAL
@@ -1089,6 +1105,10 @@ python2-wrapt:OFFICIAL
 python2-wstools:OFFICIAL
 python2-xdg:OFFICIAL
 python2-zope-interface:OFFICIAL
+python3-aur:AUR
+python3-memoizedb:AUR
+python3-xcgf:AUR
+python3-xcpf:AUR
 pyzbar:AUR
 qpdf:OFFICIAL
 qpdfview:OFFICIAL
@@ -1271,6 +1291,7 @@ wxgtk-common:OFFICIAL
 wxgtk3:OFFICIAL
 x11-ssh-askpass:OFFICIAL
 x265:OFFICIAL
+xapian-core:OFFICIAL
 xapps:OFFICIAL
 xbitmaps:OFFICIAL
 xcb-proto:OFFICIAL
@@ -1407,6 +1428,7 @@ yasm:OFFICIAL
 yelp-tools:OFFICIAL
 yelp-xsl:OFFICIAL
 zbar:OFFICIAL
+zeitgeist:OFFICIAL
 zenity:OFFICIAL
 zeromq:OFFICIAL
 zita-alsa-pcmi:OFFICIAL
@@ -1415,6 +1437,3 @@ zlib:OFFICIAL
 zstd:OFFICIAL
 zvbi:OFFICIAL
 zziplib:OFFICIAL
-wireshark-gtk:OFFICIAL
-transmission-gtk:OFFICIAL
-python-cryptography:OFFICIAL
