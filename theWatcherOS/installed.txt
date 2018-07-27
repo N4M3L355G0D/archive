@@ -236,6 +236,7 @@ gptfdisk:OFFICIAL
 graphene:OFFICIAL
 graphite:OFFICIAL
 graphviz:OFFICIAL
+plank:OFFICIAL
 grep:OFFICIAL
 grilo:OFFICIAL
 grilo-plugins:OFFICIAL
