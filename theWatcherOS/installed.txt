@@ -159,6 +159,7 @@ foomatic-db-engine:OFFICIAL
 foomatic-db-gutenprint-ppds:OFFICIAL
 foomatic-db-nonfree:OFFICIAL
 foomatic-db-ppds:OFFICIAL
+fping:OFFICIAL
 freeglut:OFFICIAL
 freetype2:OFFICIAL
 frei0r-plugins:OFFICIAL
@@ -270,6 +271,7 @@ harfbuzz:OFFICIAL
 harfbuzz-icu:OFFICIAL
 hdf5:OFFICIAL
 hicolor-icon-theme:OFFICIAL
+hping:OFFICIAL
 hplip:OFFICIAL
 hspell:OFFICIAL
 htop:OFFICIAL
