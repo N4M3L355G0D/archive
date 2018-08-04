@@ -22,6 +22,7 @@ class Hyperion:
 
             self.wa.dbManager=self.dbManager()
             self.wa.dbManager.master=self.wa
+            self.wa.dbManager.dbname=self.dbname
             print('initializing',end='')
             self.wa.dbManager.dbCreate()
             print('.',end='')
@@ -73,7 +74,7 @@ class Hyperion:
     
     class dbManager:
         master=None
-        dbname=self.master.dbname
+        dbname=None
         def hashed(self,idata):
             sha=hashlib.sha512()
             sha.update(idata)
@@ -215,9 +216,9 @@ class Hyperion:
                         self.master.dbManager.insertEntry(path)
 
 
-
-h=Hyperion()
-h.dir='/home/carl/Downloads/American Dad! (2005) Season 1-14 S01-14 (Multi-Resolutions x265 HEVC 10bit AAC 5.1 ImE) [UTR]'.encode()
-h.cmd=b"vlc "
-h.dbname="list.db"
-h.assembler()
+if __name__ == "__main__":
+    h=Hyperion()
+    h.dir='/home/carl/Downloads/torrents'.encode()
+    h.cmd=b"vlc --play-and-exit "
+    h.dbname="list.db"
+    h.assembler()

@@ -718,6 +718,7 @@ network-manager-applet-gtk2-jlindgren90-git:AUR
 networkmanager:OFFICIAL
 nilfs-utils:OFFICIAL
 ninja:OFFICIAL
+nltk-data:OFFICIAL
 nmap:OFFICIAL
 npth:OFFICIAL
 nspr:OFFICIAL
@@ -1009,6 +1010,7 @@ python-mako:OFFICIAL
 python-markupsafe:OFFICIAL
 python-matplotlib:OFFICIAL
 python-msgpack:OFFICIAL
+python-nltk:OFFICIAL
 python-nose:OFFICIAL
 python-numexpr:OFFICIAL
 python-numpy:OFFICIAL
@@ -1063,6 +1065,7 @@ python-xdg:OFFICIAL
 python-xlrd:OFFICIAL
 python-xlsxwriter:OFFICIAL
 python-xlwt:OFFICIAL
+python-yaml:OFFICIAL
 python-zope-interface:OFFICIAL
 python2:OFFICIAL
 python2-appdirs:OFFICIAL
@@ -1100,6 +1103,7 @@ python2-m2crypto:OFFICIAL
 python2-mako:OFFICIAL
 python2-markupsafe:OFFICIAL
 python2-msgpack:OFFICIAL
+python2-nltk:OFFICIAL
 python2-notify:OFFICIAL
 python2-packaging:OFFICIAL
 python2-pillow:OFFICIAL
@@ -1133,6 +1137,7 @@ python2-webencodings:OFFICIAL
 python2-wrapt:OFFICIAL
 python2-wstools:OFFICIAL
 python2-xdg:OFFICIAL
+python2-yaml:OFFICIAL
 python2-zope-interface:OFFICIAL
 python3-aur:AUR
 python3-memoizedb:AUR
