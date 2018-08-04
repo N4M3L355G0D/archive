@@ -725,6 +725,7 @@ nspr:OFFICIAL
 nss:OFFICIAL
 ntfs-3g:OFFICIAL
 ntp:OFFICIAL
+oath-toolkit:OFFICIAL
 ocl-icd:OFFICIAL
 onboard:OFFICIAL
 openal:OFFICIAL
