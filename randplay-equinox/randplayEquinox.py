@@ -219,6 +219,7 @@ class Hyperion:
 if __name__ == "__main__":
     h=Hyperion()
     h.dir='/home/carl/Downloads/torrents'.encode()
-    h.cmd=b"vlc --play-and-exit "
+    h.cmd=b"mplayer -geometry 800x600 "
     h.dbname="list.db"
     h.assembler()
+    os.system('reset')
