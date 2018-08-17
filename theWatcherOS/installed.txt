@@ -58,6 +58,7 @@ bt-dw1560-firmware:AUR
 btrfs-progs:OFFICIAL
 bubblewrap:OFFICIAL
 bzip2:OFFICIAL
+bzr:OFFICIAL
 ca-certificates:OFFICIAL
 ca-certificates-cacert:OFFICIAL
 ca-certificates-mozilla:OFFICIAL
@@ -78,6 +79,7 @@ celt:OFFICIAL
 cheese:OFFICIAL
 chromaprint:OFFICIAL
 cifs-utils:OFFICIAL
+clang:OFFICIAL
 clucene:OFFICIAL
 clutter:OFFICIAL
 clutter-gst:OFFICIAL
@@ -85,6 +87,7 @@ clutter-gtk:OFFICIAL
 cmake:OFFICIAL
 cogl:OFFICIAL
 colord:OFFICIAL
+compiler-rt:OFFICIAL
 confuse:OFFICIAL
 convertlit:OFFICIAL
 coreutils:OFFICIAL
@@ -126,12 +129,15 @@ dwm:AUR
 e2fsprogs:OFFICIAL
 ebook-tools:OFFICIAL
 ed:OFFICIAL
+elfutils:OFFICIAL
 elinks:OFFICIAL
+enca:OFFICIAL
 enchant:OFFICIAL
 endless-sky:AUR
 epiphany:OFFICIAL
 espeak:OFFICIAL
 ethtool:OFFICIAL
+execstack:AUR
 exfat-utils:OFFICIAL
 exiv2:OFFICIAL
 exo:OFFICIAL
@@ -178,6 +184,8 @@ gcc-libs:OFFICIAL
 gconf:OFFICIAL
 gcr:OFFICIAL
 gd:OFFICIAL
+gdb:OFFICIAL
+gdb-common:OFFICIAL
 gdbm:OFFICIAL
 gdk-pixbuf2:OFFICIAL
 gegl:OFFICIAL
@@ -263,6 +271,7 @@ gtksourceview3:OFFICIAL
 gtkspell:OFFICIAL
 gts:OFFICIAL
 guile:OFFICIAL
+guile2.0:OFFICIAL
 gutenprint:OFFICIAL
 gvfs:OFFICIAL
 gvfs-mtp:OFFICIAL
@@ -588,6 +597,7 @@ libva:OFFICIAL
 libva-intel-driver:OFFICIAL
 libva-vdpau-driver:OFFICIAL
 libvdpau:OFFICIAL
+libvdpau-va-gl:OFFICIAL
 libvisio:OFFICIAL
 libvisual:OFFICIAL
 libvoikko:OFFICIAL
@@ -684,7 +694,9 @@ mariadb:OFFICIAL
 mariadb-clients:OFFICIAL
 mdadm:OFFICIAL
 media-player-info:OFFICIAL
+mercurial:OFFICIAL
 mesa:OFFICIAL
+mesa-vdpau:OFFICIAL
 meson:OFFICIAL
 metis:OFFICIAL
 minizip:OFFICIAL
@@ -697,6 +709,7 @@ mousepad:OFFICIAL
 mozilla-common:OFFICIAL
 mpfr:OFFICIAL
 mpg123:OFFICIAL
+mplayer:OFFICIAL
 mtdev:OFFICIAL
 mtools:OFFICIAL
 mupdf-gl:OFFICIAL
@@ -705,6 +718,7 @@ mutagen:OFFICIAL
 mypaint-brushes:OFFICIAL
 naev:OFFICIAL
 nano:OFFICIAL
+nasm:OFFICIAL
 naturaldocs:AUR
 nautilus-sendto:OFFICIAL
 ncurses:OFFICIAL
@@ -738,6 +752,7 @@ openexr:OFFICIAL
 openimageio:OFFICIAL
 openjpeg:OFFICIAL
 openjpeg2:OFFICIAL
+openmp:OFFICIAL
 openresolv:OFFICIAL
 openshadinglanguage:OFFICIAL
 openssh:OFFICIAL
@@ -770,6 +785,7 @@ pciutils:OFFICIAL
 pcmciautils:AUR
 pcre:OFFICIAL
 pcre2:OFFICIAL
+peda:OFFICIAL
 perl:OFFICIAL
 perl-autovivification:OFFICIAL
 perl-b-hooks-endofscope:OFFICIAL
@@ -1073,6 +1089,7 @@ python2-appdirs:OFFICIAL
 python2-asn1crypto:OFFICIAL
 python2-attrs:OFFICIAL
 python2-automat:OFFICIAL
+python2-bcrypt:OFFICIAL
 python2-beaker:OFFICIAL
 python2-cachecontrol:OFFICIAL
 python2-cairo:OFFICIAL
@@ -1107,6 +1124,7 @@ python2-msgpack:OFFICIAL
 python2-nltk:OFFICIAL
 python2-notify:OFFICIAL
 python2-packaging:OFFICIAL
+python2-paramiko:OFFICIAL
 python2-pillow:OFFICIAL
 python2-pip:OFFICIAL
 python2-ply:OFFICIAL
@@ -1116,6 +1134,7 @@ python2-pyasn1:OFFICIAL
 python2-pyasn1-modules:OFFICIAL
 python2-pycparser:OFFICIAL
 python2-pygpgme:OFFICIAL
+python2-pynacl:OFFICIAL
 python2-pyopenssl:OFFICIAL
 python2-pyparsing:OFFICIAL
 python2-pyqt5:OFFICIAL
@@ -1145,6 +1164,7 @@ python3-memoizedb:AUR
 python3-xcgf:AUR
 python3-xcpf:AUR
 pyzbar:AUR
+qbs:OFFICIAL
 qpdf:OFFICIAL
 qpdfview:OFFICIAL
 qrencode:OFFICIAL
@@ -1186,11 +1206,13 @@ qt5-websockets:OFFICIAL
 qt5-webview:OFFICIAL
 qt5-x11extras:OFFICIAL
 qt5-xmlpatterns:OFFICIAL
+qtcreator:OFFICIAL
 ranger:OFFICIAL
 raptor:OFFICIAL
 rasqal:OFFICIAL
 re2:OFFICIAL
 readline:OFFICIAL
+recode:OFFICIAL
 redland:OFFICIAL
 reiserfsprogs:OFFICIAL
 rest:OFFICIAL
@@ -1299,6 +1321,7 @@ usbutils:OFFICIAL
 util-linux:OFFICIAL
 v4l-utils:OFFICIAL
 vala:OFFICIAL
+valgrind:OFFICIAL
 vamp-plugin-sdk:OFFICIAL
 vcdimager:OFFICIAL
 vi:OFFICIAL
