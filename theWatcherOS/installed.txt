@@ -35,6 +35,7 @@ audacity:OFFICIAL
 autoconf:OFFICIAL
 autoconf-archive:OFFICIAL
 automake:OFFICIAL
+automounter:AUR
 avahi:OFFICIAL
 babl:OFFICIAL
 bamf:OFFICIAL
@@ -50,6 +51,7 @@ blender:OFFICIAL
 blosc:OFFICIAL
 bluez-libs:OFFICIAL
 bluez-utils:OFFICIAL
+boost:OFFICIAL
 boost-libs:OFFICIAL
 brasero:OFFICIAL
 brltty:OFFICIAL
@@ -59,6 +61,7 @@ btrfs-progs:OFFICIAL
 bubblewrap:OFFICIAL
 bzip2:OFFICIAL
 bzr:OFFICIAL
+c-ares:OFFICIAL
 ca-certificates:OFFICIAL
 ca-certificates-cacert:OFFICIAL
 ca-certificates-mozilla:OFFICIAL
@@ -115,6 +118,7 @@ djvulibre:OFFICIAL
 dmenu:OFFICIAL
 dmidecode:OFFICIAL
 dmraid:OFFICIAL
+dnsmasq:OFFICIAL
 dnssec-anchors:OFFICIAL
 docbook-xml:OFFICIAL
 docbook-xsl:OFFICIAL
@@ -137,6 +141,7 @@ endless-sky:AUR
 epiphany:OFFICIAL
 espeak:OFFICIAL
 ethtool:OFFICIAL
+evince:OFFICIAL
 execstack:AUR
 exfat-utils:OFFICIAL
 exiv2:OFFICIAL
@@ -173,6 +178,7 @@ fribidi:OFFICIAL
 ftgl:OFFICIAL
 fuse-common:OFFICIAL
 fuse2:OFFICIAL
+fuse3:OFFICIAL
 gamin:OFFICIAL
 garcon:OFFICIAL
 gavl:OFFICIAL
@@ -196,7 +202,9 @@ ghostscript:OFFICIAL
 giflib:OFFICIAL
 gimp:OFFICIAL
 git:OFFICIAL
+gjs:OFFICIAL
 gkrellm:OFFICIAL
+gksu:AUR
 glew:OFFICIAL
 glib-networking:OFFICIAL
 glib-perl:OFFICIAL
@@ -208,8 +216,10 @@ glu:OFFICIAL
 gmime3:OFFICIAL
 gmp:OFFICIAL
 gnome-alsamixer:OFFICIAL
+gnome-autoar:OFFICIAL
 gnome-common:OFFICIAL
 gnome-desktop:OFFICIAL
+gnome-doc-utils:OFFICIAL
 gnome-icon-theme:OFFICIAL
 gnome-icon-theme-symbolic:OFFICIAL
 gnome-keyring:OFFICIAL
@@ -274,7 +284,13 @@ guile:OFFICIAL
 guile2.0:OFFICIAL
 gutenprint:OFFICIAL
 gvfs:OFFICIAL
+gvfs-afc:OFFICIAL
+gvfs-goa:OFFICIAL
+gvfs-google:OFFICIAL
+gvfs-gphoto2:OFFICIAL
 gvfs-mtp:OFFICIAL
+gvfs-nfs:OFFICIAL
+gvfs-smb:OFFICIAL
 gzip:OFFICIAL
 harfbuzz:OFFICIAL
 harfbuzz-icu:OFFICIAL
@@ -284,6 +300,7 @@ hping:OFFICIAL
 hplip:OFFICIAL
 hspell:OFFICIAL
 htop:OFFICIAL
+http-parser:OFFICIAL
 hunspell:OFFICIAL
 hunspell-en_US:OFFICIAL
 hwids:OFFICIAL
@@ -293,6 +310,7 @@ i8krellm:AUR
 i8kutils:AUR
 iana-etc:OFFICIAL
 icu:OFFICIAL
+ifuse:OFFICIAL
 iio-sensor-proxy:AUR
 ijs:OFFICIAL
 ilmbase:OFFICIAL
@@ -403,6 +421,7 @@ libcdio-paranoia:OFFICIAL
 libcdr:OFFICIAL
 libcmis:OFFICIAL
 libcroco:OFFICIAL
+libcryptui:OFFICIAL
 libcups:OFFICIAL
 libcurl-gnutls:OFFICIAL
 libdaemon:OFFICIAL
@@ -424,6 +443,7 @@ libdvdnav:OFFICIAL
 libdvdread:OFFICIAL
 libe-book:OFFICIAL
 libebml:OFFICIAL
+libebur128:OFFICIAL
 libedit:OFFICIAL
 libelf:OFFICIAL
 libepoxy:OFFICIAL
@@ -444,6 +464,7 @@ libgdata:OFFICIAL
 libgdiplus:OFFICIAL
 libgee:OFFICIAL
 libgexiv2:OFFICIAL
+libgksu:AUR
 libglade:OFFICIAL
 libglvnd:OFFICIAL
 libgme:OFFICIAL
@@ -508,12 +529,16 @@ libmtp:OFFICIAL
 libmusicbrainz5:OFFICIAL
 libmwaw:OFFICIAL
 libmypaint:OFFICIAL
+libnautilus-extension:OFFICIAL
 libndp:OFFICIAL
+libnetfilter_conntrack:OFFICIAL
 libnewt:OFFICIAL
+libnfnetlink:OFFICIAL
 libnfs:OFFICIAL
 libnftnl:OFFICIAL
 libnghttp2:OFFICIAL
 libnice:OFFICIAL
+libnih:OFFICIAL
 libnl:OFFICIAL
 libnm:OFFICIAL
 libnm-glib:OFFICIAL
@@ -590,6 +615,7 @@ libupnp:OFFICIAL
 libusb:OFFICIAL
 libusb-compat:OFFICIAL
 libusbmuxd:OFFICIAL
+libuser:AUR
 libutempter:OFFICIAL
 libutil-linux:OFFICIAL
 libuv:OFFICIAL
@@ -613,8 +639,8 @@ libwpd:OFFICIAL
 libwpg:OFFICIAL
 libwps:OFFICIAL
 libx11:OFFICIAL
-libx264:OFFICIAL
-libx264-all:OFFICIAL
+libx264:AUR
+libx264-all:AUR
 libx86emu:OFFICIAL
 libxau:OFFICIAL
 libxaw:OFFICIAL
@@ -635,6 +661,7 @@ libxkbcommon:OFFICIAL
 libxkbcommon-x11:OFFICIAL
 libxkbfile:OFFICIAL
 libxklavier:OFFICIAL
+libxml++2.6:OFFICIAL
 libxml2:OFFICIAL
 libxmu:OFFICIAL
 libxpm:OFFICIAL
@@ -672,6 +699,8 @@ log4cplus:OFFICIAL
 logrotate:OFFICIAL
 lpsolve:OFFICIAL
 lua:OFFICIAL
+lua-alt-getopt:OFFICIAL
+lua-filesystem:OFFICIAL
 lua-socket:OFFICIAL
 lua51:OFFICIAL
 lua52:OFFICIAL
@@ -683,6 +712,8 @@ lua52-socket:OFFICIAL
 luajit:OFFICIAL
 lv2:OFFICIAL
 lvm2:OFFICIAL
+lxc:OFFICIAL
+lxcfs:OFFICIAL
 lz4:OFFICIAL
 lzo:OFFICIAL
 m4:OFFICIAL
@@ -703,6 +734,7 @@ minizip:OFFICIAL
 mjpegtools:OFFICIAL
 mkinitcpio:OFFICIAL
 mkinitcpio-busybox:OFFICIAL
+mlt:OFFICIAL
 modemmanager:OFFICIAL
 mono:OFFICIAL
 mousepad:OFFICIAL
@@ -712,6 +744,7 @@ mpg123:OFFICIAL
 mplayer:OFFICIAL
 mtdev:OFFICIAL
 mtools:OFFICIAL
+mtpfs:OFFICIAL
 mupdf-gl:OFFICIAL
 mupdf-tools:OFFICIAL
 mutagen:OFFICIAL
@@ -720,7 +753,11 @@ naev:OFFICIAL
 nano:OFFICIAL
 nasm:OFFICIAL
 naturaldocs:AUR
+nautilus:OFFICIAL
+nautilus-image-converter:OFFICIAL
 nautilus-sendto:OFFICIAL
+nautilus-share:OFFICIAL
+nautilus-terminal:OFFICIAL
 ncurses:OFFICIAL
 ndctl:OFFICIAL
 neon:OFFICIAL
@@ -734,6 +771,9 @@ nilfs-utils:OFFICIAL
 ninja:OFFICIAL
 nltk-data:OFFICIAL
 nmap:OFFICIAL
+node-gyp:OFFICIAL
+nodejs:OFFICIAL
+npm:OFFICIAL
 npth:OFFICIAL
 nspr:OFFICIAL
 nss:OFFICIAL
@@ -786,6 +826,7 @@ pcmciautils:AUR
 pcre:OFFICIAL
 pcre2:OFFICIAL
 peda:OFFICIAL
+pencil:AUR
 perl:OFFICIAL
 perl-autovivification:OFFICIAL
 perl-b-hooks-endofscope:OFFICIAL
@@ -837,7 +878,6 @@ perl-gnome2-wnck:AUR
 perl-goo-canvas:AUR
 perl-gtk2-appindicator:AUR
 perl-gtk2-imageview:AUR
-perl-gtk2-unique:AUR
 perl-html-form:OFFICIAL
 perl-html-parser:OFFICIAL
 perl-html-tagset:OFFICIAL
@@ -993,16 +1033,20 @@ python-blosc:OFFICIAL
 python-bottleneck:OFFICIAL
 python-cachecontrol:OFFICIAL
 python-cairo:OFFICIAL
+python-cairocffi:OFFICIAL
+python-cairosvg:OFFICIAL
 python-cffi:OFFICIAL
 python-chardet:OFFICIAL
 python-click:OFFICIAL
 python-colorama:OFFICIAL
 python-constantly:OFFICIAL
 python-cryptography:OFFICIAL
+python-cssselect2:OFFICIAL
 python-cycler:OFFICIAL
 python-dateutil:OFFICIAL
 python-dbus:OFFICIAL
 python-dbus-common:OFFICIAL
+python-defusedxml:OFFICIAL
 python-distlib:OFFICIAL
 python-distro:OFFICIAL
 python-distutils-extra:OFFICIAL
@@ -1057,6 +1101,7 @@ python-pyqt5:OFFICIAL
 python-pyserial:OFFICIAL
 python-pyside:OFFICIAL
 python-pyside-common:OFFICIAL
+python-pysmbc:OFFICIAL
 python-pytables:OFFICIAL
 python-pytoml:OFFICIAL
 python-pytz:OFFICIAL
@@ -1074,10 +1119,12 @@ python-sip:OFFICIAL
 python-sip-pyqt5:OFFICIAL
 python-six:OFFICIAL
 python-sqlalchemy:OFFICIAL
+python-tinycss2:OFFICIAL
 python-twisted:OFFICIAL
 python-urllib3:OFFICIAL
 python-webencodings:OFFICIAL
 python-wrapt:OFFICIAL
+python-xcffib:OFFICIAL
 python-xdg:OFFICIAL
 python-xlrd:OFFICIAL
 python-xlsxwriter:OFFICIAL
@@ -1121,6 +1168,7 @@ python2-m2crypto:OFFICIAL
 python2-mako:OFFICIAL
 python2-markupsafe:OFFICIAL
 python2-msgpack:OFFICIAL
+python2-nautilus:OFFICIAL
 python2-nltk:OFFICIAL
 python2-notify:OFFICIAL
 python2-packaging:OFFICIAL
@@ -1140,6 +1188,7 @@ python2-pyparsing:OFFICIAL
 python2-pyqt5:OFFICIAL
 python2-pyserial:OFFICIAL
 python2-pyside:OFFICIAL
+python2-pysmbc:OFFICIAL
 python2-pytoml:OFFICIAL
 python2-reportlab:OFFICIAL
 python2-requests:OFFICIAL
@@ -1207,8 +1256,10 @@ qt5-webview:OFFICIAL
 qt5-x11extras:OFFICIAL
 qt5-xmlpatterns:OFFICIAL
 qtcreator:OFFICIAL
+quazip:OFFICIAL
 ranger:OFFICIAL
 raptor:OFFICIAL
+rarian:OFFICIAL
 rasqal:OFFICIAL
 re2:OFFICIAL
 readline:OFFICIAL
@@ -1238,13 +1289,14 @@ sdl2:OFFICIAL
 sdl2_image:OFFICIAL
 sdl2_mixer:OFFICIAL
 sdl_image:OFFICIAL
+seahorse-nautilus:OFFICIAL
 sed:OFFICIAL
+semver:OFFICIAL
 serd:OFFICIAL
 sg3_utils:OFFICIAL
 shadow:OFFICIAL
 shared-mime-info:OFFICIAL
 shiboken:OFFICIAL
-shutter:AUR
 sip:OFFICIAL
 skypeforlinux-stable-bin:AUR
 slang:OFFICIAL
@@ -1272,10 +1324,12 @@ strace:OFFICIAL
 sudo:OFFICIAL
 suil:OFFICIAL
 suitesparse:OFFICIAL
+sushi:OFFICIAL
 swh-plugins:OFFICIAL
 sysfsutils:OFFICIAL
 sysstat:OFFICIAL
 system-config-printer:OFFICIAL
+system-config-samba:AUR
 systemd:OFFICIAL
 systemd-sysvcompat:OFFICIAL
 t1lib:OFFICIAL
@@ -1293,6 +1347,7 @@ thin-provisioning-tools:OFFICIAL
 thunar:OFFICIAL
 thunar-archive-plugin:OFFICIAL
 thunar-media-tags-plugin:OFFICIAL
+thunar-shares-plugin:AUR
 thunar-volman:OFFICIAL
 tinyxml:OFFICIAL
 tk:OFFICIAL
@@ -1379,6 +1434,7 @@ xfce4-clipman-plugin:OFFICIAL
 xfce4-cpufreq-plugin:OFFICIAL
 xfce4-cpugraph-plugin:OFFICIAL
 xfce4-datetime-plugin:OFFICIAL
+xfce4-dev-tools:OFFICIAL
 xfce4-dict:OFFICIAL
 xfce4-diskperf-plugin:OFFICIAL
 xfce4-eyes-plugin:OFFICIAL
