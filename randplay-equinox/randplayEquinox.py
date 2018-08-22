@@ -5,8 +5,12 @@ import subprocess as sp
 
 class Hyperion:
     dir=None
-    cmd=None
+    cmd=b"mplayer -vo xv -autosync 1 -geometry 960x540 -x 960 -y 540 -monitoraspect 16:9 -lavdopts threads=4 -lavdopts skiploopfilter=all -osdlevel 3 -subfont-osd-scale 1 -subfont-text-scale 4 -playlist "
     dbname=None
+    skipMplayer=True
+    playlist=b'playlist.txt'
+    play_single=True
+    play=True
     class void:
         master=None
         listExists=True
@@ -16,6 +20,10 @@ class Hyperion:
         self.wa.dir=self.dir
         self.wa.cmd=self.cmd
         self.wa.dbname=self.dbname
+        self.wa.skipMplayer=self.skipMplayer
+        self.wa.playlist=self.playlist
+        self.wa.play_single=self.play_single
+        self.wa.play=self.play
         while self.wa.listExists == True:
             self.wa.listExists=False
             self.wa.colors=self.colors()
@@ -189,12 +197,28 @@ class Hyperion:
             rows=self.master.dbManager.getMaxRows()
             if rows != None:
                 rows=rows[0]
-                for num in range(1,rows+1):
-                    entry=self.master.dbManager.getEntry(num)
-                    if entry != None:
-                        entry=base64.b64decode(entry[0].encode())
-                        self.runCmd(entry)
-                        print(entry)
+                with open(self.master.playlist,'wb') as playlist:
+                    for num in range(1,rows+1):
+                        entry=self.master.dbManager.getEntry(num)
+                        if entry != None:
+                            entry=base64.b64decode(entry[0].encode())
+                            playlist.write(entry+b'\n')
+                
+                if self.master.play == True:
+                    if self.master.play_single == True:
+                        cmd2=self.master.cmd.split(b' ') 
+                        cmd2=b' '.join(cmd2[:-2])+b' '
+                        cmd=self.master.cmd
+                        self.master.cmd=cmd2
+                        for num in range(1,rows+1):
+                            entry=self.master.dbManager.getEntry(num)
+                            if entry != None:
+                                entry=base64.b64decode(entry[0].encode())
+                                self.runCmd(entry)
+                        self.master.cmd=cmd
+                    elif self.master.skipMplayer == False:
+                        self.runCmd(self.master.playlist)
+
             else:
                 print(rows)
 
@@ -219,7 +243,13 @@ class Hyperion:
 if __name__ == "__main__":
     h=Hyperion()
     h.dir='/home/carl/Downloads/torrents'.encode()
-    h.cmd=b"mplayer -vo xv -autosync 1 -geometry 800x600 -x 960 -y 540 -monitoraspect 16:9 -lavdopts threads=4 -vo vdpau -lavdopts skiploopfilter=all "
+    h.play=True
+    h.play_single=True
+    #don't use playlist option of default cmd
+    h.skipMplayer=True
+
+    #override default cmd
+    #h.cmd=b"mplayer -vo xv -autosync 1 -geometry 960x540 -x 960 -y 540 -monitoraspect 16:9 -lavdopts threads=4 -lavdopts skiploopfilter=all -osdlevel 3 -subfont-osd-scale 1 -subfont-text-scale 4 -playlist "
     h.dbname="list.db"
     h.assembler()
-    os.system('reset')
+    #os.system('reset')
