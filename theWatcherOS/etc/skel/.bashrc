@@ -1,7 +1,11 @@
 #
 # ~/.bashrc
 #
+alias mplayer="mplayer -vo xv -autosync 1 -monitoraspect 16:9 -lavdopts threads=4 -vo vdpau -lavdopts skiploopfilter=all -osdlevel 3 -subfont-osd-scale 1 -subfont-text-scale 4 "
 
+datecode(){
+	date +%H.%M.%S_%m-%d-%Y
+}
 [[ $- != *i* ]] && return
 
 colors() {
