@@ -1,0 +1,1 @@
+find Downloads/torrents/Rick\ and\ Morty\ Season\ * -iname "*.mkv" -execdir mplayer -vo xv -autosync 1 -geometry 960x540 -x 960 -y 540 -monitoraspect 16:9 -lavdopts threads=4 -lavdopts skiploopfilter=all -osdlevel 3 -subfont-osd-scale 1 -subfont-text-scale 4 {} \;
