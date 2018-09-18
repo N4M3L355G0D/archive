@@ -296,7 +296,7 @@ class utility:
         try: 
             options.func(options)
         except:   
-            print(sys.exc_info())
+            #print(sys.exc_info())
             options=parser.parse_args('--help'.split())
         #print(options)
         return options
