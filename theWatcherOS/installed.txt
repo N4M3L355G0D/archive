@@ -52,6 +52,8 @@ bison:OFFICIAL
 blas:OFFICIAL
 blender:OFFICIAL
 blosc:OFFICIAL
+blueman:OFFICIAL
+bluez:OFFICIAL
 bluez-libs:OFFICIAL
 bluez-utils:OFFICIAL
 boost:OFFICIAL
@@ -147,7 +149,9 @@ endless-sky:AUR
 epiphany:OFFICIAL
 espeak:OFFICIAL
 ethtool:OFFICIAL
+evemu:OFFICIAL
 evince:OFFICIAL
+evtest:OFFICIAL
 execstack:AUR
 exfat-utils:OFFICIAL
 exiv2:OFFICIAL
@@ -798,6 +802,8 @@ oath-toolkit:OFFICIAL
 ocl-icd:OFFICIAL
 onboard:OFFICIAL
 oniguruma:OFFICIAL
+open-iscsi:OFFICIAL
+open-isns:OFFICIAL
 openal:OFFICIAL
 opencollada:OFFICIAL
 opencolorio:OFFICIAL
@@ -1032,6 +1038,7 @@ psmisc:OFFICIAL
 ptex:OFFICIAL
 pulseaudio:OFFICIAL
 pulseaudio-alsa:OFFICIAL
+pulseaudio-bluetooth:OFFICIAL
 pulseaudio-equalizer:OFFICIAL
 pulseaudio-equalizer-ladspa:AUR
 pyalpm:OFFICIAL
@@ -1292,6 +1299,7 @@ qt5-x11extras:OFFICIAL
 qt5-xmlpatterns:OFFICIAL
 qtcreator:OFFICIAL
 quazip:OFFICIAL
+quota-tools:OFFICIAL
 ranger:OFFICIAL
 raptor:OFFICIAL
 rarian:OFFICIAL

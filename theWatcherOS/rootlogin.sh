@@ -18,6 +18,9 @@ done
 
 usermod -a -G sudo container
 usermod -a -G audio container
+usermod -a -G input container
+usermod -a -G lp container
+usermod -a -G video container
 printf "container:container\n" | chpasswd
 cp /root/{yaourt-install.sh,aur.txt,install-aur.sh,containerlogin.sh} /home/container
 #run container login script
@@ -29,8 +32,8 @@ su - container
 printf "root:root\n" | chpasswd
 
 #create a enable services.sh containing lines like below
-
-services=('NetworkManager' 'sshd' 'lightdm' 'org.cups.cupsd' 'smb' 'nmb' 'httpd')
+modprobe btusb
+services=('NetworkManager' 'sshd' 'lightdm' 'org.cups.cupsd' 'smb' 'nmb' 'httpd' 'bluetooth' )
 for serv in ${services[@]} ; do
 	systemctl enable $serv
 done
@@ -48,3 +51,4 @@ bash install.sh
 cp -r /etc/skel/.config /home/container/
 chown -R container:container /home/container/.config
 cp -r /etc/skel/.config /root/
+systemd-hwdb update
