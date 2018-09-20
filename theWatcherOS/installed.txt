@@ -22,6 +22,7 @@ arch-install-scripts:OFFICIAL
 archlinux-appstream-data:OFFICIAL
 archlinux-keyring:OFFICIAL
 argon2:OFFICIAL
+asciidoc:OFFICIAL
 aspell:OFFICIAL
 assimp:OFFICIAL
 at-spi2-atk:OFFICIAL
@@ -52,9 +53,10 @@ bison:OFFICIAL
 blas:OFFICIAL
 blender:OFFICIAL
 blosc:OFFICIAL
-blueman:OFFICIAL
+blueberry:OFFICIAL
 bluez:OFFICIAL
 bluez-libs:OFFICIAL
+bluez-tools:OFFICIAL
 bluez-utils:OFFICIAL
 boost:OFFICIAL
 boost-libs:OFFICIAL
@@ -110,6 +112,7 @@ cups-pk-helper:OFFICIAL
 curl:OFFICIAL
 darling-dmg-git:AUR
 db:OFFICIAL
+dblatex:OFFICIAL
 dbus:OFFICIAL
 dbus-glib:OFFICIAL
 dbus-sharp:OFFICIAL
@@ -119,6 +122,7 @@ deluge:OFFICIAL
 desktop-file-utils:OFFICIAL
 device-mapper:OFFICIAL
 dhcpcd:OFFICIAL
+dialog:OFFICIAL
 diffutils:OFFICIAL
 djvulibre:OFFICIAL
 dkms:OFFICIAL
@@ -136,11 +140,14 @@ dotnet-host:OFFICIAL
 dotnet-runtime:OFFICIAL
 dotnet-sdk:OFFICIAL
 double-conversion:OFFICIAL
+doxygen:OFFICIAL
 dvd+rw-tools:OFFICIAL
 dwm:AUR
 e2fsprogs:OFFICIAL
 ebook-tools:OFFICIAL
 ed:OFFICIAL
+efibootmgr:OFFICIAL
+efivar:OFFICIAL
 elfutils:OFFICIAL
 elinks:OFFICIAL
 enca:OFFICIAL
@@ -180,6 +187,7 @@ foomatic-db-engine:OFFICIAL
 foomatic-db-gutenprint-ppds:OFFICIAL
 foomatic-db-nonfree:OFFICIAL
 foomatic-db-ppds:OFFICIAL
+fop:OFFICIAL
 fping:OFFICIAL
 freeglut:OFFICIAL
 freetype2:OFFICIAL
@@ -227,6 +235,7 @@ gmime3:OFFICIAL
 gmp:OFFICIAL
 gnome-alsamixer:OFFICIAL
 gnome-autoar:OFFICIAL
+gnome-bluetooth:OFFICIAL
 gnome-common:OFFICIAL
 gnome-desktop:OFFICIAL
 gnome-doc-utils:OFFICIAL
@@ -291,6 +300,7 @@ gtksourceview3:OFFICIAL
 gtkspell:OFFICIAL
 gts:OFFICIAL
 guile:OFFICIAL
+guile1.8:OFFICIAL
 guile2.0:OFFICIAL
 gutenprint:OFFICIAL
 gvfs:OFFICIAL
@@ -347,11 +357,20 @@ iw:OFFICIAL
 jack:OFFICIAL
 jansson:OFFICIAL
 jasper:OFFICIAL
+java-avalon-framework:OFFICIAL
+java-batik:OFFICIAL
+java-commons-io:OFFICIAL
+java-commons-logging:OFFICIAL
+java-environment-common:OFFICIAL
 java-runtime-common:OFFICIAL
+java-xmlgraphics-commons:OFFICIAL
 jbig2dec:OFFICIAL
+jdk10-openjdk:OFFICIAL
 jemalloc:OFFICIAL
 jfsutils:OFFICIAL
 jq:OFFICIAL
+jre10-openjdk:OFFICIAL
+jre10-openjdk-headless:OFFICIAL
 jre9:AUR
 js52:OFFICIAL
 json-c:OFFICIAL
@@ -399,7 +418,7 @@ l-smash:OFFICIAL
 ladspa:OFFICIAL
 lame:OFFICIAL
 lapack:OFFICIAL
-lcms:OFFICIAL
+lcms:AUR
 lcms2:OFFICIAL
 ldb:OFFICIAL
 ldns:OFFICIAL
@@ -548,6 +567,7 @@ libmwaw:OFFICIAL
 libmypaint:OFFICIAL
 libnautilus-extension:OFFICIAL
 libndp:OFFICIAL
+libnet:OFFICIAL
 libnetfilter_conntrack:OFFICIAL
 libnewt:OFFICIAL
 libnfnetlink:OFFICIAL
@@ -700,6 +720,7 @@ licenses:OFFICIAL
 lightdm:OFFICIAL
 lightdm-gtk-greeter:OFFICIAL
 lilv:OFFICIAL
+lilypond:OFFICIAL
 linux:OFFICIAL
 linux-api-headers:OFFICIAL
 linux-firmware:OFFICIAL
@@ -732,6 +753,7 @@ lv2:OFFICIAL
 lvm2:OFFICIAL
 lxc:OFFICIAL
 lxcfs:OFFICIAL
+lynx:OFFICIAL
 lz4:OFFICIAL
 lzo:OFFICIAL
 m4:OFFICIAL
@@ -799,6 +821,7 @@ nss:OFFICIAL
 ntfs-3g:OFFICIAL
 ntp:OFFICIAL
 oath-toolkit:OFFICIAL
+obexftp:AUR
 ocl-icd:OFFICIAL
 onboard:OFFICIAL
 oniguruma:OFFICIAL
@@ -815,6 +838,7 @@ openimageio:OFFICIAL
 openjpeg:OFFICIAL
 openjpeg2:OFFICIAL
 openmp:OFFICIAL
+openobex:AUR
 openresolv:OFFICIAL
 openshadinglanguage:OFFICIAL
 openssh:OFFICIAL
@@ -1035,6 +1059,7 @@ procps-ng:OFFICIAL
 projectm:OFFICIAL
 protobuf:OFFICIAL
 psmisc:OFFICIAL
+psutils:OFFICIAL
 ptex:OFFICIAL
 pulseaudio:OFFICIAL
 pulseaudio-alsa:OFFICIAL
@@ -1184,6 +1209,7 @@ python2-colorama:OFFICIAL
 python2-configshell-fb:AUR
 python2-constantly:OFFICIAL
 python2-cryptography:OFFICIAL
+python2-dbus:OFFICIAL
 python2-defusedxml:OFFICIAL
 python2-distlib:OFFICIAL
 python2-distro:OFFICIAL
@@ -1219,6 +1245,7 @@ python2-progress:OFFICIAL
 python2-pyasn1:OFFICIAL
 python2-pyasn1-modules:OFFICIAL
 python2-pycparser:OFFICIAL
+python2-pygments:OFFICIAL
 python2-pygpgme:OFFICIAL
 python2-pyhamcrest:OFFICIAL
 python2-pynacl:OFFICIAL
@@ -1235,6 +1262,7 @@ python2-requests:OFFICIAL
 python2-retrying:OFFICIAL
 python2-rtslib-fb:AUR
 python2-service-identity:OFFICIAL
+python2-setproctitle:OFFICIAL
 python2-setuptools:OFFICIAL
 python2-shiboken:AUR
 python2-sip-pyqt5:OFFICIAL
@@ -1376,6 +1404,7 @@ suil:OFFICIAL
 suitesparse:OFFICIAL
 sushi:OFFICIAL
 swh-plugins:OFFICIAL
+swig:OFFICIAL
 sysfsutils:OFFICIAL
 sysstat:OFFICIAL
 system-config-printer:OFFICIAL
@@ -1383,6 +1412,7 @@ system-config-samba:AUR
 systemd:OFFICIAL
 systemd-sysvcompat:OFFICIAL
 t1lib:OFFICIAL
+t1utils:OFFICIAL
 taglib:OFFICIAL
 talloc:OFFICIAL
 tar:OFFICIAL
@@ -1394,6 +1424,11 @@ terminus-font:OFFICIAL
 tevent:OFFICIAL
 texinfo:OFFICIAL
 texlive-bin:OFFICIAL
+texlive-core:OFFICIAL
+texlive-formatsextra:OFFICIAL
+texlive-latexextra:OFFICIAL
+texlive-pictures:OFFICIAL
+texlive-science:OFFICIAL
 thin-provisioning-tools:OFFICIAL
 thunar:OFFICIAL
 thunar-archive-plugin:OFFICIAL
@@ -1442,6 +1477,7 @@ volume_key:OFFICIAL
 vte-common:OFFICIAL
 vte3:OFFICIAL
 vulkan-icd-loader:OFFICIAL
+w3m:OFFICIAL
 wavpack:OFFICIAL
 wayland:OFFICIAL
 wayland-protocols:OFFICIAL
@@ -1527,6 +1563,7 @@ xfwm4-themes:OFFICIAL
 xine-lib:OFFICIAL
 xkeyboard-config:OFFICIAL
 xmlsec:OFFICIAL
+xmlto:OFFICIAL
 xorg-appres:OFFICIAL
 xorg-bdftopcf:OFFICIAL
 xorg-docs:OFFICIAL
