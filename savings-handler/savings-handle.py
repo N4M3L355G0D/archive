@@ -263,12 +263,13 @@ class utility:
         new=j.mkNewEntry(log,keys=attribs)
         e={new[-1]:new[0]}
 
-        j.report(j.jsonLoad(args.log_file))
+        logB=j.jsonLoad(args.log_file)
+        j.report(logB)
         j.print_contents(data=e)
-        log[new[-1]]=new[0]
+        logB[new[-1]]=new[0]
 
         if args.dry_run == False:
-            j.writeContents(log,args.log_file)
+            j.writeContents(logB,args.log_file)
 
     def cmdline(self):
         subs={}
