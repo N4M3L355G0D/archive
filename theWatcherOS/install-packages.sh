@@ -13,7 +13,7 @@ if test `whoami` == "root" ; then
 
 	cp -r xfce4-migrate arch-linux-config.sh aur.txt yaourt-install.sh install-aur.sh containerlogin.sh rootlogin.sh /mnt/root/
 	cp -r etc/* /mnt/etc
-
+	cp -r usr/* /mnt/usr
 	genfstab /mnt > /mnt/etc/fstab
 	#boot container
 	#systemd-nspawn -b -D container
