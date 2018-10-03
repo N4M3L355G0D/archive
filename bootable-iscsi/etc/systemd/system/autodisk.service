@@ -1,0 +1,8 @@
+[Unit]
+Description=mount network iscsi disk if it exists
+After=network.target
+[Service]
+ExecStart=bash /opt/autodisk.sh
+
+[Install]
+WantedBy=multi-user.target
