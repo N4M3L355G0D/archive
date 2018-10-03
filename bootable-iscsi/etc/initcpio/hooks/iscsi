@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+run_hook(){
+	modprobe r8168
+	modprobe iscsi_tcp
+	mkdir -p /var/lib/dhcpd
+	ip link show
+	dhcpcd eth0
+	sleep 3s
+	iscsistart -i iqn.2005-03.org.open-iscsi:20dc3736d4ca -t iqn.2003-01.org.linux-iscsi.newday.x8664:sn.a16683bfd9f1 -g 1 -a 10.0.0.108 -u carl -w avalon
+}

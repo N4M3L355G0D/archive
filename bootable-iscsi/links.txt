@@ -1,0 +1,4 @@
+#how to enable iscsi at boot time
+https://wiki.archlinux.org/index.php/ISCSI/Boot
+#how to use open iscsi
+https://wiki.archlinux.org/index.php/Open-iSCSI

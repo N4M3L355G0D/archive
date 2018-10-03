@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+build ()
+{
+    local mod
+    for mod in iscsi_ibft iscsi_tcp libiscsi libiscsi_tcp scsi_transport_iscsi crc32c r8168; do
+        add_module "$mod"
+    done
+
+    add_checked_modules "/drivers/net"
+    add_binary "/usr/bin/iscsistart"
+    add_runscript
+}
+
+help ()
+{
+cat <<HELPEOF
+  This hook allows you to boot from an iSCSI target.
+HELPEOF
+}
