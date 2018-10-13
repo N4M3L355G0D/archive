@@ -22,6 +22,7 @@ arch-install-scripts:OFFICIAL
 archlinux-appstream-data:OFFICIAL
 archlinux-keyring:OFFICIAL
 argon2:OFFICIAL
+aribb24:OFFICIAL
 asciidoc:OFFICIAL
 aspell:OFFICIAL
 assimp:OFFICIAL
@@ -29,16 +30,16 @@ at-spi2-atk:OFFICIAL
 at-spi2-core:OFFICIAL
 atk:OFFICIAL
 atkmm:OFFICIAL
+atlauncher:AUR
 atool:OFFICIAL
 attica:OFFICIAL
-attica-qt4:AUR
 attr:OFFICIAL
 audacity:OFFICIAL
+audit:OFFICIAL
 autoconf:OFFICIAL
 autoconf-archive:OFFICIAL
 autofs:OFFICIAL
 automake:OFFICIAL
-automounter:AUR
 avahi:OFFICIAL
 babl:OFFICIAL
 baka-mplayer:OFFICIAL
@@ -102,10 +103,12 @@ confuse:OFFICIAL
 convertlit:OFFICIAL
 coreutils:OFFICIAL
 cower:AUR
+cpio:OFFICIAL
 cpupower:OFFICIAL
 cracklib:OFFICIAL
 crda:OFFICIAL
 cryptsetup:OFFICIAL
+cuda:OFFICIAL
 cups:OFFICIAL
 cups-filters:OFFICIAL
 cups-pk-helper:OFFICIAL
@@ -148,6 +151,8 @@ ebook-tools:OFFICIAL
 ed:OFFICIAL
 efibootmgr:OFFICIAL
 efivar:OFFICIAL
+egl-wayland:OFFICIAL
+eglexternalplatform:OFFICIAL
 elfutils:OFFICIAL
 elinks:OFFICIAL
 enca:OFFICIAL
@@ -165,6 +170,7 @@ exiv2:OFFICIAL
 exo:OFFICIAL
 expac:OFFICIAL
 expat:OFFICIAL
+extra-cmake-modules:OFFICIAL
 f2fs-tools:OFFICIAL
 faac:OFFICIAL
 faad2:OFFICIAL
@@ -205,6 +211,8 @@ gc:OFFICIAL
 gcab:OFFICIAL
 gcc:OFFICIAL
 gcc-libs:OFFICIAL
+gcc7:OFFICIAL
+gcc7-libs:OFFICIAL
 gconf:OFFICIAL
 gcr:OFFICIAL
 gd:OFFICIAL
@@ -255,6 +263,7 @@ gnomecanvas-perl:AUR
 gnu-netcat:OFFICIAL
 gnupg:OFFICIAL
 gnutls:OFFICIAL
+go:OFFICIAL
 gobject-introspection:OFFICIAL
 gobject-introspection-runtime:OFFICIAL
 gom:OFFICIAL
@@ -278,6 +287,7 @@ gsettings-desktop-schemas:OFFICIAL
 gsfonts:OFFICIAL
 gsl:OFFICIAL
 gsm:OFFICIAL
+gspell:OFFICIAL
 gst-libav:OFFICIAL
 gst-plugins-bad:OFFICIAL
 gst-plugins-base:OFFICIAL
@@ -330,7 +340,6 @@ hunspell-en_US:OFFICIAL
 hwids:OFFICIAL
 hwinfo:OFFICIAL
 hyphen:OFFICIAL
-i8krellm:AUR
 i8kutils:AUR
 iana-etc:OFFICIAL
 icu:OFFICIAL
@@ -366,13 +375,15 @@ java-runtime-common:OFFICIAL
 java-xmlgraphics-commons:OFFICIAL
 jbig2dec:OFFICIAL
 jdk10-openjdk:OFFICIAL
+jdk8:AUR
+jdk9:AUR
 jemalloc:OFFICIAL
 jfsutils:OFFICIAL
 jq:OFFICIAL
 jre10-openjdk:OFFICIAL
 jre10-openjdk-headless:OFFICIAL
-jre9:AUR
 js52:OFFICIAL
+js60:OFFICIAL
 json-c:OFFICIAL
 json-glib:OFFICIAL
 jsoncpp:OFFICIAL
@@ -391,7 +402,6 @@ kcoreaddons:OFFICIAL
 kcrash:OFFICIAL
 kdbusaddons:OFFICIAL
 kdeclarative:OFFICIAL
-kdelibs:AUR
 keychain:OFFICIAL
 keyutils:OFFICIAL
 kfilemetadata:OFFICIAL
@@ -462,6 +472,7 @@ libcups:OFFICIAL
 libcurl-gnutls:OFFICIAL
 libdaemon:OFFICIAL
 libdatrie:OFFICIAL
+libdazzle:OFFICIAL
 libdbusmenu-glib:OFFICIAL
 libdbusmenu-gtk2:OFFICIAL
 libdbusmenu-qt4:OFFICIAL
@@ -700,6 +711,7 @@ libxklavier:OFFICIAL
 libxml++2.6:OFFICIAL
 libxml2:OFFICIAL
 libxmu:OFFICIAL
+libxnvctrl:OFFICIAL
 libxpm:OFFICIAL
 libxrandr:OFFICIAL
 libxrender:OFFICIAL
@@ -767,6 +779,7 @@ mdadm:OFFICIAL
 media-player-info:OFFICIAL
 mercurial:OFFICIAL
 mesa:OFFICIAL
+mesa-demos:OFFICIAL
 mesa-vdpau:OFFICIAL
 meson:OFFICIAL
 metis:OFFICIAL
@@ -820,6 +833,10 @@ nspr:OFFICIAL
 nss:OFFICIAL
 ntfs-3g:OFFICIAL
 ntp:OFFICIAL
+nvidia:OFFICIAL
+nvidia-lts:OFFICIAL
+nvidia-settings:OFFICIAL
+nvidia-utils:OFFICIAL
 oath-toolkit:OFFICIAL
 obexftp:AUR
 ocl-icd:OFFICIAL
@@ -828,6 +845,8 @@ oniguruma:OFFICIAL
 open-iscsi:OFFICIAL
 open-isns:OFFICIAL
 openal:OFFICIAL
+opencl-headers:OFFICIAL
+opencl-nvidia:OFFICIAL
 opencollada:OFFICIAL
 opencolorio:OFFICIAL
 opencore-amr:OFFICIAL
@@ -852,10 +871,11 @@ orage:OFFICIAL
 orbit2:AUR
 orc:OFFICIAL
 orca:OFFICIAL
+os-prober:OFFICIAL
 p11-kit:OFFICIAL
-pacaur-git:AUR
 package-query:AUR
 pacman:OFFICIAL
+pacman-contrib:OFFICIAL
 pacman-mirrorlist:OFFICIAL
 pacutils:OFFICIAL
 pam:OFFICIAL
@@ -869,7 +889,6 @@ parted:OFFICIAL
 patch:OFFICIAL
 pavucontrol:OFFICIAL
 pciutils:OFFICIAL
-pcmciautils:AUR
 pcre:OFFICIAL
 pcre2:OFFICIAL
 peda:OFFICIAL
@@ -1043,7 +1062,6 @@ pkgconf:OFFICIAL
 plank:OFFICIAL
 polkit:OFFICIAL
 polkit-gnome:OFFICIAL
-polkit-qt4:AUR
 polkit-qt5:OFFICIAL
 poppler:OFFICIAL
 poppler-data:OFFICIAL
@@ -1053,7 +1071,6 @@ popt:OFFICIAL
 portaudio:OFFICIAL
 portsmf:OFFICIAL
 potrace:OFFICIAL
-powershell-preview-bin:AUR
 ppp:OFFICIAL
 procps-ng:OFFICIAL
 projectm:OFFICIAL
@@ -1064,8 +1081,6 @@ ptex:OFFICIAL
 pulseaudio:OFFICIAL
 pulseaudio-alsa:OFFICIAL
 pulseaudio-bluetooth:OFFICIAL
-pulseaudio-equalizer:OFFICIAL
-pulseaudio-equalizer-ladspa:AUR
 pyalpm:OFFICIAL
 pygobject-devel:OFFICIAL
 pygobject2-devel:OFFICIAL
@@ -1227,6 +1242,7 @@ python2-idna:OFFICIAL
 python2-incremental:OFFICIAL
 python2-inflection:AUR
 python2-ipaddress:OFFICIAL
+python2-lcms:AUR
 python2-lockfile:OFFICIAL
 python2-m2crypto:OFFICIAL
 python2-mako:OFFICIAL
@@ -1235,6 +1251,7 @@ python2-msgpack:OFFICIAL
 python2-nautilus:OFFICIAL
 python2-nltk:OFFICIAL
 python2-notify:OFFICIAL
+python2-opengl:OFFICIAL
 python2-packaging:OFFICIAL
 python2-paramiko:OFFICIAL
 python2-pillow:OFFICIAL
@@ -1251,6 +1268,7 @@ python2-pyhamcrest:OFFICIAL
 python2-pynacl:OFFICIAL
 python2-pyopenssl:OFFICIAL
 python2-pyparsing:OFFICIAL
+python2-pyqt4:AUR
 python2-pyqt5:OFFICIAL
 python2-pyserial:OFFICIAL
 python2-pyside:AUR
@@ -1265,6 +1283,7 @@ python2-service-identity:OFFICIAL
 python2-setproctitle:OFFICIAL
 python2-setuptools:OFFICIAL
 python2-shiboken:AUR
+python2-sip:OFFICIAL
 python2-sip-pyqt5:OFFICIAL
 python2-six:OFFICIAL
 python2-soappy:OFFICIAL
@@ -1278,15 +1297,14 @@ python2-wstools:OFFICIAL
 python2-xdg:OFFICIAL
 python2-yaml:OFFICIAL
 python2-zope-interface:OFFICIAL
-python3-aur:AUR
 python3-memoizedb:AUR
 python3-xcgf:AUR
 python3-xcpf:AUR
-pyzbar:AUR
 qbs:OFFICIAL
 qpdf:OFFICIAL
 qpdfview:OFFICIAL
 qrencode:OFFICIAL
+qt-assistant-compat:OFFICIAL
 qt4:OFFICIAL
 qt5-3d:OFFICIAL
 qt5-base:OFFICIAL
@@ -1513,7 +1531,6 @@ xf86-input-evdev:OFFICIAL
 xf86-input-keyboard:OFFICIAL
 xf86-input-libinput:OFFICIAL
 xf86-input-mouse:OFFICIAL
-xf86-input-synaptics-gesturesonly:AUR
 xf86-video-intel:OFFICIAL
 xf86-video-vesa:OFFICIAL
 xfburn:OFFICIAL
@@ -1633,6 +1650,7 @@ yajl:OFFICIAL
 yaml-cpp:OFFICIAL
 yaourt:AUR
 yasm:OFFICIAL
+yay:AUR
 yelp-tools:OFFICIAL
 yelp-xsl:OFFICIAL
 zbar:OFFICIAL
@@ -1647,4 +1665,3 @@ zlib:OFFICIAL
 zstd:OFFICIAL
 zvbi:OFFICIAL
 zziplib:OFFICIAL
-yay:AUR
