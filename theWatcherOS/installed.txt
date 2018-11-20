@@ -228,7 +228,9 @@ gettext:OFFICIAL
 ghostscript:OFFICIAL
 giflib:OFFICIAL
 gimp:OFFICIAL
+gimp-plugin-normalmap:AUR
 git:OFFICIAL
+git-lfs:OFFICIAL
 gjs:OFFICIAL
 gkrellm:OFFICIAL
 gksu:AUR
@@ -298,6 +300,7 @@ gst-plugins-good:OFFICIAL
 gst-plugins-ugly:OFFICIAL
 gstreamer:OFFICIAL
 gtk-doc:OFFICIAL
+gtk-recordmydesktop:OFFICIAL
 gtk-sharp-3:OFFICIAL
 gtk-update-icon-cache:OFFICIAL
 gtk-xfce-engine:OFFICIAL
@@ -579,6 +582,7 @@ lib32-sdl2_ttf:AUR
 lib32-sdl_image:AUR
 lib32-sdl_mixer:AUR
 lib32-sdl_ttf:AUR
+lib32-simplescreenrecorder:AUR
 lib32-smpeg:AUR
 lib32-sqlite:AUR
 lib32-systemd:AUR
@@ -914,6 +918,7 @@ lmdb:OFFICIAL
 log4cplus:OFFICIAL
 logrotate:OFFICIAL
 lpsolve:OFFICIAL
+lsof:OFFICIAL
 ltunify-git:AUR
 lua:OFFICIAL
 lua-alt-getopt:OFFICIAL
@@ -954,10 +959,12 @@ mjpegtools:OFFICIAL
 mkinitcpio:OFFICIAL
 mkinitcpio-busybox:OFFICIAL
 mlt:OFFICIAL
+mod_wsgi:OFFICIAL
 modemmanager:OFFICIAL
 mono:OFFICIAL
 mousepad:OFFICIAL
 mozilla-common:OFFICIAL
+mpdecimal:OFFICIAL
 mpfr:OFFICIAL
 mpg123:OFFICIAL
 mplayer:OFFICIAL
@@ -1286,6 +1293,7 @@ python-defusedxml:OFFICIAL
 python-distlib:OFFICIAL
 python-distro:OFFICIAL
 python-distutils-extra:OFFICIAL
+python-django:OFFICIAL
 python-et-xmlfile:OFFICIAL
 python-ethtool:OFFICIAL
 python-evdev:OFFICIAL
@@ -1299,7 +1307,7 @@ python-hyperframe:OFFICIAL
 python-hyperlink:OFFICIAL
 python-idna:OFFICIAL
 python-incremental:OFFICIAL
-python-inflection:AUR
+python-inflection:OFFICIAL
 python-jdcal:OFFICIAL
 python-jinja:OFFICIAL
 python-kiwisolver:OFFICIAL
@@ -1309,6 +1317,7 @@ python-mako:OFFICIAL
 python-markupsafe:OFFICIAL
 python-matplotlib:OFFICIAL
 python-msgpack:OFFICIAL
+python-mysqlclient:OFFICIAL
 python-nltk:OFFICIAL
 python-nose:OFFICIAL
 python-numexpr:OFFICIAL
@@ -1468,6 +1477,7 @@ python2-zope-interface:OFFICIAL
 python3-memoizedb:AUR
 python3-xcgf:AUR
 python3-xcpf:AUR
+python36:AUR
 qbs:OFFICIAL
 qpdf:OFFICIAL
 qpdfview:OFFICIAL
@@ -1521,6 +1531,7 @@ rasqal:OFFICIAL
 re2:OFFICIAL
 readline:OFFICIAL
 recode:OFFICIAL
+recordmydesktop:OFFICIAL
 redland:OFFICIAL
 reiserfsprogs:OFFICIAL
 rest:OFFICIAL
@@ -1559,6 +1570,7 @@ shadow:OFFICIAL
 shared-mime-info:OFFICIAL
 shfs-utils:OFFICIAL
 shiboken:AUR
+simplescreenrecorder:OFFICIAL
 sip:OFFICIAL
 skypeforlinux-stable-bin:AUR
 slang:OFFICIAL
@@ -1842,4 +1854,3 @@ zlib:OFFICIAL
 zstd:OFFICIAL
 zvbi:OFFICIAL
 zziplib:OFFICIAL
-yay:AUR
