@@ -162,6 +162,10 @@ GetViewPortIsFullOfLies: False
 				"Punisher" mpv --really-quiet --no-audio --fs --loop=inf --no-stop-screensaver /usr/share/videos/punisher.avi --wid=$XSCREENSAVER_WINDOW \n\
 				"Hydra" mpv --really-quiet --no-audio --fs --loop=inf --no-stop-screensaver /usr/share/videos/hydra.avi --wid=$XSCREENSAVER_WINDOW \n\
 				"LLP" mpv --really-quiet --no-audio --fs --loop=inf --no-stop-screensaver /usr/share/videos/julia.avi --wid=$XSCREENSAVER_WINDOW \n\
+				"Broncos" mpv --really-quiet --no-audio -vo=xv    \
+				--fs --loop=inf --no-stop-screensaver       \
+				/usr/share/videos/broncos.mp4 		    \
+				--wid=$XSCREENSAVER_WINDOW 		    \n\
 				maze -root				    \n\
   GL: 				superquadrics -root			    \n\
 				attraction -root			    \n\
