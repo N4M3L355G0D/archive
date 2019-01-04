@@ -14,7 +14,7 @@ if test `whoami` == "root" ; then
 	fi	
 	grep "AUR" installed.txt | cut -f1 -d: > aur.txt
 
-	cp -r xfce4-migrate arch-linux-config.sh aur.txt yaourt-install.sh install-aur.sh containerlogin.sh rootlogin.sh install-mysql.sh /mnt/root/
+	cp -r groups.sh xfce4-migrate arch-linux-config.sh aur.txt yaourt-install.sh install-aur.sh containerlogin.sh rootlogin.sh install-mysql.sh /mnt/root/
 	cp -r etc/* /mnt/etc
 	cp -r usr/* /mnt/usr
 	genfstab /mnt > /mnt/etc/fstab
