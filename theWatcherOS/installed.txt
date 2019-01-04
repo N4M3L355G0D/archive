@@ -1284,7 +1284,6 @@ python2-m2crypto:OFFICIAL
 python2-mako:OFFICIAL
 python2-markupsafe:OFFICIAL
 python2-msgpack:OFFICIAL
-python2-nautilus:OFFICIAL
 python2-nltk:OFFICIAL
 python2-notify:OFFICIAL
 python2-packaging:OFFICIAL

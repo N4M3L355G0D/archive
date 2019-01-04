@@ -9,6 +9,7 @@ printf '127.0.0.1 localhost\n::1 localhost\n127.0.0.1 container.localdomain cont
 systemctl enable NetworkManager
 mkinitcpio -p linux
 
-grub-install /dev/sda
+grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
+#grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 

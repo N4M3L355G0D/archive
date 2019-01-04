@@ -52,4 +52,4 @@ cp -r /etc/skel/.config /home/container/
 chown -R container:container /home/container/.config
 cp -r /etc/skel/.config /root/
 systemd-hwdb update
-bash install-mysql.sh
+bash /root/install-mysql.sh
