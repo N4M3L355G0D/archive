@@ -1107,8 +1107,6 @@ ptex:OFFICIAL
 pulseaudio:OFFICIAL
 pulseaudio-alsa:OFFICIAL
 pulseaudio-bluetooth:OFFICIAL
-pulseaudio-equalizer:OFFICIAL
-pulseaudio-equalizer-ladspa:OFFICIAL
 pyalpm:OFFICIAL
 pygobject-devel:OFFICIAL
 pygobject2-devel:OFFICIAL
