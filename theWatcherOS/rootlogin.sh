@@ -34,6 +34,8 @@ printf "root:root\n" | chpasswd
 
 #create a enable services.sh containing lines like below
 modprobe btusb
+mkdir /srv/samba/{common,users} -p
+mkdir /srv/samba/users/container
 services=('NetworkManager' 'sshd' 'lightdm' 'org.cups.cupsd' 'smb' 'nmb' 'httpd' 'bluetooth' )
 for serv in ${services[@]} ; do
 	systemctl enable $serv
