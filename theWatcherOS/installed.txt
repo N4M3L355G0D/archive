@@ -838,7 +838,7 @@ libnl:OFFICIAL
 libnm:OFFICIAL
 libnm-glib:OFFICIAL
 libnm-gtk:AUR
-libnma-git:AUR
+libnma:OFFICIAL
 libnotify:OFFICIAL
 libnsl:OFFICIAL
 libnumbertext:OFFICIAL
